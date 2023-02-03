@@ -39,15 +39,10 @@ public class EnemyNavMesh : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(CheckPlayerInRange());
         if (CheckPlayerInRange())
-        {
             ai_state = State.ACTIVE;
-        }
         else
-        {
             ai_state = State.ROAM;
-        }
 
         Navigate();
     }
@@ -91,8 +86,15 @@ public class EnemyNavMesh : MonoBehaviour
                 }
                 break;
             case State.ACTIVE:
-                ai_target_player = GameObject.FindGameObjectWithTag("Player").transform;
-                nav_mesh_agent.destination = ai_target_player.position;
+                if (GameObject.FindGameObjectWithTag("Player")) 
+                { 
+                    ai_target_player = GameObject.FindGameObjectWithTag("Player").transform;
+                    nav_mesh_agent.destination = ai_target_player.position;               
+                }
+                else
+                {
+                    Debug.LogError("There is no GameObject with Tag \"Player\".");
+                }
                 break;
         }
         
