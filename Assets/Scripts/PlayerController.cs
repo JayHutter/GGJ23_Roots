@@ -44,6 +44,12 @@ public class PlayerController : MonoBehaviour
     // inputs
     private Vector2 inputXZ;
     private bool isJumping;
+    private bool isSprinting;
+    private bool isCrouching;
+    private bool isShooting;
+    private bool isAiming;
+    private bool isLighting;
+    private bool melee;
 
     private void Start()
     {
@@ -226,7 +232,50 @@ public class PlayerController : MonoBehaviour
 
     private void AimInput(InputAction.CallbackContext context)
     {
+        if (context.performed)
+            isAiming = true;
+        else if (context.canceled)
+            isAiming = false;
+    }
 
+    private void CrouchInput(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            isCrouching = true;
+        else if (context.canceled)
+            isCrouching = false;
+    }
+
+    private void SprintInput(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            isSprinting = true;
+        else if (context.canceled)
+            isSprinting = false;
+    }
+
+    private void ShootInput(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            isShooting = true;
+        else if (context.canceled)
+            isShooting = false;
+    }
+
+    private void LightInput(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            isLighting = true;
+        else if (context.canceled)
+            isLighting = false;
+    }
+
+    private void MeleeInput(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            melee = true;
+        else if (context.canceled)
+            melee = false;
     }
 
     private void SubscribeInputs()
@@ -234,6 +283,11 @@ public class PlayerController : MonoBehaviour
         InputManager.onMove += MoveInput;
         InputManager.onJump += JumpInput;
         InputManager.onAim += AimInput;
+        InputManager.onCrouch += CrouchInput;
+        InputManager.onSprint += SprintInput;
+        InputManager.onShoot += ShootInput;
+        InputManager.onLight += LightInput;
+        InputManager.onMelee += MeleeInput;
     }
 
     private void UnsubscribeInputs()
@@ -241,6 +295,11 @@ public class PlayerController : MonoBehaviour
         InputManager.onMove -= MoveInput;
         InputManager.onJump -= JumpInput;
         InputManager.onAim -= AimInput;
+        InputManager.onCrouch -= CrouchInput;
+        InputManager.onSprint -= SprintInput;
+        InputManager.onShoot -= ShootInput;
+        InputManager.onLight -= LightInput;
+        InputManager.onMelee -= MeleeInput;
     }
 
     private void OnDestroy()
