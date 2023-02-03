@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
     private Camera myCam;
+    public CinemachineFreeLook virtualCam;
+    public Transform camFollow;
+    public Transform originalCamPos;
+    public Transform shoulderCamPos;
 
     public float rayDist = 2.5f;
     public bool _rayDidHit = false;
@@ -47,7 +52,7 @@ public class PlayerController : MonoBehaviour
     private bool isSprinting;
     private bool isCrouching;
     private bool isShooting;
-    private bool isAiming;
+    private bool isAimingDown;
     private bool isLighting;
     private bool melee;
 
@@ -58,6 +63,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         myCam = Camera.main;
         _uprightJointTargetRot = transform.rotation;
+        camFollow.position = originalCamPos.position;
 
         SubscribeInputs();
     }
@@ -93,7 +99,8 @@ public class PlayerController : MonoBehaviour
             coyoteCounter -= Time.deltaTime;
         }
 
-        TakeInputs();
+        Movement();
+        Aim();
         Jumping();
     }
 
@@ -162,26 +169,37 @@ public class PlayerController : MonoBehaviour
         rb.AddTorque((new Vector3(rotAxis.x, 0.0f, rotAxis.z) * (rotRadians * _uprightJointSpringStrength)) - (rb.angularVelocity * _uprightJointSpringDamper));
     }
 
-    void TakeInputs()
+    void Movement()
     {
         Vector3 move = new Vector3(inputXZ.x, 0, inputXZ.y);
 
         move = myCam.transform.TransformDirection(move);
 
         if (move.sqrMagnitude > 1.0f)
-        {
             move.Normalize();
-        }
 
         float targetAngle = Mathf.Atan2(move.x, move.z) * Mathf.Rad2Deg + myCam.transform.rotation.y;
         Quaternion rotation = Quaternion.Euler(transform.rotation.x, targetAngle - 180, transform.rotation.z);
 
-        if (move.sqrMagnitude > 0.0f)
-        {
+        if (move.sqrMagnitude > 0.0f && !isAimingDown)
             transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * 10.0f);
-        }
 
         m_UnitGoal = move;
+    }
+
+    void Aim()
+    {
+        if (isAimingDown)
+        {
+            camFollow.position = shoulderCamPos.position;
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, myCam.transform.eulerAngles.y, transform.eulerAngles.z);
+            virtualCam.m_Lens.FieldOfView = 20f;
+        }
+        else
+        {
+            camFollow.position = originalCamPos.position;
+            virtualCam.m_Lens.FieldOfView = 40f;
+        }
     }
 
     void GroundMovement()
@@ -230,12 +248,12 @@ public class PlayerController : MonoBehaviour
             isJumping = false;
     }
 
-    private void AimInput(InputAction.CallbackContext context)
+    private void ADSInput(InputAction.CallbackContext context)
     {
         if (context.performed)
-            isAiming = true;
+            isAimingDown = true;
         else if (context.canceled)
-            isAiming = false;
+            isAimingDown = false;
     }
 
     private void CrouchInput(InputAction.CallbackContext context)
@@ -282,7 +300,7 @@ public class PlayerController : MonoBehaviour
     {
         InputManager.onMove += MoveInput;
         InputManager.onJump += JumpInput;
-        InputManager.onAim += AimInput;
+        InputManager.onAimSight += ADSInput;
         InputManager.onCrouch += CrouchInput;
         InputManager.onSprint += SprintInput;
         InputManager.onShoot += ShootInput;
@@ -294,7 +312,7 @@ public class PlayerController : MonoBehaviour
     {
         InputManager.onMove -= MoveInput;
         InputManager.onJump -= JumpInput;
-        InputManager.onAim -= AimInput;
+        InputManager.onAimSight -= ADSInput;
         InputManager.onCrouch -= CrouchInput;
         InputManager.onSprint -= SprintInput;
         InputManager.onShoot -= ShootInput;
