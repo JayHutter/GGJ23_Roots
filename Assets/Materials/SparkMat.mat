@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Explosion
+  m_Name: SparkMat
   m_Shader: {fileID: -6465566751694194690, guid: 448e5f5895b0c6f4eb23be46f39929e4,
     type: 3}
   m_ValidKeywords: []
