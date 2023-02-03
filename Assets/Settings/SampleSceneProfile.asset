@@ -280,7 +280,7 @@ MonoBehaviour:
     m_Value: 0
   gaussianEnd:
     m_OverrideState: 1
-    m_Value: 3000
+    m_Value: 30000
   gaussianMaxRadius:
     m_OverrideState: 1
     m_Value: 1
