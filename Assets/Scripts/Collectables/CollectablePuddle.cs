@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CollectablePuddle : CollectableBase
 {
+    [Header("Puddle Variables")]
     [SerializeField] private int n_dropletIncrement = 0;
     //[SerializeField] private PLAYERSTATES g_player;
 

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CollectableTreasure : CollectableBase
 {
+    [Header("Scoring Variables")]
     [SerializeField] private int            n_scoreIncrement = 0;
     //[SerializeField] private PLAYERSTATES g_player;
 
