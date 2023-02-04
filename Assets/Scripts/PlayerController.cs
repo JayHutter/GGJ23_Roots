@@ -319,13 +319,14 @@ public class PlayerController : MonoBehaviour
 
     void Shooting()
     {
-        if(isShooting)
+        if(isShooting && waterTank.amount > 0)
         {
             waterTank.amount -= waterDrainRate * Time.deltaTime;
             if (isAimingDown)
                 waterSpray.transform.forward = myCam.transform.forward;
             else
                 waterSpray.transform.forward = transform.forward;
+
             waterSpray.Play();
         }
         else
