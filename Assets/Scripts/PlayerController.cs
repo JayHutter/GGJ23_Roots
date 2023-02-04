@@ -98,6 +98,13 @@ public class PlayerController : MonoBehaviour
     public int maxHealth = 5;
     public int health;
 
+    private float aimBlend = 0;
+    private float blendSpeed = 10;
+    private float aimSpeed = 100;
+
+    public Transform gunTransform;
+    public Quaternion heldRotation;
+
     private void Start()
     {
         if (instance)
@@ -122,6 +129,7 @@ public class PlayerController : MonoBehaviour
 
         SubscribeInputs();
         health = maxHealth;
+        heldRotation = gunTransform.localRotation;
     }
 
     private void Update()
@@ -174,6 +182,7 @@ public class PlayerController : MonoBehaviour
         
         AnimateMouth();
         UpdateAnimator();
+        SetAimBlend();
 
         CheckTetherLength();
     }
@@ -285,11 +294,14 @@ public class PlayerController : MonoBehaviour
             camFollow.position = Vector3.SmoothDamp(camFollow.position, shoulderCamPos.position, ref shoulderCamVelocity, 0.1f);
             transform.rotation = Quaternion.Slerp(transform.rotation, camFollow.rotation, Time.deltaTime * playerAimRotSpeed);
             virtualCam.m_Lens.FieldOfView = Mathf.SmoothDamp(virtualCam.m_Lens.FieldOfView, aimFOV, ref fovSpeed, 0.1f);
+
+            gunTransform.rotation = Quaternion.RotateTowards(gunTransform.rotation, camFollow.rotation, Time.deltaTime * aimSpeed);
         }
         else
         {
             camFollow.position = Vector3.SmoothDamp(camFollow.position, originalCamPos.position, ref shoulderCamVelocity, 0.1f);
             virtualCam.m_Lens.FieldOfView = Mathf.SmoothDamp(virtualCam.m_Lens.FieldOfView, normalFOV, ref fovSpeed, 0.1f);
+            gunTransform.localRotation = heldRotation;
         }
     }
 
@@ -581,5 +593,12 @@ public class PlayerController : MonoBehaviour
         meleeTrail.GetComponentInChildren<TrailRenderer>().Clear();
 
         meleeTrail.SetActive(false);
+    }
+
+    private void SetAimBlend()
+    {
+        float target = (isShooting || isAimingDown ? 1 : 0);
+        aimBlend = Mathf.MoveTowards(aimBlend, target, Time.deltaTime * blendSpeed);
+        playerAnimator.SetLayerWeight(1, aimBlend);
     }
 }
