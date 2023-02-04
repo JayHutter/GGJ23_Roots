@@ -8,6 +8,7 @@ public class Friendly : MonoBehaviour
 
     bool isSafe = true;
     Transform playerTransform;
+    [SerializeField] private Transform body;
 
     private void Start()
     {
@@ -33,7 +34,7 @@ public class Friendly : MonoBehaviour
         if (other.tag == "Player")
         {
             if (reward)
-                Instantiate(reward, transform.position + transform.up, Quaternion.identity);
+                Instantiate(reward, body.position + body.up, Quaternion.identity);
 
             Debug.Log("You saved NPC!");
 
@@ -43,10 +44,10 @@ public class Friendly : MonoBehaviour
 
     private void LookAtPlayer()
     {
-        Vector3 dir = playerTransform.position - transform.position;
+        Vector3 dir = playerTransform.position - body.position;
         dir.y = 0;
         Quaternion rot = Quaternion.LookRotation(dir);
 
-        transform.rotation = rot;
+        body.rotation = rot;
     }
 }

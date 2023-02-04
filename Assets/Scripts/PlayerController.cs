@@ -4,6 +4,7 @@ using UnityEngine;
 using Cinemachine;
 using UnityEngine.InputSystem;
 using System.Net.NetworkInformation;
+using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviour
 {
@@ -503,5 +504,13 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started)
             tether.AddNode();
+    }
+
+    public void AddTetherSegments(int segments)
+    {
+        for (int i=0; i<segments; i++)
+        {
+            tether.AddNode();
+        }
     }
 }
