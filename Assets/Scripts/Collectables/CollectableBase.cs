@@ -4,12 +4,10 @@ public class CollectableBase : MonoBehaviour
 {
     [SerializeField] protected bool             b_soakEnabled               = false;
 
-    #region Particles
-
+    [Header("Particles Variables")]
     [SerializeField] protected ParticleSystem   p_particle;
-    #endregion
 
-    #region Collectable Magnetism
+    [Header("Magnetism Variables")]
     [SerializeField] protected bool             b_magnetismEnable           = false;
     [SerializeField] protected GameObject       g_player;
     [SerializeField] protected float            f_playerRange               = 0.0f;
@@ -18,12 +16,15 @@ public class CollectableBase : MonoBehaviour
     [SerializeField] protected float            f_collectableAcceleration   = 0.0f;
     protected float                             f_collectableSpeedCurrent   = 0.0f;
     protected Vector3                           v_lastPlayerPos             = Vector3.zero;
-    #endregion
 
-    #region OnTriggerStay (Soak)
+    [Header("OnTriggerStay(Soak) Variables")]
     [SerializeField] protected float            f_timerLimit                = 0.0f;
     protected float                             f_timer                     = 0.0f;
-    #endregion
+
+    private void Start()
+    {
+        g_player = PlayerController.instance.gameObject;
+    }
 
     private void Update()
     {

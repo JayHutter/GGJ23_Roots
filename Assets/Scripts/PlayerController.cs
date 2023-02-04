@@ -1,12 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 using UnityEngine.InputSystem;
+using System.Net.NetworkInformation;
+using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
+
     private Rigidbody rb;
     private Camera myCam;
+    public CinemachineFreeLook virtualCam;
+    public Transform camFollow;
+    public Transform originalCamPos;
+    public Transform shoulderCamPos;
+    public ParticleSystem waterSpray;
+    public GameObject flashlight;
+    private float waterDrainRate = 0.1f;
+    public WaterTank waterTank;
+    private float playerAimRotSpeed = 10f;
+    private Vector3 shoulderCamVelocity;
+    private float fovSpeed;
+    private float normalFOV = 40f;
+    private float aimFOV = 20f;
 
     public float rayDist = 2.5f;
     public bool _rayDidHit = false;
@@ -26,6 +44,11 @@ public class PlayerController : MonoBehaviour
     public float acceleration = 4.0f;
     public float maxAccelForce = 10.0f;
     public float maxAccelForceFactor = 1.0f;
+    public float airControl = 0.25f;
+    public float walkMult = 0.5f;
+    public float crawlMult = 0.25f;
+    public float diveForce = 10;
+    public Transform diveAngle;
     public AnimationCurve accelerationFactorFromDot;
     public Vector3 forceScale = new Vector3(1.0f, 1.0f, 1.0f);
 
@@ -34,24 +57,64 @@ public class PlayerController : MonoBehaviour
     private Vector3 groundVel = Vector3.zero;
 
     public bool isGrounded = false;
-    public float jumpForce = 100.0f;
+    public float jumpForce = 10.0f;
 
     public float coyoteTime = 0.2f;
     private float coyoteCounter;
     public float jumpBufferLength = 0.1f;
     private float jumpBufferCount;
+    private bool canControl = true;
+    private bool isDiving = false;
+    public float crouchColScale = 0.5f;
+    private float colHeight;
+    private float colRadius;
+    CapsuleCollider collider;
 
     // inputs
     private Vector2 inputXZ;
     private bool isJumping;
+    private bool isSprinting;
+    private bool isCrouching;
+    private bool isShooting;
+    private bool isAimingDown;
+    private bool isLighting;
+    private bool isAttacking;
+
+    [Header("Player Animations")]
+    public FaceAnimator faceAnim;
+    public Animator playerAnimator;
+
+    [SerializeField] private bool enableHeadFollow = false;
+    public GameObject head;
+    [SerializeField] private float headSpeed = 1;
+
+    public float pullbackForce = 10;
+
+    public Rope tether;
+
+    public GameObject meleeTrail;
 
     private void Start()
     {
+        if (instance)
+        {
+            Destroy(this);
+            return;
+        }
+
+        instance = this;
+
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         rb = GetComponent<Rigidbody>();
         myCam = Camera.main;
         _uprightJointTargetRot = transform.rotation;
+        camFollow.position = originalCamPos.position;
+        speedFactor = walkMult;
+
+        collider = GetComponent<CapsuleCollider>();
+        colHeight = collider.height;
+        colRadius = collider.radius;
 
         SubscribeInputs();
     }
@@ -60,7 +123,7 @@ public class PlayerController : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, rayDist, ground))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, rayDist, ground, QueryTriggerInteraction.Ignore))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * rayDist, Color.red);
             _rayHit = hit;
@@ -76,7 +139,7 @@ public class PlayerController : MonoBehaviour
             _rayDidHit = false;
         }
 
-        isGrounded = Physics.CheckSphere(new Vector3(transform.position.x, transform.position.y - (rideHeight - 0.05f), transform.position.z), 0.1f, ground);
+        isGrounded = Physics.CheckSphere(new Vector3(transform.position.x, transform.position.y - (rideHeight - 0.05f), transform.position.z), 0.1f, ground, QueryTriggerInteraction.Ignore);
 
         if (isGrounded)
         {
@@ -87,8 +150,27 @@ public class PlayerController : MonoBehaviour
             coyoteCounter -= Time.deltaTime;
         }
 
-        TakeInputs();
-        Jumping();
+        if (isGrounded && isDiving)
+        {
+            isDiving = false;
+            playerAnimator.SetBool("Diving", false);
+        }
+
+        Aim();
+
+        if (canControl && !isDiving)
+        {
+            TargetMovement();
+            Jumping();
+            Shooting();
+            Lighting();
+            Attack();
+        }
+        
+        AnimateMouth();
+        UpdateAnimator();
+
+        CheckTetherLength();
     }
 
     private void FixedUpdate()
@@ -125,6 +207,12 @@ public class PlayerController : MonoBehaviour
         UpdateUprightForce();
     }
 
+    private void LateUpdate()
+    {
+        if (enableHeadFollow)
+            AimHead();
+    }
+
     public static Quaternion ShortestRotation(Quaternion to, Quaternion from)
     {
         if (Quaternion.Dot(to, from) < 0)
@@ -156,26 +244,48 @@ public class PlayerController : MonoBehaviour
         rb.AddTorque((new Vector3(rotAxis.x, 0.0f, rotAxis.z) * (rotRadians * _uprightJointSpringStrength)) - (rb.angularVelocity * _uprightJointSpringDamper));
     }
 
-    void TakeInputs()
+    void TargetMovement()
     {
+        if (myCam == null)
+            return;
+
         Vector3 move = new Vector3(inputXZ.x, 0, inputXZ.y);
 
         move = myCam.transform.TransformDirection(move);
 
         if (move.sqrMagnitude > 1.0f)
-        {
             move.Normalize();
-        }
 
         float targetAngle = Mathf.Atan2(move.x, move.z) * Mathf.Rad2Deg + myCam.transform.rotation.y;
-        Quaternion rotation = Quaternion.Euler(transform.rotation.x, targetAngle - 180, transform.rotation.z);
+        Quaternion rotation = Quaternion.Euler(transform.rotation.x, targetAngle, transform.rotation.z);
 
-        if (move.sqrMagnitude > 0.0f)
-        {
+        if (move.sqrMagnitude > 0.0f && !isAimingDown)
             transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * 10.0f);
-        }
 
         m_UnitGoal = move;
+    }
+
+    void Aim()
+    {
+        if (camFollow == null || myCam == null || shoulderCamPos == null || originalCamPos == null || virtualCam == null)
+        {
+            Debug.LogWarning("One of the camera transforms / virtual camera is not assigned");
+            return;
+        }
+
+        camFollow.eulerAngles = new Vector3(camFollow.eulerAngles.x, myCam.transform.eulerAngles.y, camFollow.eulerAngles.z);
+
+        if (isAimingDown)
+        {
+            camFollow.position = Vector3.SmoothDamp(camFollow.position, shoulderCamPos.position, ref shoulderCamVelocity, 0.1f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, camFollow.rotation, Time.deltaTime * playerAimRotSpeed);
+            virtualCam.m_Lens.FieldOfView = Mathf.SmoothDamp(virtualCam.m_Lens.FieldOfView, aimFOV, ref fovSpeed, 0.1f);
+        }
+        else
+        {
+            camFollow.position = Vector3.SmoothDamp(camFollow.position, originalCamPos.position, ref shoulderCamVelocity, 0.1f);
+            virtualCam.m_Lens.FieldOfView = Mathf.SmoothDamp(virtualCam.m_Lens.FieldOfView, normalFOV, ref fovSpeed, 0.1f);
+        }
     }
 
     void GroundMovement()
@@ -191,7 +301,38 @@ public class PlayerController : MonoBehaviour
         float maxAccel = maxAccelForce * maxAccelForceFactor;
         neededAccel = Vector3.ClampMagnitude(neededAccel, maxAccel);
 
-        rb.AddForce(Vector3.Scale(neededAccel * rb.mass, forceScale));
+        rb.AddForce(Vector3.Scale(neededAccel * rb.mass, forceScale * (isGrounded ? 1 : airControl)));
+    }
+
+    void Lighting()
+    {
+        if(isLighting)
+        {
+            flashlight.transform.forward = myCam.transform.forward;
+            flashlight.SetActive(true);
+        }
+        else
+        {
+            flashlight.SetActive(false);
+        }
+    }
+
+    void Shooting()
+    {
+        if(isShooting && waterTank.amount > 0)
+        {
+            waterTank.amount -= waterDrainRate * Time.deltaTime;
+            if (isAimingDown)
+                waterSpray.transform.forward = myCam.transform.forward;
+            else
+                waterSpray.transform.forward = transform.forward;
+
+            waterSpray.Play();
+        }
+        else
+        {
+            waterSpray.Stop();
+        }
     }
 
     void Jumping()
@@ -203,12 +344,9 @@ public class PlayerController : MonoBehaviour
 
         if (coyoteCounter > 0.0f && jumpBufferCount >= 0.0f)
         {
-            rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
+            rb.velocity = new Vector3(rb.velocity.x, jumpForce * (isCrouching? 0.3f:1), rb.velocity.z);
             jumpBufferCount = 0.0f;
         }
-
-        if (isJumping && rb.velocity.y > 0.0f)
-            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y * 0.5f, rb.velocity.z);
     }
 
     private void MoveInput(InputAction.CallbackContext context)
@@ -224,32 +362,217 @@ public class PlayerController : MonoBehaviour
             isJumping = false;
     }
 
-    private void AimInput(InputAction.CallbackContext context)
+    private void ADSInput(InputAction.CallbackContext context)
     {
+        if (context.performed)
+            isAimingDown = true;
+        else if (context.canceled)
+            isAimingDown = false;
+    }
 
+    private void CrouchInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            if (isGrounded)
+            {
+                isCrouching = true;
+                speedFactor = crawlMult;
+            }
+            else if (!isDiving)
+            {
+                isDiving = true;
+                Vector3 vel = diveAngle.forward * diveForce;
+                rb.velocity = vel;
+                playerAnimator.SetBool("Diving", true);
+            }
+        }
+
+
+        if (context.canceled)
+        {
+            isCrouching = false;
+            speedFactor = walkMult;
+        }
+
+        playerAnimator.SetBool("Crouched", isCrouching);
+    }
+
+    private void SprintInput(InputAction.CallbackContext context)
+    {
+        if (isCrouching)
+            return;
+
+        if (context.performed)
+            speedFactor = 1;
+        else if (context.canceled)
+            speedFactor = walkMult;
+    }
+
+    private void ShootInput(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            isShooting = true;
+        else if (context.canceled)
+            isShooting = false;
+    }
+
+    private void LightInput(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            isLighting = true;
+        else if (context.canceled)
+            isLighting = false;
+    }
+
+    private void MeleeInput(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            StartCoroutine(AttackFor(0.25f));
+            StartCoroutine(SpinVFX());
+        }
     }
 
     private void SubscribeInputs()
     {
         InputManager.onMove += MoveInput;
         InputManager.onJump += JumpInput;
-        InputManager.onAim += AimInput;
+        InputManager.onAimSight += ADSInput;
+        InputManager.onCrouch += CrouchInput;
+        InputManager.onSprint += SprintInput;
+        InputManager.onShoot += ShootInput;
+        InputManager.onLight += LightInput;
+        InputManager.onMelee += MeleeInput;
+
+        InputManager.onDebug1 += IncreaseRopeLengthTest;
     }
 
     private void UnsubscribeInputs()
     {
         InputManager.onMove -= MoveInput;
         InputManager.onJump -= JumpInput;
-        InputManager.onAim -= AimInput;
+        InputManager.onAimSight -= ADSInput;
+        InputManager.onCrouch -= CrouchInput;
+        InputManager.onSprint -= SprintInput;
+        InputManager.onShoot -= ShootInput;
+        InputManager.onLight -= LightInput;
+        InputManager.onMelee -= MeleeInput;
+
+        InputManager.onDebug1 -= IncreaseRopeLengthTest;
     }
 
     private void OnDestroy()
     {
         UnsubscribeInputs();
+        instance = null;
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - (rideHeight - 0.05f), transform.position.z), 0.1f);
+    }
+
+    private void AimHead()
+    {
+        var lookRot = Quaternion.LookRotation(myCam.transform.position - head.transform.position);
+        head.transform.rotation = lookRot;
+    }
+
+    private void AnimateMouth()
+    {
+        if (isGrounded)
+        {
+            faceAnim.SetAnimationState(FaceAnimator.State.NORMAL);
+        }
+        else
+        {
+            faceAnim.SetAnimationState(FaceAnimator.State.OPEN);
+        }
+    }
+
+    private void UpdateAnimator()
+    {
+        var vel = rb.velocity;
+        Vector2 vel2D = new Vector2(vel.x, vel.z);
+        float speed = Mathf.InverseLerp(0, maxSpeed, vel2D.magnitude);
+        playerAnimator.SetFloat("Speed", speed);
+    }
+
+    private void CheckTetherLength()
+    {
+        if (!tether.IsWithinDistance(transform.position))
+        {
+            Vector3 dir = tether.GetDirectionTowardsEnd(transform.position);
+            rb.velocity = dir * pullbackForce;
+        }
+    }
+
+    private void IncreaseRopeLengthTest(InputAction.CallbackContext context)
+    {
+        if (context.started)
+            tether.AddNode();
+    }
+
+    //public void AddTetherSegments(int segments)
+    //{
+    //    tether.AddNode();
+    //
+    //    //for (int i=0; i<segments; i++)
+    //    //{
+    //    //    tether.AddNode();
+    //    //}
+    //}
+
+    public void AddTetherSegments(int segments)
+    {
+        StartCoroutine(AddTetherSegmentsWithDelay(segments));
+    }
+
+    public IEnumerator AddTetherSegmentsWithDelay(int segments)
+    {
+        for (int i=0; i<segments; i++)
+        {
+            tether.AddNode();
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    private void Attack()
+    {
+        if (isAttacking)
+        {
+            RaycastHit hit;
+            if (Physics.SphereCast(transform.position, 1.0f, transform.forward, out hit))
+            {
+                Debug.Log("Melee Hit");
+            }
+        }
+    }
+
+    private IEnumerator AttackFor(float time)
+    {
+        isAttacking = true;
+        yield return new WaitForSeconds(time);
+        isAttacking = false;
+    }
+
+    private IEnumerator SpinVFX()
+    {
+        meleeTrail.transform.localRotation = Quaternion.identity;
+        meleeTrail.SetActive(true);
+        Vector3 rot = meleeTrail.transform.eulerAngles;
+
+        float spinSpeed = 2000;
+        while(isAttacking)
+        {
+            rot.y -= Time.deltaTime * spinSpeed;
+            meleeTrail.transform.eulerAngles = rot;
+            yield return null;
+        }
+
+        meleeTrail.GetComponentInChildren<TrailRenderer>().Clear();
+
+        meleeTrail.SetActive(false);
     }
 }
