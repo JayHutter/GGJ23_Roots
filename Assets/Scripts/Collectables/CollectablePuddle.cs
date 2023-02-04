@@ -1,5 +1,8 @@
 using UnityEngine;
+using System.Collections;
 using UnityEngine.VFX;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 [RequireComponent(typeof(SphereCollider))]
 public class CollectablePuddle : CollectableBase
@@ -18,8 +21,14 @@ public class CollectablePuddle : CollectableBase
     private float                           amount              = 3.0f;
     private float                           maxAmount           = 3.0f;
 
+    [Header("Player VFX Variables")]
+    [SerializeField] private VisualEffect   vfxSparks;
+    [SerializeField] private GameObject     player;
+
     private void Start()
     {
+        vfxSparks.Stop();
+
         amount
             = maxAmount;
 
@@ -47,6 +56,8 @@ public class CollectablePuddle : CollectableBase
                 f_timerLimit -= f_soakDelay;
                 // g_player.n_vineLength += n_dropletIncrement;
 
+                PlayEffects();
+
                 if (p_particle != null)
                     p_particle.Play();
             }
@@ -54,5 +65,46 @@ public class CollectablePuddle : CollectableBase
             if (f_timerLimit <= 0)
                 DestroyCollectable();
         }
+    }
+
+    private void PlayEffects()
+    {
+        vfxSparks.Play();
+        StartCoroutine(GlowUp());
+    }
+
+    private IEnumerator GlowUp()
+    {
+        Material mat
+            = player.GetComponent<SkinnedMeshRenderer>().materials[1];
+
+        float f_duration    = 0.4f;
+        float f_thistimer   = 0.0f;
+
+        while (f_thistimer <= f_duration)
+        {
+            mat.SetFloat("_Transparency", f_thistimer);
+            f_thistimer += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        StartCoroutine(GlowDown());
+    }
+
+    private IEnumerator GlowDown()
+    {
+        Material mat
+            = player.GetComponent<SkinnedMeshRenderer>().materials[1];
+
+        float f_thistimer = 0.4f;
+
+        while (f_thistimer >= 0.0f)
+        {
+            mat.SetFloat("_Transparency", f_thistimer);
+            f_thistimer -= Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        mat.SetFloat("_Transparency", 0.0f);
     }
 }
