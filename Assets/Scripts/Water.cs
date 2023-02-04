@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Water : MonoBehaviour
 {
+    private float power = 0.1f;
     private void OnParticleCollision(GameObject other)
     {
         Debug.Log(other.name);
         if (other.layer == LayerMask.NameToLayer("Growable"))
         {
-            other.transform.position = new Vector3(other.transform.position.x, other.transform.position.y + 1, other.transform.position.z);
+            other.transform.root.GetComponent<PlantPot>().watered += power;
         }
     }
 }

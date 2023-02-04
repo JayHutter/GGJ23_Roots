@@ -145,7 +145,8 @@ MonoBehaviour:
   f_collectableSpeedMax: 0
   f_collectableAcceleration: 0
   f_timerLimit: 3
-  n_dropletIncrement: 0
+  f_dropletIncrement: 0.15
+  g_tank: {fileID: 0}
   f_soakDelay: 1
   vfx: {fileID: 528589398715222516}
   radius: 0.75
