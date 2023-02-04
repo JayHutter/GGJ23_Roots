@@ -12,6 +12,7 @@ public class EnemyNavMesh : MonoBehaviour
     {
         ROAM,
         ACTIVE,
+        ATTACK,
         NONE
     }
 
@@ -21,7 +22,9 @@ public class EnemyNavMesh : MonoBehaviour
     [SerializeField] private Transform ai_target_roam;
     [SerializeField] private float ai_aggro_range = 0;
     [SerializeField] private float ai_roam_range = 0;
+    [SerializeField] private float ai_attack_range = 0;
     [SerializeField] private State ai_state = State.NONE;
+    [SerializeField] private SphereCollider ai_attack_volume;
 
     private void Awake()
     {
@@ -35,21 +38,31 @@ public class EnemyNavMesh : MonoBehaviour
         {
             Debug.LogWarning("AI Agent \"" + this.name + "\" has roam range of Zero.");
         }
+
+        ai_attack_volume = this.GetComponent<SphereCollider>();
     }
 
     private void Update()
     {
-        if (CheckPlayerInRange())
+        if (CheckPlayerInAggroRange())
             ai_state = State.ACTIVE;
         else
             ai_state = State.ROAM;
 
+        ai_attack_volume.enabled = CheckPlayerInAttackRange();
+
         Navigate();
     }
 
-    private bool CheckPlayerInRange()
+    private bool CheckPlayerInAggroRange()
     {
         if (Vector3.Distance(this.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position) < ai_aggro_range)
+            return true;
+        return false;
+    }
+    private bool CheckPlayerInAttackRange()
+    {
+        if (Vector3.Distance(this.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position) < ai_attack_range)
             return true;
         return false;
     }
@@ -74,8 +87,9 @@ public class EnemyNavMesh : MonoBehaviour
             case State.NONE:
                 nav_mesh_agent.destination = this.transform.position;
                 break;
+
             case State.ROAM:
-                if (nav_mesh_agent.remainingDistance <= nav_mesh_agent.stoppingDistance) // Reached target transform
+                if (nav_mesh_agent.remainingDistance <= nav_mesh_agent.stoppingDistance)
                 {
                     Vector3 pos;
                     if (UpdateRoamPosition(this.transform.position, ai_roam_range, out pos))
@@ -85,6 +99,7 @@ public class EnemyNavMesh : MonoBehaviour
                     }
                 }
                 break;
+
             case State.ACTIVE:
                 if (GameObject.FindGameObjectWithTag("Player")) 
                 { 
@@ -99,6 +114,8 @@ public class EnemyNavMesh : MonoBehaviour
         }
         
     }
+
+
 
     private void OnDrawGizmos()
     {
