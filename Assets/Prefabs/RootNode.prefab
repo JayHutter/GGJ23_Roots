@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4558706094226301985}
   - component: {fileID: -6264866256302990913}
   m_Layer: 7
-  m_Name: RopeNode
+  m_Name: RootNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,8 +73,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 1000
-    damper: 0.01
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0.5
     bounciness: 1

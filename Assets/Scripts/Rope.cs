@@ -10,6 +10,7 @@ public class Rope : MonoBehaviour
     private LineRenderer lineRender;
     [SerializeField] private int segmentCount;
     public ConfigurableJoint segmentPrefab;
+    public ConfigurableJoint rootPrefab;
     private ConfigurableJoint lastSegment;
     private Rigidbody lastRigid;
     public float segmentLength = 1;
@@ -17,8 +18,9 @@ public class Rope : MonoBehaviour
 
     private List<ConfigurableJoint> nodes = new List<ConfigurableJoint>();
     public Rigidbody rootRigid;
+    public Transform lineStart;
     public Transform staticPoint;
-
+    [SerializeField] private float extentionDistance = 0.5f;
     float maxLength;
 
     private void Start()
@@ -27,7 +29,7 @@ public class Rope : MonoBehaviour
         segmentOffset.Normalize();
         segmentOffset*= segmentLength;
 
-        var firstSegment = Instantiate(segmentPrefab, rootRigid.transform.position, Quaternion.identity, transform);
+        var firstSegment = Instantiate(rootPrefab, rootRigid.transform.position, Quaternion.identity, transform);
         firstSegment.connectedBody = rootRigid;
         nodes.Add(firstSegment);
         lastSegment = firstSegment;
@@ -46,7 +48,7 @@ public class Rope : MonoBehaviour
         lastRigid.isKinematic = true;
         lastRigid.useGravity = false;
 
-        maxLength = segmentCount * segmentLength;
+        maxLength = segmentCount * (segmentLength + extentionDistance);
 
 
         lastSegment.transform.position = staticPoint.transform.position;
@@ -59,11 +61,13 @@ public class Rope : MonoBehaviour
 
     private void UpdateLine()
     {
-        lineRender.positionCount = nodes.Count;
+        lineRender.positionCount = nodes.Count+2;
+        lineRender.SetPosition(0, lineStart.position);
+        lineRender.SetPosition(1, rootRigid.transform.position);
 
         for (int i = 0; i < nodes.Count; i++)
         {
-            lineRender.SetPosition(i, nodes[i].transform.position);
+            lineRender.SetPosition(i+2, nodes[i].transform.position);
         }
     }
 
@@ -97,6 +101,6 @@ public class Rope : MonoBehaviour
         lastRigid = newRigid;
         segmentCount++;
        
-        maxLength = segmentCount * segmentLength;
+        maxLength = segmentCount * (segmentLength + extentionDistance);
     }
 }
