@@ -90,6 +90,8 @@ public class Rope : MonoBehaviour
 
     public void AddNode()
     {
+        Debug.Log("Adding Node");
+
         var newNode = Instantiate(segmentPrefab, lastSegment.transform.position + segmentOffset, Quaternion.identity, transform);
         newNode.connectedBody = lastRigid;
         nodes.Add(newNode);

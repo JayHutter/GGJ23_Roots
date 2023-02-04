@@ -4,9 +4,12 @@ using UnityEngine;
 using Cinemachine;
 using UnityEngine.InputSystem;
 using System.Net.NetworkInformation;
+using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
+
     private Rigidbody rb;
     private Camera myCam;
     public CinemachineFreeLook virtualCam;
@@ -14,7 +17,10 @@ public class PlayerController : MonoBehaviour
     public Transform originalCamPos;
     public Transform shoulderCamPos;
     public ParticleSystem waterSpray;
-    public GameObject light;
+    public Transform muzzle;
+    public GameObject flashlight;
+    private float waterDrainRate = 0.1f;
+    public WaterTank waterTank;
     private float playerAimRotSpeed = 10f;
     private Vector3 shoulderCamVelocity;
     private float fovSpeed;
@@ -73,7 +79,7 @@ public class PlayerController : MonoBehaviour
     private bool isShooting;
     private bool isAimingDown;
     private bool isLighting;
-    private bool melee;
+    private bool isAttacking;
 
     [Header("Player Animations")]
     public FaceAnimator faceAnim;
@@ -87,8 +93,18 @@ public class PlayerController : MonoBehaviour
 
     public Rope tether;
 
+    public GameObject meleeTrail;
+
     private void Start()
     {
+        if (instance)
+        {
+            Destroy(this);
+            return;
+        }
+
+        instance = this;
+
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         rb = GetComponent<Rigidbody>();
@@ -108,7 +124,7 @@ public class PlayerController : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, rayDist, ground))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, rayDist, ground, QueryTriggerInteraction.Ignore))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * rayDist, Color.red);
             _rayHit = hit;
@@ -124,7 +140,7 @@ public class PlayerController : MonoBehaviour
             _rayDidHit = false;
         }
 
-        isGrounded = Physics.CheckSphere(new Vector3(transform.position.x, transform.position.y - (rideHeight - 0.05f), transform.position.z), 0.1f, ground);
+        isGrounded = Physics.CheckSphere(new Vector3(transform.position.x, transform.position.y - (rideHeight - 0.05f), transform.position.z), 0.1f, ground, QueryTriggerInteraction.Ignore);
 
         if (isGrounded)
         {
@@ -149,6 +165,7 @@ public class PlayerController : MonoBehaviour
             Jumping();
             Shooting();
             Lighting();
+            Attack();
         }
         
         AnimateMouth();
@@ -292,23 +309,27 @@ public class PlayerController : MonoBehaviour
     {
         if(isLighting)
         {
-            light.transform.forward = myCam.transform.forward;
-            light.SetActive(true);
+            flashlight.transform.forward = myCam.transform.forward;
+            flashlight.SetActive(true);
         }
         else
         {
-            light.SetActive(false);
+            flashlight.SetActive(false);
         }
     }
 
     void Shooting()
     {
-        if(isShooting)
+        if(isShooting && waterTank.amount > 0)
         {
+            waterTank.amount -= waterDrainRate * Time.deltaTime;
+            waterSpray.transform.position = muzzle.transform.position;
+            waterSpray.transform.rotation = muzzle.transform.rotation;
             if (isAimingDown)
                 waterSpray.transform.forward = myCam.transform.forward;
             else
                 waterSpray.transform.forward = transform.forward;
+
             waterSpray.Play();
         }
         else
@@ -410,9 +431,10 @@ public class PlayerController : MonoBehaviour
     private void MeleeInput(InputAction.CallbackContext context)
     {
         if (context.performed)
-            melee = true;
-        else if (context.canceled)
-            melee = false;
+        {
+            StartCoroutine(AttackFor(0.25f));
+            StartCoroutine(SpinVFX());
+        }
     }
 
     private void SubscribeInputs()
@@ -446,6 +468,7 @@ public class PlayerController : MonoBehaviour
     private void OnDestroy()
     {
         UnsubscribeInputs();
+        instance = null;
     }
 
     private void OnDrawGizmos()
@@ -492,5 +515,67 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started)
             tether.AddNode();
+    }
+
+    //public void AddTetherSegments(int segments)
+    //{
+    //    tether.AddNode();
+    //
+    //    //for (int i=0; i<segments; i++)
+    //    //{
+    //    //    tether.AddNode();
+    //    //}
+    //}
+
+    public void AddTetherSegments(int segments)
+    {
+        StartCoroutine(AddTetherSegmentsWithDelay(segments));
+    }
+
+    public IEnumerator AddTetherSegmentsWithDelay(int segments)
+    {
+        for (int i=0; i<segments; i++)
+        {
+            tether.AddNode();
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    private void Attack()
+    {
+        if (isAttacking)
+        {
+            RaycastHit hit;
+            if (Physics.SphereCast(transform.position, 1.0f, transform.forward, out hit))
+            {
+                Debug.Log("Melee Hit");
+            }
+        }
+    }
+
+    private IEnumerator AttackFor(float time)
+    {
+        isAttacking = true;
+        yield return new WaitForSeconds(time);
+        isAttacking = false;
+    }
+
+    private IEnumerator SpinVFX()
+    {
+        meleeTrail.transform.localRotation = Quaternion.identity;
+        meleeTrail.SetActive(true);
+        Vector3 rot = meleeTrail.transform.eulerAngles;
+
+        float spinSpeed = 2000;
+        while(isAttacking)
+        {
+            rot.y -= Time.deltaTime * spinSpeed;
+            meleeTrail.transform.eulerAngles = rot;
+            yield return null;
+        }
+
+        meleeTrail.GetComponentInChildren<TrailRenderer>().Clear();
+
+        meleeTrail.SetActive(false);
     }
 }
