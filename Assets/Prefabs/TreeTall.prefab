@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5416752275324393829}
   - component: {fileID: 4809679340962462094}
   - component: {fileID: 3448849889765305071}
+  - component: {fileID: 8233099935203314505}
   m_Layer: 0
   m_Name: Bush
   m_TagString: Untagged
@@ -83,6 +84,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8233099935203314505
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3615000043130397350}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5958362384829529401, guid: d775e911da652a945892b9ca20655c05, type: 3}
 --- !u!1 &4675545154800608621
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,6 +109,7 @@ GameObject:
   - component: {fileID: 8144034682537669625}
   - component: {fileID: 1248631736835844966}
   - component: {fileID: 4163799854886947607}
+  - component: {fileID: 7857550575698788734}
   m_Layer: 0
   m_Name: Stump
   m_TagString: Untagged
@@ -166,6 +182,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7857550575698788734
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4675545154800608621}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3727755857921736763, guid: d775e911da652a945892b9ca20655c05, type: 3}
 --- !u!1 &5631052188383370061
 GameObject:
   m_ObjectHideFlags: 0
