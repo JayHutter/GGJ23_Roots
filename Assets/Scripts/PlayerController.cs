@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.InputSystem;
+using System.Net.NetworkInformation;
 
 public class PlayerController : MonoBehaviour
 {
@@ -40,6 +41,7 @@ public class PlayerController : MonoBehaviour
     public float maxAccelForceFactor = 1.0f;
     public float airControl = 0.25f;
     public float walkMult = 0.5f;
+    public float crawlMult = 0.25f;
     public float diveForce = 10;
     public Transform diveAngle;
     public AnimationCurve accelerationFactorFromDot;
@@ -58,6 +60,10 @@ public class PlayerController : MonoBehaviour
     private float jumpBufferCount;
     private bool canControl = true;
     private bool isDiving = false;
+    public float crouchColScale = 0.5f;
+    private float colHeight;
+    private float colRadius;
+    CapsuleCollider collider;
 
     // inputs
     private Vector2 inputXZ;
@@ -90,6 +96,10 @@ public class PlayerController : MonoBehaviour
         _uprightJointTargetRot = transform.rotation;
         camFollow.position = originalCamPos.position;
         speedFactor = walkMult;
+
+        collider = GetComponent<CapsuleCollider>();
+        colHeight = collider.height;
+        colRadius = collider.radius;
 
         SubscribeInputs();
     }
@@ -316,7 +326,7 @@ public class PlayerController : MonoBehaviour
 
         if (coyoteCounter > 0.0f && jumpBufferCount >= 0.0f)
         {
-            rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
+            rb.velocity = new Vector3(rb.velocity.x, jumpForce * (isCrouching? 0.3f:1), rb.velocity.z);
             jumpBufferCount = 0.0f;
         }
     }
@@ -344,27 +354,37 @@ public class PlayerController : MonoBehaviour
 
     private void CrouchInput(InputAction.CallbackContext context)
     {
-        if (isGrounded)
+        if (context.started)
         {
-            if (context.performed)
+            if (isGrounded)
+            {
                 isCrouching = true;
-            else if (context.canceled)
-                isCrouching = false;
-        }
-        else
-        {
-            if (context.started)
+                speedFactor = crawlMult;
+            }
+            else if (!isDiving)
             {
                 isDiving = true;
                 Vector3 vel = diveAngle.forward * diveForce;
                 rb.velocity = vel;
                 playerAnimator.SetBool("Diving", true);
-            } 
+            }
         }
+
+
+        if (context.canceled)
+        {
+            isCrouching = false;
+            speedFactor = walkMult;
+        }
+
+        playerAnimator.SetBool("Crouched", isCrouching);
     }
 
     private void SprintInput(InputAction.CallbackContext context)
     {
+        if (isCrouching)
+            return;
+
         if (context.performed)
             speedFactor = 1;
         else if (context.canceled)

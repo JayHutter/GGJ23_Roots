@@ -3466,6 +3466,11 @@ PrefabInstance:
       objectReference: {fileID: 495796254}
     - target: {fileID: 3227350301900414975, guid: cbcf451a4bee3b54d847dbeec5de92f9,
         type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227350301900414975, guid: cbcf451a4bee3b54d847dbeec5de92f9,
+        type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.4727028
       objectReference: {fileID: 0}
@@ -3473,6 +3478,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.x
       value: 0.05507726
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227350302036793163, guid: cbcf451a4bee3b54d847dbeec5de92f9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227350302323342471, guid: cbcf451a4bee3b54d847dbeec5de92f9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3227350302323342471, guid: cbcf451a4bee3b54d847dbeec5de92f9,
         type: 3}
@@ -3489,6 +3504,16 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.085921854
       objectReference: {fileID: 0}
+    - target: {fileID: 3227350302703278962, guid: cbcf451a4bee3b54d847dbeec5de92f9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227350302907993581, guid: cbcf451a4bee3b54d847dbeec5de92f9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3227350302907993581, guid: cbcf451a4bee3b54d847dbeec5de92f9,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -3503,6 +3528,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlayerManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 5461060248689413223, guid: cbcf451a4bee3b54d847dbeec5de92f9,
+        type: 3}
+      propertyPath: m_Colliders.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6530603407120673550, guid: cbcf451a4bee3b54d847dbeec5de92f9,
         type: 3}
