@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.iOS;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public Transform camFollow;
     public Transform originalCamPos;
     public Transform shoulderCamPos;
+    public ParticleSystem waterSpray;
     private float playerAimRotSpeed = 10f;
     private Vector3 shoulderCamVelocity;
     private float fovSpeed;
@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 groundVel = Vector3.zero;
 
     public bool isGrounded = false;
-    public float jumpForce = 100.0f;
+    public float jumpForce = 10.0f;
 
     public float coyoteTime = 0.2f;
     private float coyoteCounter;
@@ -113,9 +113,10 @@ public class PlayerController : MonoBehaviour
             coyoteCounter -= Time.deltaTime;
         }
 
-        Movement();
+        TargetMovement();
         Aim();
         Jumping();
+        Shooting();
         AnimateMouth();
         UpdateAnimator();
     }
@@ -191,7 +192,7 @@ public class PlayerController : MonoBehaviour
         rb.AddTorque((new Vector3(rotAxis.x, 0.0f, rotAxis.z) * (rotRadians * _uprightJointSpringStrength)) - (rb.angularVelocity * _uprightJointSpringDamper));
     }
 
-    void Movement()
+    void TargetMovement()
     {
         if (myCam == null)
             return;
@@ -251,6 +252,19 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(Vector3.Scale(neededAccel * rb.mass, forceScale));
     }
 
+    void Shooting()
+    {
+        if(isShooting)
+        {
+            waterSpray.transform.forward = myCam.transform.forward;
+            waterSpray.Play();
+        }
+        else
+        {
+            waterSpray.Stop();
+        }
+    }
+
     void Jumping()
     {
         if (isJumping)
@@ -263,9 +277,6 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
             jumpBufferCount = 0.0f;
         }
-
-        if (isJumping && rb.velocity.y > 0.0f)
-            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y * 0.5f, rb.velocity.z);
     }
 
     private void MoveInput(InputAction.CallbackContext context)
