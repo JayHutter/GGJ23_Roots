@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Rendering.Universal;
 
 public class FaceAnimator : MonoBehaviour
 {
     public Texture normal;
     public Texture sad;
     public Texture open;
-
-    public MeshRenderer mouthMesh;
     Material mouthMat;
+
+    public DecalProjector decal;
 
     public enum State
     {
@@ -27,7 +28,7 @@ public class FaceAnimator : MonoBehaviour
 
     private void Start()
     {
-        mouthMat = mouthMesh.material;
+        mouthMat = decal.material;
     }
 
     public void SetAnimationState(State state)
@@ -41,13 +42,13 @@ public class FaceAnimator : MonoBehaviour
         switch(state)
         {
             case State.NORMAL:
-                mouthMat.SetTexture("_BaseMap", normal);
+                mouthMat.SetTexture("Base_Map", normal);
                 break;
             case State.SAD:
-                mouthMat.SetTexture("_BaseMap", sad);
+                mouthMat.SetTexture("Base_Map", sad);
                 break;
             case State.OPEN:
-                mouthMat.SetTexture("_BaseMap", open);
+                mouthMat.SetTexture("Base_Map", open);
                 break;
         }
     }

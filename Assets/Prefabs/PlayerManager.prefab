@@ -244,6 +244,61 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!1 &1189621553
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1189621554}
+  - component: {fileID: 1189621555}
+  m_Layer: 0
+  m_Name: Decal Projector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1189621554
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189621553}
+  m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: -0.5}
+  m_LocalPosition: {x: -0.0035599994, y: -0.00091, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2009854198616229830}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 270}
+--- !u!114 &1189621555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189621553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0777d029ed3dffa4692f417d4aba19ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: 07d85d2642a3a4b4a934d62213ed6602, type: 2}
+  m_DrawDistance: 1000
+  m_FadeScale: 0.9
+  m_StartAngleFade: 180
+  m_EndAngleFade: 180
+  m_UVScale: {x: 1, y: 1}
+  m_UVBias: {x: 0, y: 0}
+  m_ScaleMode: 0
+  m_Offset: {x: 0, y: 0, z: 0.19}
+  m_Size: {x: 0.12, y: 0.3, z: 0.38}
+  m_FadeFactor: 1
 --- !u!1 &1472889581
 GameObject:
   m_ObjectHideFlags: 0
@@ -21385,7 +21440,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3227350301900414962}
-  m_LocalRotation: {x: 0.05507727, y: 0.87358916, z: -0.101786785, w: 0.47270283}
+  m_LocalRotation: {x: 0.05507726, y: 0.87358916, z: -0.101786785, w: 0.4727028}
   m_LocalPosition: {x: -8.371084, y: 2.75, z: 5.4703703}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -21878,7 +21933,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3227350302323342469}
-  m_LocalRotation: {x: 0.04649269, y: 0.87529194, z: -0.08592186, w: 0.47362423}
+  m_LocalRotation: {x: 0.046492685, y: 0.87529194, z: -0.085921854, w: 0.4736243}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -22034,7 +22089,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3227350302907993571}
-  m_LocalRotation: {x: 0.055077277, y: 0.87358916, z: -0.101786785, w: 0.4727029}
+  m_LocalRotation: {x: 0.055077273, y: 0.87358916, z: -0.10178678, w: 0.4727029}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -22293,7 +22348,7 @@ GameObject:
   - component: {fileID: 5461060249369431599}
   m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22441,6 +22496,7 @@ MonoBehaviour:
   sad: {fileID: 2800000, guid: d6cf4c52c8567b044b776ba82dc67dd3, type: 3}
   open: {fileID: 2800000, guid: 3b3676092acf2c346926001d3b20fc2e, type: 3}
   mouthMesh: {fileID: 1842480823068683031}
+  decal: {fileID: 1189621555}
   currentState: 0
   previousState: 0
 --- !u!1 &3247398472760376986
@@ -23046,7 +23102,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6223419183675005080
 Transform:
   m_ObjectHideFlags: 0
@@ -23146,6 +23202,7 @@ Transform:
   - {fileID: 3893842125041919883}
   - {fileID: 6223419183675005080}
   - {fileID: 7235632671570786787}
+  - {fileID: 1189621554}
   m_Father: {fileID: 8855013272964903720}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -23376,6 +23433,7 @@ MonoBehaviour:
   - {fileID: 1521921303475212403}
   - {fileID: 3893842125041919883}
   - {fileID: 6223419183675005080}
+  - {fileID: 1189621554}
   m_FreezeAxis: 0
   m_DistantDisable: 0
   m_ReferenceObject: {fileID: 0}
