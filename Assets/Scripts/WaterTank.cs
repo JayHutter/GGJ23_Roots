@@ -9,8 +9,7 @@ public class WaterTank : MonoBehaviour
     float MaxWobble = 0.03f;
     [SerializeField]
     float WobbleSpeedMove = 1f;
-    [SerializeField]
-    float fillAmount = 0.5f;
+    public float amount = 1f;
     [SerializeField]
     float Recovery = 1f;
     [SerializeField]
@@ -34,6 +33,7 @@ public class WaterTank : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        amount = 1f;
         GetMeshAndRend();
     }
 
@@ -84,13 +84,18 @@ public class WaterTank : MonoBehaviour
 
         lastPos = transform.position;
         lastRot = transform.rotation;
+
+        if (amount <= 0)
+            rend.enabled = false;
+        else
+            rend.enabled = true;
     }
 
     void UpdatePos(float deltaTime)
     {
 
         Vector3 worldPos = transform.TransformPoint(new Vector3(mesh.bounds.center.x, mesh.bounds.center.y, mesh.bounds.center.z));
-        pos = worldPos - transform.position + new Vector3(0, fillAmount, 0);
+        pos = worldPos - transform.position + new Vector3(0, amount, 0);
         rend.sharedMaterial.SetVector("_FillAmount", pos);
     }
 
