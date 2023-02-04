@@ -22421,7 +22421,8 @@ MonoBehaviour:
   originalCamPos: {fileID: 5430398852981039773}
   shoulderCamPos: {fileID: 3747869328329848854}
   waterSpray: {fileID: 1259333821753457848}
-  light: {fileID: 2063129088}
+  flashLight: {fileID: 2063129088}
+  waterTank: {fileID: 1215936836}
   rayDist: 0.5
   _rayDidHit: 0
   ground:
@@ -23639,7 +23640,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxWobble: 0.03
   WobbleSpeedMove: 1
-  fillAmount: 1.01
+  amount: 1
   Recovery: 1
   Thickness: 1
 --- !u!1 &5579843100228058686

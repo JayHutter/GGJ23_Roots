@@ -14,7 +14,9 @@ public class PlayerController : MonoBehaviour
     public Transform originalCamPos;
     public Transform shoulderCamPos;
     public ParticleSystem waterSpray;
-    public GameObject light;
+    private float waterDrainRate = 0.1f;
+    public GameObject flashLight;
+    public WaterTank waterTank;
     private float playerAimRotSpeed = 10f;
     private Vector3 shoulderCamVelocity;
     private float fovSpeed;
@@ -292,19 +294,21 @@ public class PlayerController : MonoBehaviour
     {
         if(isLighting)
         {
-            light.transform.forward = myCam.transform.forward;
-            light.SetActive(true);
+            flashLight.transform.forward = myCam.transform.forward;
+            flashLight.SetActive(true);
         }
         else
         {
-            light.SetActive(false);
+            flashLight.SetActive(false);
         }
     }
 
     void Shooting()
     {
-        if(isShooting)
+        if(isShooting && waterTank.amount > 0)
         {
+            waterTank.amount -= waterDrainRate * Time.deltaTime;
+            waterSpray.transform.forward = myCam.transform.forward;
             if (isAimingDown)
                 waterSpray.transform.forward = myCam.transform.forward;
             else
