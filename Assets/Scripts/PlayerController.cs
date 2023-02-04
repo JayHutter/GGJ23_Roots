@@ -121,7 +121,7 @@ public class PlayerController : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, rayDist, ground))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, rayDist, ground, QueryTriggerInteraction.Ignore))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * rayDist, Color.red);
             _rayHit = hit;
@@ -137,7 +137,7 @@ public class PlayerController : MonoBehaviour
             _rayDidHit = false;
         }
 
-        isGrounded = Physics.CheckSphere(new Vector3(transform.position.x, transform.position.y - (rideHeight - 0.05f), transform.position.z), 0.1f, ground);
+        isGrounded = Physics.CheckSphere(new Vector3(transform.position.x, transform.position.y - (rideHeight - 0.05f), transform.position.z), 0.1f, ground, QueryTriggerInteraction.Ignore);
 
         if (isGrounded)
         {
@@ -510,11 +510,27 @@ public class PlayerController : MonoBehaviour
             tether.AddNode();
     }
 
+    //public void AddTetherSegments(int segments)
+    //{
+    //    tether.AddNode();
+    //
+    //    //for (int i=0; i<segments; i++)
+    //    //{
+    //    //    tether.AddNode();
+    //    //}
+    //}
+
     public void AddTetherSegments(int segments)
+    {
+        StartCoroutine(AddTetherSegmentsWithDelay(segments));
+    }
+
+    public IEnumerator AddTetherSegmentsWithDelay(int segments)
     {
         for (int i=0; i<segments; i++)
         {
             tether.AddNode();
+            yield return new WaitForSeconds(0.1f);
         }
     }
 

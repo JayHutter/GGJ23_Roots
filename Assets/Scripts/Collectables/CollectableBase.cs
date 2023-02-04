@@ -21,6 +21,11 @@ public class CollectableBase : MonoBehaviour
     [SerializeField] protected float            f_timerLimit                = 0.0f;
     protected float                             f_timer                     = 0.0f;
 
+    private void Start()
+    {
+        g_player = PlayerController.instance.gameObject;
+    }
+
     private void Update()
     {
         if (b_magnetismEnable)

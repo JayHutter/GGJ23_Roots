@@ -10,9 +10,12 @@ public class CollectableDroplet : CollectableBase
     {
         // g_player.n_vineLength += n_dropletIncrement;
 
+        //StartCoroutine(PlayerController.instance.AddTetherSegments(n_dropletIncrement));
+        PlayerController.instance.AddTetherSegments(n_dropletIncrement);
+
         if (p_particle != null)
             p_particle.Play();
 
-        DestroyCollectable();
+        base.DestroyCollectable();
     }
 }

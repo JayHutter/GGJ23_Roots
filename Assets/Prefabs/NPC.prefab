@@ -293,7 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0dc40bbfcac2b446b77bf5f211d3474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reward: {fileID: 0}
+  reward: {fileID: 2206886222445805356, guid: dc8ac396621821b4594ba6db453eed9d, type: 3}
   body: {fileID: 761648724811252593}
 --- !u!135 &944438739137765324
 SphereCollider:

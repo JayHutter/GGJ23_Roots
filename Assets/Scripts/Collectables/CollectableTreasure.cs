@@ -13,6 +13,6 @@ public class CollectableTreasure : CollectableBase
         if (p_particle != null)
             p_particle.Play();
 
-        DestroyCollectable();
+        base.DestroyCollectable();
     }
 }
