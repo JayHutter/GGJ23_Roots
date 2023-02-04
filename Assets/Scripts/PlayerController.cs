@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
     private bool isShooting;
     private bool isAimingDown;
     private bool isLighting;
-    private bool melee;
+    private bool isAttacking;
 
     [Header("Player Animations")]
     public FaceAnimator faceAnim;
@@ -89,6 +89,8 @@ public class PlayerController : MonoBehaviour
     public float pullbackForce = 10;
 
     public Rope tether;
+
+    public GameObject meleeTrail;
 
     private void Start()
     {
@@ -160,6 +162,7 @@ public class PlayerController : MonoBehaviour
             Jumping();
             Shooting();
             Lighting();
+            Attack();
         }
         
         AnimateMouth();
@@ -421,9 +424,10 @@ public class PlayerController : MonoBehaviour
     private void MeleeInput(InputAction.CallbackContext context)
     {
         if (context.performed)
-            melee = true;
-        else if (context.canceled)
-            melee = false;
+        {
+            StartCoroutine(AttackFor(0.25f));
+            StartCoroutine(SpinVFX());
+        }
     }
 
     private void SubscribeInputs()
@@ -512,5 +516,43 @@ public class PlayerController : MonoBehaviour
         {
             tether.AddNode();
         }
+    }
+
+    private void Attack()
+    {
+        if (isAttacking)
+        {
+            RaycastHit hit;
+            if (Physics.SphereCast(transform.position, 1.0f, transform.forward, out hit))
+            {
+                Debug.Log("Melee Hit");
+            }
+        }
+    }
+
+    private IEnumerator AttackFor(float time)
+    {
+        isAttacking = true;
+        yield return new WaitForSeconds(time);
+        isAttacking = false;
+    }
+
+    private IEnumerator SpinVFX()
+    {
+        meleeTrail.transform.localRotation = Quaternion.identity;
+        meleeTrail.SetActive(true);
+        Vector3 rot = meleeTrail.transform.eulerAngles;
+
+        float spinSpeed = 2000;
+        while(isAttacking)
+        {
+            rot.y -= Time.deltaTime * spinSpeed;
+            meleeTrail.transform.eulerAngles = rot;
+            yield return null;
+        }
+
+        meleeTrail.GetComponentInChildren<TrailRenderer>().Clear();
+
+        meleeTrail.SetActive(false);
     }
 }
