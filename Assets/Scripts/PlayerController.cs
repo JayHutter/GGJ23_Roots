@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public Transform originalCamPos;
     public Transform shoulderCamPos;
     public ParticleSystem waterSpray;
+    public Transform muzzle;
     public GameObject flashlight;
     private float waterDrainRate = 0.1f;
     public WaterTank waterTank;
@@ -322,6 +323,8 @@ public class PlayerController : MonoBehaviour
         if(isShooting && waterTank.amount > 0)
         {
             waterTank.amount -= waterDrainRate * Time.deltaTime;
+            waterSpray.transform.position = muzzle.transform.position;
+            waterSpray.transform.rotation = muzzle.transform.rotation;
             if (isAimingDown)
                 waterSpray.transform.forward = myCam.transform.forward;
             else
