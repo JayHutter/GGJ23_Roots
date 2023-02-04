@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WaterPickupGlow
+  m_Name: PickupGlow
   m_Shader: {fileID: -6465566751694194690, guid: 70f1c526e82be1e4f83e8481e0a5993c,
     type: 3}
   m_ValidKeywords:
@@ -16,7 +16,7 @@ Material:
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap:
     RenderType: Transparent
   disabledShaderPasses:
@@ -57,7 +57,7 @@ Material:
     m_Colors:
     - _BaseColour: {r: 0, g: 1, b: 0.82257247, a: 0}
     - _Colour: {r: 0, g: 10.680627, b: 10.680627, a: 1}
-    - _FresnelColour: {r: 0, g: 5.656854, b: 5.656854, a: 0}
+    - _FresnelColour: {r: 0.029617036, g: 0.029617036, b: 0.029617036, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &392698526166030415
 MonoBehaviour:

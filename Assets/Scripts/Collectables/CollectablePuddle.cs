@@ -1,8 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.VFX;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 
 [RequireComponent(typeof(SphereCollider))]
 public class CollectablePuddle : CollectableBase
@@ -78,7 +76,9 @@ public class CollectablePuddle : CollectableBase
         Material mat
             = player.GetComponent<SkinnedMeshRenderer>().materials[1];
 
-        float f_duration    = 0.4f;
+        mat.SetColor("_FresnelColour", new Color(0.0f, 191.0f, 191.0f, 0.0f) * 0.25f);
+
+        float f_duration    = 0.3f;
         float f_thistimer   = 0.0f;
 
         while (f_thistimer <= f_duration)
@@ -93,10 +93,14 @@ public class CollectablePuddle : CollectableBase
 
     private IEnumerator GlowDown()
     {
+        vfxSparks.Stop();
+
         Material mat
             = player.GetComponent<SkinnedMeshRenderer>().materials[1];
 
-        float f_thistimer = 0.4f;
+        mat.SetColor("_FresnelColour", new Color(0.0f, 191.0f, 191.0f, 0.0f));
+
+        float f_thistimer = 0.3f;
 
         while (f_thistimer >= 0.0f)
         {
