@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private float fovSpeed;
     private float normalFOV = 40f;
     private float aimFOV = 20f;
+    private float shootSFXTimer = 0.0f;
 
     public float rayDist = 2.5f;
     public bool _rayDidHit = false;
@@ -58,6 +59,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 groundVel = Vector3.zero;
 
     public bool isGrounded = false;
+    private bool justLanded = false;
     public float jumpForce = 10.0f;
 
     public float coyoteTime = 0.2f;
@@ -133,13 +135,19 @@ public class PlayerController : MonoBehaviour
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * rayDist, Color.red);
             _rayHit = hit;
             _rayDidHit = true;
+
             if (hit.rigidbody != null)
-            {
                 groundVel = hit.rigidbody.velocity;
+
+            if (!justLanded)
+            {
+                justLanded = true;
+                AudioManager.instance.PlayOneShotWithParameters("Land", transform);
             }
         }
         else
         {
+            justLanded = false;
             groundVel = Vector3.zero;
             _rayDidHit = false;
         }
@@ -324,11 +332,19 @@ public class PlayerController : MonoBehaviour
 
     void Shooting()
     {
+        shootSFXTimer += Time.deltaTime;
         if(isShooting && waterTank.amount > 0)
         {
             waterTank.amount -= waterDrainRate * Time.deltaTime;
             waterSpray.transform.position = muzzle.transform.position;
             waterSpray.transform.rotation = muzzle.transform.rotation;
+
+            if (shootSFXTimer >= 0.05f)
+            {
+                AudioManager.instance.PlayOneShotWithParameters("Shoot", transform);
+                shootSFXTimer = 0.0f;
+            }
+
             if (isAimingDown)
                 waterSpray.transform.forward = myCam.transform.forward;
             else
@@ -352,6 +368,7 @@ public class PlayerController : MonoBehaviour
         if (coyoteCounter > 0.0f && jumpBufferCount >= 0.0f)
         {
             rb.velocity = new Vector3(rb.velocity.x, jumpForce * (isCrouching? 0.3f:1), rb.velocity.z);
+            AudioManager.instance.PlayOneShotWithParameters("Jump", transform);
             jumpBufferCount = 0.0f;
         }
     }

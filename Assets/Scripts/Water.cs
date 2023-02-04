@@ -5,9 +5,11 @@ using UnityEngine;
 public class Water : MonoBehaviour
 {
     private float power = 0.1f;
+
     private void OnParticleCollision(GameObject other)
     {
         Debug.Log(other.name);
+        AudioManager.instance.PlayOneShotWithParameters("Splash", transform);
         if (other.layer == LayerMask.NameToLayer("Growable"))
         {
             other.transform.root.GetComponent<PlantPot>().watered += power;
