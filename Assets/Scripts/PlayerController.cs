@@ -1,12 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
     private Camera myCam;
+    public CinemachineFreeLook virtualCam;
+    public Transform camFollow;
+    public Transform originalCamPos;
+    public Transform shoulderCamPos;
+    public ParticleSystem waterSpray;
+    public GameObject light;
+    private float playerAimRotSpeed = 10f;
+    private Vector3 shoulderCamVelocity;
+    private float fovSpeed;
+    private float normalFOV = 40f;
+    private float aimFOV = 20f;
 
     public float rayDist = 2.5f;
     public bool _rayDidHit = false;
@@ -34,7 +46,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 groundVel = Vector3.zero;
 
     public bool isGrounded = false;
-    public float jumpForce = 100.0f;
+    public float jumpForce = 10.0f;
 
     public float coyoteTime = 0.2f;
     private float coyoteCounter;
@@ -44,6 +56,24 @@ public class PlayerController : MonoBehaviour
     // inputs
     private Vector2 inputXZ;
     private bool isJumping;
+    private bool isSprinting;
+    private bool isCrouching;
+    private bool isShooting;
+    private bool isAimingDown;
+    private bool isLighting;
+    private bool melee;
+
+    [Header("Player Animations")]
+    public FaceAnimator faceAnim;
+    public Animator playerAnimator;
+
+    [SerializeField] private bool enableHeadFollow = false;
+    public GameObject head;
+    [SerializeField] private float headSpeed = 1;
+
+    public float pullbackForce = 10;
+
+    public Rope tether;
 
     private void Start()
     {
@@ -52,6 +82,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         myCam = Camera.main;
         _uprightJointTargetRot = transform.rotation;
+        camFollow.position = originalCamPos.position;
 
         SubscribeInputs();
     }
@@ -87,8 +118,17 @@ public class PlayerController : MonoBehaviour
             coyoteCounter -= Time.deltaTime;
         }
 
-        TakeInputs();
+        TargetMovement();
+        Aim();
         Jumping();
+        Shooting();
+        Lighting();
+        AnimateMouth();
+        UpdateAnimator();
+
+        Debug.Log(tether.IsWithinDistance(transform.position));
+
+        CheckTetherLength();
     }
 
     private void FixedUpdate()
@@ -125,6 +165,12 @@ public class PlayerController : MonoBehaviour
         UpdateUprightForce();
     }
 
+    private void LateUpdate()
+    {
+        if (enableHeadFollow)
+            AimHead();
+    }
+
     public static Quaternion ShortestRotation(Quaternion to, Quaternion from)
     {
         if (Quaternion.Dot(to, from) < 0)
@@ -156,26 +202,48 @@ public class PlayerController : MonoBehaviour
         rb.AddTorque((new Vector3(rotAxis.x, 0.0f, rotAxis.z) * (rotRadians * _uprightJointSpringStrength)) - (rb.angularVelocity * _uprightJointSpringDamper));
     }
 
-    void TakeInputs()
+    void TargetMovement()
     {
+        if (myCam == null)
+            return;
+
         Vector3 move = new Vector3(inputXZ.x, 0, inputXZ.y);
 
         move = myCam.transform.TransformDirection(move);
 
         if (move.sqrMagnitude > 1.0f)
-        {
             move.Normalize();
-        }
 
         float targetAngle = Mathf.Atan2(move.x, move.z) * Mathf.Rad2Deg + myCam.transform.rotation.y;
-        Quaternion rotation = Quaternion.Euler(transform.rotation.x, targetAngle - 180, transform.rotation.z);
+        Quaternion rotation = Quaternion.Euler(transform.rotation.x, targetAngle, transform.rotation.z);
 
-        if (move.sqrMagnitude > 0.0f)
-        {
+        if (move.sqrMagnitude > 0.0f && !isAimingDown)
             transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * 10.0f);
-        }
 
         m_UnitGoal = move;
+    }
+
+    void Aim()
+    {
+        if (camFollow == null || myCam == null || shoulderCamPos == null || originalCamPos == null || virtualCam == null)
+        {
+            Debug.LogWarning("One of the camera transforms / virtual camera is not assigned");
+            return;
+        }
+
+        camFollow.eulerAngles = new Vector3(camFollow.eulerAngles.x, myCam.transform.eulerAngles.y, camFollow.eulerAngles.z);
+
+        if (isAimingDown)
+        {
+            camFollow.position = Vector3.SmoothDamp(camFollow.position, shoulderCamPos.position, ref shoulderCamVelocity, 0.1f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, camFollow.rotation, Time.deltaTime * playerAimRotSpeed);
+            virtualCam.m_Lens.FieldOfView = Mathf.SmoothDamp(virtualCam.m_Lens.FieldOfView, aimFOV, ref fovSpeed, 0.1f);
+        }
+        else
+        {
+            camFollow.position = Vector3.SmoothDamp(camFollow.position, originalCamPos.position, ref shoulderCamVelocity, 0.1f);
+            virtualCam.m_Lens.FieldOfView = Mathf.SmoothDamp(virtualCam.m_Lens.FieldOfView, normalFOV, ref fovSpeed, 0.1f);
+        }
     }
 
     void GroundMovement()
@@ -194,6 +262,35 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(Vector3.Scale(neededAccel * rb.mass, forceScale));
     }
 
+    void Lighting()
+    {
+        if(isLighting)
+        {
+            light.transform.forward = myCam.transform.forward;
+            light.SetActive(true);
+        }
+        else
+        {
+            light.SetActive(false);
+        }
+    }
+
+    void Shooting()
+    {
+        if(isShooting)
+        {
+            if (isAimingDown)
+                waterSpray.transform.forward = myCam.transform.forward;
+            else
+                waterSpray.transform.forward = transform.forward;
+            waterSpray.Play();
+        }
+        else
+        {
+            waterSpray.Stop();
+        }
+    }
+
     void Jumping()
     {
         if (isJumping)
@@ -206,9 +303,6 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
             jumpBufferCount = 0.0f;
         }
-
-        if (isJumping && rb.velocity.y > 0.0f)
-            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y * 0.5f, rb.velocity.z);
     }
 
     private void MoveInput(InputAction.CallbackContext context)
@@ -224,23 +318,80 @@ public class PlayerController : MonoBehaviour
             isJumping = false;
     }
 
-    private void AimInput(InputAction.CallbackContext context)
+    private void ADSInput(InputAction.CallbackContext context)
     {
+        if (context.performed)
+            isAimingDown = true;
+        else if (context.canceled)
+            isAimingDown = false;
+    }
 
+    private void CrouchInput(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            isCrouching = true;
+        else if (context.canceled)
+            isCrouching = false;
+    }
+
+    private void SprintInput(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            isSprinting = true;
+        else if (context.canceled)
+            isSprinting = false;
+    }
+
+    private void ShootInput(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            isShooting = true;
+        else if (context.canceled)
+            isShooting = false;
+    }
+
+    private void LightInput(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            isLighting = true;
+        else if (context.canceled)
+            isLighting = false;
+    }
+
+    private void MeleeInput(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            melee = true;
+        else if (context.canceled)
+            melee = false;
     }
 
     private void SubscribeInputs()
     {
         InputManager.onMove += MoveInput;
         InputManager.onJump += JumpInput;
-        InputManager.onAim += AimInput;
+        InputManager.onAimSight += ADSInput;
+        InputManager.onCrouch += CrouchInput;
+        InputManager.onSprint += SprintInput;
+        InputManager.onShoot += ShootInput;
+        InputManager.onLight += LightInput;
+        InputManager.onMelee += MeleeInput;
+
+        InputManager.onDebug1 += IncreaseRopeLengthTest;
     }
 
     private void UnsubscribeInputs()
     {
         InputManager.onMove -= MoveInput;
         InputManager.onJump -= JumpInput;
-        InputManager.onAim -= AimInput;
+        InputManager.onAimSight -= ADSInput;
+        InputManager.onCrouch -= CrouchInput;
+        InputManager.onSprint -= SprintInput;
+        InputManager.onShoot -= ShootInput;
+        InputManager.onLight -= LightInput;
+        InputManager.onMelee -= MeleeInput;
+
+        InputManager.onDebug1 -= IncreaseRopeLengthTest;
     }
 
     private void OnDestroy()
@@ -251,5 +402,44 @@ public class PlayerController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - (rideHeight - 0.05f), transform.position.z), 0.1f);
+    }
+
+    private void AimHead()
+    {
+        var lookRot = Quaternion.LookRotation(myCam.transform.position - head.transform.position);
+        head.transform.rotation = lookRot;
+    }
+
+    private void AnimateMouth()
+    {
+        if (isGrounded)
+        {
+            faceAnim.SetAnimationState(FaceAnimator.State.NORMAL);
+        }
+        else
+        {
+            faceAnim.SetAnimationState(FaceAnimator.State.OPEN);
+        }
+    }
+
+    private void UpdateAnimator()
+    {
+        float speed = Mathf.InverseLerp(0, maxSpeed, rb.velocity.magnitude);
+        playerAnimator.SetFloat("Speed", speed);
+    }
+
+    private void CheckTetherLength()
+    {
+        if (!tether.IsWithinDistance(transform.position))
+        {
+            Vector3 dir = tether.GetDirectionTowardsEnd(transform.position);
+            rb.AddForce(dir * pullbackForce);
+        }
+    }
+
+    private void IncreaseRopeLengthTest(InputAction.CallbackContext context)
+    {
+        if (context.started)
+            tether.AddNode();
     }
 }
