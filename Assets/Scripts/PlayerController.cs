@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
     public float airControl = 0.25f;
     public float walkMult = 0.5f;
     public float diveForce = 10;
+    public Transform diveAngle;
     public AnimationCurve accelerationFactorFromDot;
     public Vector3 forceScale = new Vector3(1.0f, 1.0f, 1.0f);
 
@@ -127,6 +128,7 @@ public class PlayerController : MonoBehaviour
         if (isGrounded && isDiving)
         {
             isDiving = false;
+            playerAnimator.SetBool("Diving", false);
         }
 
         Aim();
@@ -141,8 +143,6 @@ public class PlayerController : MonoBehaviour
         
         AnimateMouth();
         UpdateAnimator();
-
-        Debug.Log(tether.IsWithinDistance(transform.position));
 
         CheckTetherLength();
     }
@@ -356,8 +356,9 @@ public class PlayerController : MonoBehaviour
             if (context.started)
             {
                 isDiving = true;
-                Vector3 vel = transform.forward * diveForce;
+                Vector3 vel = diveAngle.forward * diveForce;
                 rb.velocity = vel;
+                playerAnimator.SetBool("Diving", true);
             } 
         }
     }
@@ -463,7 +464,7 @@ public class PlayerController : MonoBehaviour
         if (!tether.IsWithinDistance(transform.position))
         {
             Vector3 dir = tether.GetDirectionTowardsEnd(transform.position);
-            rb.AddForce(dir * pullbackForce);
+            rb.velocity = dir * pullbackForce;
         }
     }
 

@@ -21441,7 +21441,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3227350301900414962}
-  m_LocalRotation: {x: 0.05507726, y: 0.87358916, z: -0.101786785, w: 0.4727028}
+  m_LocalRotation: {x: 0.05507727, y: 0.87358916, z: -0.101786785, w: 0.47270283}
   m_LocalPosition: {x: -8.371084, y: 2.75, z: 5.4703703}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -21934,7 +21934,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3227350302323342469}
-  m_LocalRotation: {x: 0.046492685, y: 0.87529194, z: -0.085921854, w: 0.4736243}
+  m_LocalRotation: {x: 0.04649269, y: 0.87529194, z: -0.08592186, w: 0.47362423}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -22090,7 +22090,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3227350302907993571}
-  m_LocalRotation: {x: 0.055077273, y: 0.87358916, z: -0.10178678, w: 0.4727029}
+  m_LocalRotation: {x: 0.055077277, y: 0.87358916, z: -0.101786785, w: 0.4727029}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -22370,6 +22370,7 @@ Transform:
   - {fileID: 3747869328329848854}
   - {fileID: 3227350303200150868}
   - {fileID: 351229577}
+  - {fileID: 7875099568419377506}
   m_Father: {fileID: 6530603407120673550}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -22438,7 +22439,8 @@ MonoBehaviour:
   maxAccelForceFactor: 1
   airControl: 0.1
   walkMult: 0.5
-  diveForce: 20
+  diveForce: 15
+  diveAngle: {fileID: 7875099568419377506}
   accelerationFactorFromDot:
     serializedVersion: 2
     m_Curve:
@@ -22482,7 +22484,7 @@ MonoBehaviour:
   enableHeadFollow: 0
   head: {fileID: 0}
   headSpeed: 1
-  pullbackForce: 250
+  pullbackForce: 10
   tether: {fileID: 183502449}
 --- !u!114 &5461060249369431599
 MonoBehaviour:
@@ -22610,6 +22612,37 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.00046296348, y: -0.00042707077, z: -0.0012499995}
     m_Extent: {x: 0.0012957354, y: 0.0022723074, z: 0.0006250001}
   m_DirtyAABB: 0
+--- !u!1 &3514798752852965683
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7875099568419377506}
+  m_Layer: 6
+  m_Name: Dive Angle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7875099568419377506
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3514798752852965683}
+  m_LocalRotation: {x: -0.17364825, y: 0, z: 0, w: 0.9848078}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3227350303643282613}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: -20, y: 0, z: 0}
 --- !u!1 &3628686655125295176
 GameObject:
   m_ObjectHideFlags: 0
