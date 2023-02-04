@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public Transform originalCamPos;
     public Transform shoulderCamPos;
     public ParticleSystem waterSpray;
+    public GameObject light;
     private float playerAimRotSpeed = 10f;
     private Vector3 shoulderCamVelocity;
     private float fovSpeed;
@@ -117,6 +118,7 @@ public class PlayerController : MonoBehaviour
         Aim();
         Jumping();
         Shooting();
+        Lighting();
         AnimateMouth();
         UpdateAnimator();
     }
@@ -250,6 +252,19 @@ public class PlayerController : MonoBehaviour
         neededAccel = Vector3.ClampMagnitude(neededAccel, maxAccel);
 
         rb.AddForce(Vector3.Scale(neededAccel * rb.mass, forceScale));
+    }
+
+    void Lighting()
+    {
+        if(isLighting)
+        {
+            light.transform.forward = myCam.transform.forward;
+            light.SetActive(true);
+        }
+        else
+        {
+            light.SetActive(false);
+        }
     }
 
     void Shooting()
