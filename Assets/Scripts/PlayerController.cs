@@ -58,6 +58,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 groundVel = Vector3.zero;
 
     public bool isGrounded = false;
+    private bool justLanded = false;
     public float jumpForce = 10.0f;
 
     public float coyoteTime = 0.2f;
@@ -133,13 +134,19 @@ public class PlayerController : MonoBehaviour
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * rayDist, Color.red);
             _rayHit = hit;
             _rayDidHit = true;
+
             if (hit.rigidbody != null)
-            {
                 groundVel = hit.rigidbody.velocity;
+
+            if (!justLanded)
+            {
+                justLanded = true;
+                AudioManager.instance.PlayOneShotWithParameters("Land", transform);
             }
         }
         else
         {
+            justLanded = false;
             groundVel = Vector3.zero;
             _rayDidHit = false;
         }
@@ -352,6 +359,7 @@ public class PlayerController : MonoBehaviour
         if (coyoteCounter > 0.0f && jumpBufferCount >= 0.0f)
         {
             rb.velocity = new Vector3(rb.velocity.x, jumpForce * (isCrouching? 0.3f:1), rb.velocity.z);
+            AudioManager.instance.PlayOneShotWithParameters("Jump", transform);
             jumpBufferCount = 0.0f;
         }
     }
