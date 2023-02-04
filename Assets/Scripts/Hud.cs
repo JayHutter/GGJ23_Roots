@@ -27,10 +27,7 @@ public class Hud : MonoBehaviour
     private void Start()
     {
         eventSystem.SetSelectedGameObject(mainMenuStartButton.gameObject);
-        StartCoroutine(GameTimer());
         pc = PlayerController.instance;
-
-        isPlaying = true;
     }
 
     public void StartGame()
