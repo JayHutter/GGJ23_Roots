@@ -39,6 +39,8 @@ public class PlayerController : MonoBehaviour
     public float maxAccelForce = 10.0f;
     public float maxAccelForceFactor = 1.0f;
     public float airControl = 0.25f;
+    public float walkMult = 0.5f;
+    public float diveForce = 10;
     public AnimationCurve accelerationFactorFromDot;
     public Vector3 forceScale = new Vector3(1.0f, 1.0f, 1.0f);
 
@@ -53,6 +55,8 @@ public class PlayerController : MonoBehaviour
     private float coyoteCounter;
     public float jumpBufferLength = 0.1f;
     private float jumpBufferCount;
+    private bool canControl = true;
+    private bool isDiving = false;
 
     // inputs
     private Vector2 inputXZ;
@@ -84,6 +88,7 @@ public class PlayerController : MonoBehaviour
         myCam = Camera.main;
         _uprightJointTargetRot = transform.rotation;
         camFollow.position = originalCamPos.position;
+        speedFactor = walkMult;
 
         SubscribeInputs();
     }
@@ -119,11 +124,21 @@ public class PlayerController : MonoBehaviour
             coyoteCounter -= Time.deltaTime;
         }
 
-        TargetMovement();
+        if (isGrounded && isDiving)
+        {
+            isDiving = false;
+        }
+
         Aim();
-        Jumping();
-        Shooting();
-        Lighting();
+
+        if (canControl && !isDiving)
+        {
+            TargetMovement();
+            Jumping();
+            Shooting();
+            Lighting();
+        }
+        
         AnimateMouth();
         UpdateAnimator();
 
@@ -329,10 +344,22 @@ public class PlayerController : MonoBehaviour
 
     private void CrouchInput(InputAction.CallbackContext context)
     {
-        if (context.performed)
-            isCrouching = true;
-        else if (context.canceled)
-            isCrouching = false;
+        if (isGrounded)
+        {
+            if (context.performed)
+                isCrouching = true;
+            else if (context.canceled)
+                isCrouching = false;
+        }
+        else
+        {
+            if (context.started)
+            {
+                isDiving = true;
+                Vector3 vel = transform.forward * diveForce;
+                rb.velocity = vel;
+            } 
+        }
     }
 
     private void SprintInput(InputAction.CallbackContext context)
@@ -340,7 +367,7 @@ public class PlayerController : MonoBehaviour
         if (context.performed)
             speedFactor = 1;
         else if (context.canceled)
-            speedFactor = 0.5f;
+            speedFactor = walkMult;
     }
 
     private void ShootInput(InputAction.CallbackContext context)
@@ -425,7 +452,9 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateAnimator()
     {
-        float speed = Mathf.InverseLerp(0, maxSpeed, rb.velocity.magnitude);
+        var vel = rb.velocity;
+        Vector2 vel2D = new Vector2(vel.x, vel.z);
+        float speed = Mathf.InverseLerp(0, maxSpeed, vel2D.magnitude);
         playerAnimator.SetFloat("Speed", speed);
     }
 
