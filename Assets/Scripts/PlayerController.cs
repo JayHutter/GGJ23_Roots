@@ -7,6 +7,8 @@ using System.Net.NetworkInformation;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
+
     private Rigidbody rb;
     private Camera myCam;
     public CinemachineFreeLook virtualCam;
@@ -89,6 +91,14 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        if (instance)
+        {
+            Destroy(this);
+            return;
+        }
+
+        instance = this;
+
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         rb = GetComponent<Rigidbody>();
@@ -446,6 +456,7 @@ public class PlayerController : MonoBehaviour
     private void OnDestroy()
     {
         UnsubscribeInputs();
+        instance = null;
     }
 
     private void OnDrawGizmos()
