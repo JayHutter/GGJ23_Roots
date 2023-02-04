@@ -4,15 +4,40 @@ using UnityEngine;
 
 public class Flashlight : MonoBehaviour
 {
-    private Rigidbody currentLeaf;
+    public Rigidbody prevLeaf;
+    public Rigidbody currentLeaf;
     private float attraction = 80f;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Leaf"))
         {
+            if(prevLeaf != currentLeaf)
+                prevLeaf = other.GetComponent<Rigidbody>();
+
             currentLeaf = other.GetComponent<Rigidbody>();
             currentLeaf.isKinematic = false;
+        }
+    }
+
+    private void Update()
+    {
+        if (!gameObject.activeInHierarchy)
+        {
+            if (currentLeaf != null)
+            {
+                currentLeaf.isKinematic = true;
+                currentLeaf = null;
+            }
+
+            if (prevLeaf != null)
+                prevLeaf.isKinematic = true;
+        }
+
+        if (prevLeaf == currentLeaf)
+        {
+            if (prevLeaf != null)
+                prevLeaf.isKinematic = true;
         }
     }
 
@@ -26,8 +51,11 @@ public class Flashlight : MonoBehaviour
     {
         if (other.CompareTag("Leaf"))
         {
-            currentLeaf.isKinematic = true;
-            currentLeaf = null;
+            if(currentLeaf != null)
+            {
+                currentLeaf.isKinematic = true;
+                currentLeaf = null;
+            }
         }
     }
 
@@ -38,5 +66,8 @@ public class Flashlight : MonoBehaviour
             currentLeaf.isKinematic = true;
             currentLeaf = null;
         }
+
+        if (prevLeaf != null)
+            prevLeaf.isKinematic = true;
     }
 }
