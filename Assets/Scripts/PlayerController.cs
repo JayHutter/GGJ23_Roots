@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.iOS;
 
 public class PlayerController : MonoBehaviour
 {
@@ -44,6 +45,14 @@ public class PlayerController : MonoBehaviour
     // inputs
     private Vector2 inputXZ;
     private bool isJumping;
+
+    [Header("Player Animations")]
+    public FaceAnimator faceAnim;
+    public Animator playerAnimator;
+
+    [SerializeField] private bool enableHeadFollow = false;
+    public GameObject head;
+    [SerializeField] private float headSpeed = 1;
 
     private void Start()
     {
@@ -89,6 +98,8 @@ public class PlayerController : MonoBehaviour
 
         TakeInputs();
         Jumping();
+        AnimateMouth();
+        UpdateAnimator();
     }
 
     private void FixedUpdate()
@@ -123,6 +134,12 @@ public class PlayerController : MonoBehaviour
         }
         GroundMovement();
         UpdateUprightForce();
+    }
+
+    private void LateUpdate()
+    {
+        if (enableHeadFollow)
+            AimHead();
     }
 
     public static Quaternion ShortestRotation(Quaternion to, Quaternion from)
@@ -251,5 +268,29 @@ public class PlayerController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - (rideHeight - 0.05f), transform.position.z), 0.1f);
+    }
+
+    private void AimHead()
+    {
+        var lookRot = Quaternion.LookRotation(myCam.transform.position - head.transform.position);
+        head.transform.rotation = lookRot;
+    }
+
+    private void AnimateMouth()
+    {
+        if (isGrounded)
+        {
+            faceAnim.SetAnimationState(FaceAnimator.State.NORMAL);
+        }
+        else
+        {
+            faceAnim.SetAnimationState(FaceAnimator.State.OPEN);
+        }
+    }
+
+    private void UpdateAnimator()
+    {
+        float speed = Mathf.InverseLerp(0, maxSpeed, rb.velocity.magnitude);
+        playerAnimator.SetFloat("Speed", speed);
     }
 }
