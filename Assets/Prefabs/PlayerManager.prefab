@@ -53,7 +53,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7c736e328e2251540ba5631fc358d36b, type: 2}
+  - {fileID: 2100000, guid: 978d8be2c0eb5b64fa6f2a2b96462caa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -133,10 +133,10 @@ LineRenderer:
       m_Mode: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
-    numCornerVertices: 0
+    numCornerVertices: 4
     numCapVertices: 0
     alignment: 0
-    textureMode: 0
+    textureMode: 2
     shadowBias: 0.5
     generateLightingData: 0
   m_UseWorldSpace: 1
@@ -162,6 +162,7 @@ MonoBehaviour:
   segmentOffset: {x: -1, y: 0, z: 0}
   rootRigid: {fileID: 1102222914}
   lineStart: {fileID: 351229577}
+  lineEnd: {fileID: 0}
   staticPoint: {fileID: 0}
   extentionDistance: 2
 --- !u!1 &351229576
@@ -22495,7 +22496,6 @@ MonoBehaviour:
   normal: {fileID: 2800000, guid: 56d3d351d83458c4283a29e4e2c60440, type: 3}
   sad: {fileID: 2800000, guid: d6cf4c52c8567b044b776ba82dc67dd3, type: 3}
   open: {fileID: 2800000, guid: 3b3676092acf2c346926001d3b20fc2e, type: 3}
-  mouthMesh: {fileID: 1842480823068683031}
   decal: {fileID: 1189621555}
   currentState: 0
   previousState: 0

@@ -19,6 +19,7 @@ public class Rope : MonoBehaviour
     private List<ConfigurableJoint> nodes = new List<ConfigurableJoint>();
     public Rigidbody rootRigid;
     public Transform lineStart;
+    public Transform lineEnd;
     public Transform staticPoint;
     [SerializeField] private float extentionDistance = 0.5f;
     float maxLength;
@@ -61,13 +62,18 @@ public class Rope : MonoBehaviour
 
     private void UpdateLine()
     {
-        lineRender.positionCount = nodes.Count+2;
+        lineRender.positionCount = nodes.Count+2 + (lineEnd!=null? 1:0);
         lineRender.SetPosition(0, lineStart.position);
         lineRender.SetPosition(1, rootRigid.transform.position);
 
         for (int i = 0; i < nodes.Count; i++)
         {
             lineRender.SetPosition(i+2, nodes[i].transform.position);
+        }
+
+        if (lineEnd)
+        {
+            lineRender.SetPosition(lineRender.positionCount-1, lineEnd.position);
         }
     }
 
