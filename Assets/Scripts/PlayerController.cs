@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
     public float acceleration = 4.0f;
     public float maxAccelForce = 10.0f;
     public float maxAccelForceFactor = 1.0f;
+    public float airControl = 0.25f;
     public AnimationCurve accelerationFactorFromDot;
     public Vector3 forceScale = new Vector3(1.0f, 1.0f, 1.0f);
 
@@ -259,7 +260,7 @@ public class PlayerController : MonoBehaviour
         float maxAccel = maxAccelForce * maxAccelForceFactor;
         neededAccel = Vector3.ClampMagnitude(neededAccel, maxAccel);
 
-        rb.AddForce(Vector3.Scale(neededAccel * rb.mass, forceScale));
+        rb.AddForce(Vector3.Scale(neededAccel * rb.mass, forceScale * (isGrounded ? 1 : airControl)));
     }
 
     void Lighting()
@@ -337,9 +338,9 @@ public class PlayerController : MonoBehaviour
     private void SprintInput(InputAction.CallbackContext context)
     {
         if (context.performed)
-            isSprinting = true;
+            speedFactor = 1;
         else if (context.canceled)
-            isSprinting = false;
+            speedFactor = 0.5f;
     }
 
     private void ShootInput(InputAction.CallbackContext context)
