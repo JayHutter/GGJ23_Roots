@@ -13,6 +13,11 @@ public class PlayerController : MonoBehaviour
     public Transform camFollow;
     public Transform originalCamPos;
     public Transform shoulderCamPos;
+    private float playerAimRotSpeed = 10f;
+    private Vector3 shoulderCamVelocity;
+    private float fovSpeed;
+    private float normalFOV = 40f;
+    private float aimFOV = 20f;
 
     public float rayDist = 2.5f;
     public bool _rayDidHit = false;
@@ -188,6 +193,9 @@ public class PlayerController : MonoBehaviour
 
     void Movement()
     {
+        if (myCam == null)
+            return;
+
         Vector3 move = new Vector3(inputXZ.x, 0, inputXZ.y);
 
         move = myCam.transform.TransformDirection(move);
@@ -196,7 +204,7 @@ public class PlayerController : MonoBehaviour
             move.Normalize();
 
         float targetAngle = Mathf.Atan2(move.x, move.z) * Mathf.Rad2Deg + myCam.transform.rotation.y;
-        Quaternion rotation = Quaternion.Euler(transform.rotation.x, targetAngle - 180, transform.rotation.z);
+        Quaternion rotation = Quaternion.Euler(transform.rotation.x, targetAngle, transform.rotation.z);
 
         if (move.sqrMagnitude > 0.0f && !isAimingDown)
             transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * 10.0f);
@@ -206,16 +214,24 @@ public class PlayerController : MonoBehaviour
 
     void Aim()
     {
+        if (camFollow == null || myCam == null || shoulderCamPos == null || originalCamPos == null || virtualCam == null)
+        {
+            Debug.LogWarning("One of the camera transforms / virtual camera is not assigned");
+            return;
+        }
+
+        camFollow.eulerAngles = new Vector3(camFollow.eulerAngles.x, myCam.transform.eulerAngles.y, camFollow.eulerAngles.z);
+
         if (isAimingDown)
         {
-            camFollow.position = shoulderCamPos.position;
-            transform.eulerAngles = new Vector3(transform.eulerAngles.x, myCam.transform.eulerAngles.y, transform.eulerAngles.z);
-            virtualCam.m_Lens.FieldOfView = 20f;
+            camFollow.position = Vector3.SmoothDamp(camFollow.position, shoulderCamPos.position, ref shoulderCamVelocity, 0.1f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, camFollow.rotation, Time.deltaTime * playerAimRotSpeed);
+            virtualCam.m_Lens.FieldOfView = Mathf.SmoothDamp(virtualCam.m_Lens.FieldOfView, aimFOV, ref fovSpeed, 0.1f);
         }
         else
         {
-            camFollow.position = originalCamPos.position;
-            virtualCam.m_Lens.FieldOfView = 40f;
+            camFollow.position = Vector3.SmoothDamp(camFollow.position, originalCamPos.position, ref shoulderCamVelocity, 0.1f);
+            virtualCam.m_Lens.FieldOfView = Mathf.SmoothDamp(virtualCam.m_Lens.FieldOfView, normalFOV, ref fovSpeed, 0.1f);
         }
     }
 
