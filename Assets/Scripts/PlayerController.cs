@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.InputSystem;
+using System.Net.NetworkInformation;
 
 public class PlayerController : MonoBehaviour
 {
@@ -38,6 +39,11 @@ public class PlayerController : MonoBehaviour
     public float acceleration = 4.0f;
     public float maxAccelForce = 10.0f;
     public float maxAccelForceFactor = 1.0f;
+    public float airControl = 0.25f;
+    public float walkMult = 0.5f;
+    public float crawlMult = 0.25f;
+    public float diveForce = 10;
+    public Transform diveAngle;
     public AnimationCurve accelerationFactorFromDot;
     public Vector3 forceScale = new Vector3(1.0f, 1.0f, 1.0f);
 
@@ -52,6 +58,12 @@ public class PlayerController : MonoBehaviour
     private float coyoteCounter;
     public float jumpBufferLength = 0.1f;
     private float jumpBufferCount;
+    private bool canControl = true;
+    private bool isDiving = false;
+    public float crouchColScale = 0.5f;
+    private float colHeight;
+    private float colRadius;
+    CapsuleCollider collider;
 
     // inputs
     private Vector2 inputXZ;
@@ -83,6 +95,11 @@ public class PlayerController : MonoBehaviour
         myCam = Camera.main;
         _uprightJointTargetRot = transform.rotation;
         camFollow.position = originalCamPos.position;
+        speedFactor = walkMult;
+
+        collider = GetComponent<CapsuleCollider>();
+        colHeight = collider.height;
+        colRadius = collider.radius;
 
         SubscribeInputs();
     }
@@ -118,15 +135,24 @@ public class PlayerController : MonoBehaviour
             coyoteCounter -= Time.deltaTime;
         }
 
-        TargetMovement();
+        if (isGrounded && isDiving)
+        {
+            isDiving = false;
+            playerAnimator.SetBool("Diving", false);
+        }
+
         Aim();
-        Jumping();
-        Shooting();
-        Lighting();
+
+        if (canControl && !isDiving)
+        {
+            TargetMovement();
+            Jumping();
+            Shooting();
+            Lighting();
+        }
+        
         AnimateMouth();
         UpdateAnimator();
-
-        Debug.Log(tether.IsWithinDistance(transform.position));
 
         CheckTetherLength();
     }
@@ -259,7 +285,7 @@ public class PlayerController : MonoBehaviour
         float maxAccel = maxAccelForce * maxAccelForceFactor;
         neededAccel = Vector3.ClampMagnitude(neededAccel, maxAccel);
 
-        rb.AddForce(Vector3.Scale(neededAccel * rb.mass, forceScale));
+        rb.AddForce(Vector3.Scale(neededAccel * rb.mass, forceScale * (isGrounded ? 1 : airControl)));
     }
 
     void Lighting()
@@ -300,7 +326,7 @@ public class PlayerController : MonoBehaviour
 
         if (coyoteCounter > 0.0f && jumpBufferCount >= 0.0f)
         {
-            rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
+            rb.velocity = new Vector3(rb.velocity.x, jumpForce * (isCrouching? 0.3f:1), rb.velocity.z);
             jumpBufferCount = 0.0f;
         }
     }
@@ -328,18 +354,41 @@ public class PlayerController : MonoBehaviour
 
     private void CrouchInput(InputAction.CallbackContext context)
     {
-        if (context.performed)
-            isCrouching = true;
-        else if (context.canceled)
+        if (context.started)
+        {
+            if (isGrounded)
+            {
+                isCrouching = true;
+                speedFactor = crawlMult;
+            }
+            else if (!isDiving)
+            {
+                isDiving = true;
+                Vector3 vel = diveAngle.forward * diveForce;
+                rb.velocity = vel;
+                playerAnimator.SetBool("Diving", true);
+            }
+        }
+
+
+        if (context.canceled)
+        {
             isCrouching = false;
+            speedFactor = walkMult;
+        }
+
+        playerAnimator.SetBool("Crouched", isCrouching);
     }
 
     private void SprintInput(InputAction.CallbackContext context)
     {
+        if (isCrouching)
+            return;
+
         if (context.performed)
-            isSprinting = true;
+            speedFactor = 1;
         else if (context.canceled)
-            isSprinting = false;
+            speedFactor = walkMult;
     }
 
     private void ShootInput(InputAction.CallbackContext context)
@@ -424,7 +473,9 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateAnimator()
     {
-        float speed = Mathf.InverseLerp(0, maxSpeed, rb.velocity.magnitude);
+        var vel = rb.velocity;
+        Vector2 vel2D = new Vector2(vel.x, vel.z);
+        float speed = Mathf.InverseLerp(0, maxSpeed, vel2D.magnitude);
         playerAnimator.SetFloat("Speed", speed);
     }
 
@@ -433,7 +484,7 @@ public class PlayerController : MonoBehaviour
         if (!tether.IsWithinDistance(transform.position))
         {
             Vector3 dir = tether.GetDirectionTowardsEnd(transform.position);
-            rb.AddForce(dir * pullbackForce);
+            rb.velocity = dir * pullbackForce;
         }
     }
 
