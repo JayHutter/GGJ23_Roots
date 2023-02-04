@@ -95,6 +95,9 @@ public class PlayerController : MonoBehaviour
 
     public GameObject meleeTrail;
 
+    public int maxHealth = 5;
+    public int health;
+
     private void Start()
     {
         if (instance)
@@ -118,6 +121,7 @@ public class PlayerController : MonoBehaviour
         colRadius = collider.radius;
 
         SubscribeInputs();
+        health = maxHealth;
     }
 
     private void Update()
