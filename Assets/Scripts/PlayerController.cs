@@ -279,7 +279,10 @@ public class PlayerController : MonoBehaviour
     {
         if(isShooting)
         {
-            waterSpray.transform.forward = myCam.transform.forward;
+            if (isAimingDown)
+                waterSpray.transform.forward = myCam.transform.forward;
+            else
+                waterSpray.transform.forward = transform.forward;
             waterSpray.Play();
         }
         else
