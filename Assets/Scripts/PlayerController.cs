@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private float fovSpeed;
     private float normalFOV = 40f;
     private float aimFOV = 20f;
+    private float shootSFXTimer = 0.0f;
 
     public float rayDist = 2.5f;
     public bool _rayDidHit = false;
@@ -58,6 +59,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 groundVel = Vector3.zero;
 
     public bool isGrounded = false;
+    private bool justLanded = false;
     public float jumpForce = 10.0f;
 
     public float coyoteTime = 0.2f;
@@ -98,6 +100,13 @@ public class PlayerController : MonoBehaviour
     public int maxHealth = 5;
     public int health;
 
+    private float aimBlend = 0;
+    private float blendSpeed = 10;
+    private float aimSpeed = 100;
+
+    public Transform gunTransform;
+    public Quaternion heldRotation;
+
     private void Start()
     {
         if (instance)
@@ -122,6 +131,7 @@ public class PlayerController : MonoBehaviour
 
         SubscribeInputs();
         health = maxHealth;
+        heldRotation = gunTransform.localRotation;
     }
 
     private void Update()
@@ -133,13 +143,19 @@ public class PlayerController : MonoBehaviour
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * rayDist, Color.red);
             _rayHit = hit;
             _rayDidHit = true;
+
             if (hit.rigidbody != null)
-            {
                 groundVel = hit.rigidbody.velocity;
+
+            if (!justLanded)
+            {
+                justLanded = true;
+                AudioManager.instance.PlayOneShotWithParameters("Land", transform);
             }
         }
         else
         {
+            justLanded = false;
             groundVel = Vector3.zero;
             _rayDidHit = false;
         }
@@ -174,6 +190,7 @@ public class PlayerController : MonoBehaviour
         
         AnimateMouth();
         UpdateAnimator();
+        SetAimBlend();
 
         CheckTetherLength();
     }
@@ -285,11 +302,14 @@ public class PlayerController : MonoBehaviour
             camFollow.position = Vector3.SmoothDamp(camFollow.position, shoulderCamPos.position, ref shoulderCamVelocity, 0.1f);
             transform.rotation = Quaternion.Slerp(transform.rotation, camFollow.rotation, Time.deltaTime * playerAimRotSpeed);
             virtualCam.m_Lens.FieldOfView = Mathf.SmoothDamp(virtualCam.m_Lens.FieldOfView, aimFOV, ref fovSpeed, 0.1f);
+
+            gunTransform.rotation = Quaternion.RotateTowards(gunTransform.rotation, camFollow.rotation, Time.deltaTime * aimSpeed);
         }
         else
         {
             camFollow.position = Vector3.SmoothDamp(camFollow.position, originalCamPos.position, ref shoulderCamVelocity, 0.1f);
             virtualCam.m_Lens.FieldOfView = Mathf.SmoothDamp(virtualCam.m_Lens.FieldOfView, normalFOV, ref fovSpeed, 0.1f);
+            gunTransform.localRotation = heldRotation;
         }
     }
 
@@ -324,11 +344,19 @@ public class PlayerController : MonoBehaviour
 
     void Shooting()
     {
+        shootSFXTimer += Time.deltaTime;
         if(isShooting && waterTank.amount > 0)
         {
             waterTank.amount -= waterDrainRate * Time.deltaTime;
             waterSpray.transform.position = muzzle.transform.position;
             waterSpray.transform.rotation = muzzle.transform.rotation;
+
+            if (shootSFXTimer >= 0.05f)
+            {
+                AudioManager.instance.PlayOneShotWithParameters("Shoot", transform);
+                shootSFXTimer = 0.0f;
+            }
+
             if (isAimingDown)
                 waterSpray.transform.forward = myCam.transform.forward;
             else
@@ -352,6 +380,7 @@ public class PlayerController : MonoBehaviour
         if (coyoteCounter > 0.0f && jumpBufferCount >= 0.0f)
         {
             rb.velocity = new Vector3(rb.velocity.x, jumpForce * (isCrouching? 0.3f:1), rb.velocity.z);
+            AudioManager.instance.PlayOneShotWithParameters("Jump", transform);
             jumpBufferCount = 0.0f;
         }
     }
@@ -581,5 +610,12 @@ public class PlayerController : MonoBehaviour
         meleeTrail.GetComponentInChildren<TrailRenderer>().Clear();
 
         meleeTrail.SetActive(false);
+    }
+
+    private void SetAimBlend()
+    {
+        float target = (isShooting || isAimingDown ? 1 : 0);
+        aimBlend = Mathf.MoveTowards(aimBlend, target, Time.deltaTime * blendSpeed);
+        playerAnimator.SetLayerWeight(1, aimBlend);
     }
 }
