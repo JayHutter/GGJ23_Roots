@@ -915,6 +915,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 528589398715222504, guid: 0d1514ab2a2f68741b949d8b1790b2fb,
         type: 3}
+      propertyPath: g_tank
+      value: 
+      objectReference: {fileID: 641405262}
+    - target: {fileID: 528589398715222504, guid: 0d1514ab2a2f68741b949d8b1790b2fb,
+        type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 641405259}
@@ -2050,6 +2055,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 641405257}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &641405262 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1215936836, guid: cbcf451a4bee3b54d847dbeec5de92f9,
+    type: 3}
+  m_PrefabInstance: {fileID: 641405257}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d56181ab504fbb48b2aa56f8b278b05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &652385790
 GameObject:
   m_ObjectHideFlags: 0
