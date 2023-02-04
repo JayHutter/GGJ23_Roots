@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="AudioFile" id="{9beead6f-2fae-43a2-929d-f0f019f0d055}">
+		<property name="assetPath">
+			<value>SFX/Splash/403782-Single_Footstep_-Wet_Muddy_Water_Soft_Splash_Slosh_-02_007397_.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>96</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{d4702460-b65d-408b-bc37-62a736c156e6}</destination>
+		</relationship>
+	</object>
+</objects>
