@@ -111,4 +111,9 @@ public class Rope : MonoBehaviour
        
         maxLength = segmentCount * (segmentLength + extentionDistance);
     }
+
+    public float GetLength()
+    {
+        return maxLength;
+    }
 }
