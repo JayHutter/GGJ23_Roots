@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.iOS;
 
 public class Rope : MonoBehaviour
 {
@@ -10,11 +11,13 @@ public class Rope : MonoBehaviour
     [SerializeField] private int segmentCount;
     public ConfigurableJoint segmentPrefab;
     private ConfigurableJoint lastSegment;
+    private Rigidbody lastRigid;
     public float segmentLength = 1;
     [SerializeField] private Vector3 segmentOffset;
 
     private List<ConfigurableJoint> nodes = new List<ConfigurableJoint>();
     public Rigidbody rootRigid;
+    public Transform staticPoint;
 
     float maxLength;
 
@@ -39,11 +42,14 @@ public class Rope : MonoBehaviour
             nodes.Add(newSegment);
         }
 
-        var lastRigid = lastSegment.GetComponent<Rigidbody>();
+        lastRigid = lastSegment.GetComponent<Rigidbody>();
         lastRigid.isKinematic = true;
         lastRigid.useGravity = false;
 
         maxLength = segmentCount * segmentLength;
+
+
+        lastSegment.transform.position = staticPoint.transform.position;
     }
 
     private void FixedUpdate()
@@ -65,5 +71,32 @@ public class Rope : MonoBehaviour
     {
         float distSqr = (position - lastSegment.transform.position).sqrMagnitude;
         return distSqr < (maxLength * maxLength);
+    }
+
+    public Vector3 GetDirectionTowardsEnd(Vector3 fromPos)
+    {
+        return (lastSegment.transform.position - fromPos).normalized;
+    }
+
+    public void AddNode()
+    {
+        var newNode = Instantiate(segmentPrefab, lastSegment.transform.position + segmentOffset, Quaternion.identity, transform);
+        newNode.connectedBody = lastRigid;
+        nodes.Add(newNode);
+
+        var newRigid = newNode.GetComponent<Rigidbody>();
+        newRigid.isKinematic = true;
+        newRigid.useGravity = false;
+        newRigid.transform.position = staticPoint.position;
+
+        lastRigid.isKinematic = false;
+        lastRigid.useGravity = true;
+        lastSegment.transform.position = lastSegment.transform.position + segmentOffset * 3;
+
+        lastSegment = newNode;
+        lastRigid = newRigid;
+        segmentCount++;
+       
+        maxLength = segmentCount * segmentLength;
     }
 }

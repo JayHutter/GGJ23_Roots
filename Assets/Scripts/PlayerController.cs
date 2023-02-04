@@ -70,6 +70,8 @@ public class PlayerController : MonoBehaviour
     public GameObject head;
     [SerializeField] private float headSpeed = 1;
 
+    public float pullbackForce = 10;
+
     public Rope tether;
 
     private void Start()
@@ -122,6 +124,8 @@ public class PlayerController : MonoBehaviour
         UpdateAnimator();
 
         Debug.Log(tether.IsWithinDistance(transform.position));
+
+        CheckTetherLength();
     }
 
     private void FixedUpdate()
@@ -343,6 +347,8 @@ public class PlayerController : MonoBehaviour
         InputManager.onShoot += ShootInput;
         InputManager.onLight += LightInput;
         InputManager.onMelee += MeleeInput;
+
+        InputManager.onDebug1 += IncreaseRopeLengthTest;
     }
 
     private void UnsubscribeInputs()
@@ -355,6 +361,8 @@ public class PlayerController : MonoBehaviour
         InputManager.onShoot -= ShootInput;
         InputManager.onLight -= LightInput;
         InputManager.onMelee -= MeleeInput;
+
+        InputManager.onDebug1 -= IncreaseRopeLengthTest;
     }
 
     private void OnDestroy()
@@ -389,5 +397,20 @@ public class PlayerController : MonoBehaviour
     {
         float speed = Mathf.InverseLerp(0, maxSpeed, rb.velocity.magnitude);
         playerAnimator.SetFloat("Speed", speed);
+    }
+
+    private void CheckTetherLength()
+    {
+        if (!tether.IsWithinDistance(transform.position))
+        {
+            Vector3 dir = tether.GetDirectionTowardsEnd(transform.position);
+            rb.AddForce(dir * pullbackForce);
+        }
+    }
+
+    private void IncreaseRopeLengthTest(InputAction.CallbackContext context)
+    {
+        if (context.started)
+            tether.AddNode();
     }
 }

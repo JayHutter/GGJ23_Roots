@@ -19,6 +19,9 @@ public class InputManager : MonoBehaviour
     public static Action<InputAction.CallbackContext> onLight;
     public static Action<InputAction.CallbackContext> onPause;
 
+
+    public static Action<InputAction.CallbackContext> onDebug1;
+
     private void Start()
     {
         if (instance)
@@ -83,5 +86,10 @@ public class InputManager : MonoBehaviour
             onPause(context);
     }
 
+    public void OnDebug1(InputAction.CallbackContext context)
+    {
+        if (onDebug1 != null)
+            onDebug1(context);
+    }
 }
 
