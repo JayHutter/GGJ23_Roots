@@ -65,6 +65,8 @@ public class PlayerController : MonoBehaviour
     public GameObject head;
     [SerializeField] private float headSpeed = 1;
 
+    public Rope tether;
+
     private void Start()
     {
         Cursor.visible = false;
@@ -113,6 +115,8 @@ public class PlayerController : MonoBehaviour
         Jumping();
         AnimateMouth();
         UpdateAnimator();
+
+        Debug.Log(tether.IsWithinDistance(transform.position));
     }
 
     private void FixedUpdate()

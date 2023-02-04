@@ -10,16 +10,21 @@ public class Rope : MonoBehaviour
     [SerializeField] private int segmentCount;
     public ConfigurableJoint segmentPrefab;
     private ConfigurableJoint lastSegment;
+    public float segmentLength = 1;
     [SerializeField] private Vector3 segmentOffset;
 
     private List<ConfigurableJoint> nodes = new List<ConfigurableJoint>();
     public Rigidbody rootRigid;
 
+    float maxLength;
+
     private void Start()
     {
         lineRender = GetComponent<LineRenderer>();
+        segmentOffset.Normalize();
+        segmentOffset*= segmentLength;
 
-        var firstSegment = Instantiate(segmentPrefab, rootRigid.transform.position + segmentOffset, Quaternion.identity, transform);
+        var firstSegment = Instantiate(segmentPrefab, rootRigid.transform.position, Quaternion.identity, transform);
         firstSegment.connectedBody = rootRigid;
         nodes.Add(firstSegment);
         lastSegment = firstSegment;
@@ -37,6 +42,8 @@ public class Rope : MonoBehaviour
         var lastRigid = lastSegment.GetComponent<Rigidbody>();
         lastRigid.isKinematic = true;
         lastRigid.useGravity = false;
+
+        maxLength = segmentCount * segmentLength;
     }
 
     private void FixedUpdate()
@@ -52,5 +59,11 @@ public class Rope : MonoBehaviour
         {
             lineRender.SetPosition(i, nodes[i].transform.position);
         }
+    }
+
+    public bool IsWithinDistance(Vector3 position)
+    {
+        float distSqr = (position - lastSegment.transform.position).sqrMagnitude;
+        return distSqr < (maxLength * maxLength);
     }
 }
