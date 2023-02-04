@@ -25950,7 +25950,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7422019445029268898}
-  m_LocalRotation: {x: 0.046492685, y: 0.87529194, z: -0.085921854, w: 0.4736243}
+  m_LocalRotation: {x: 0.04649269, y: 0.87529194, z: -0.08592186, w: 0.47362423}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -26512,6 +26512,7 @@ GameObject:
   - component: {fileID: 7422019445831351661}
   - component: {fileID: 7422019445831351660}
   - component: {fileID: 7422019445831351663}
+  - component: {fileID: 1376935688}
   m_Layer: 6
   m_Name: CamOriginalPos
   m_TagString: Untagged
@@ -26632,9 +26633,29 @@ MonoBehaviour:
   jumpForce: 20
   coyoteTime: 0.2
   jumpBufferLength: 0.1
+  faceAnim: {fileID: 1376935688}
+  playerAnimator: {fileID: 5866666020522823062}
   enableHeadFollow: 0
   head: {fileID: 0}
   headSpeed: 1
+--- !u!114 &1376935688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7422019445831351662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dfbf3d6687d988409323e1e33c02535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  normal: {fileID: 2800000, guid: 56d3d351d83458c4283a29e4e2c60440, type: 3}
+  sad: {fileID: 2800000, guid: d6cf4c52c8567b044b776ba82dc67dd3, type: 3}
+  open: {fileID: 2800000, guid: 3b3676092acf2c346926001d3b20fc2e, type: 3}
+  mouthMesh: {fileID: 5933593489156864560}
+  currentState: 0
+  previousState: 0
 --- !u!1 &7422019445953801262
 GameObject:
   m_ObjectHideFlags: 0
@@ -27311,7 +27332,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 5436420f27d277c409ba6b53792ab5f0, type: 2}
+      objectReference: {fileID: 9100000, guid: 7916dbbe6441b3f43a30583a88107fe3, type: 2}
     - target: {fileID: 5866666021909216657, guid: 6fa3ccd0bcf38cf4484f63e4c5fe1dca,
         type: 3}
       propertyPath: m_ApplyRootMotion
@@ -28051,6 +28072,18 @@ Transform:
 --- !u!4 &5862482519844929643 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -3360889515629219732, guid: 6fa3ccd0bcf38cf4484f63e4c5fe1dca,
+    type: 3}
+  m_PrefabInstance: {fileID: 1390325767}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &5866666020522823062 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 6fa3ccd0bcf38cf4484f63e4c5fe1dca,
+    type: 3}
+  m_PrefabInstance: {fileID: 1390325767}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &5933593489156864560 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -3289778548547696073, guid: 6fa3ccd0bcf38cf4484f63e4c5fe1dca,
     type: 3}
   m_PrefabInstance: {fileID: 1390325767}
   m_PrefabAsset: {fileID: 0}
