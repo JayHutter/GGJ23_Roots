@@ -6,8 +6,8 @@ using UnityEngine.VFX;
 public class CollectablePuddle : CollectableBase
 {
     [Header("Puddle Variables")]
-    [SerializeField] private int            n_dropletIncrement  = 0;
-    //[SerializeField] private PLAYERSTATES g_player;
+    [SerializeField] private float          f_dropletIncrement  = 0;
+    [SerializeField] private WaterTank      g_tank;
 
     [SerializeField] private float          f_soakDelay         = 0.0f;
 
@@ -52,7 +52,11 @@ public class CollectablePuddle : CollectableBase
             {
                 f_timer = 0;
                 f_timerLimit -= f_soakDelay;
-                // g_player.n_vineLength += n_dropletIncrement;
+
+                g_tank.amount += f_dropletIncrement;
+
+                if (g_tank.amount >= 1.0f)
+                    g_tank.amount = 1.0f;
 
                 PlayEffects();
 
