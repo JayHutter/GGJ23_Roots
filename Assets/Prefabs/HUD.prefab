@@ -1765,6 +1765,8 @@ MonoBehaviour:
   healthText: {fileID: 6128417010780365546}
   tetherText: {fileID: 6128417012044945094}
   collectibleText: {fileID: 1336895699}
+  deathsText: {fileID: 6128417010989304371}
+  carrotText: {fileID: 6128417010055913653}
 --- !u!1 &6128417011547594608
 GameObject:
   m_ObjectHideFlags: 0

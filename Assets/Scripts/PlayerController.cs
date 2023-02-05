@@ -106,6 +106,8 @@ public class PlayerController : MonoBehaviour
 
     public Transform gunTransform;
     public Quaternion heldRotation;
+    public int deaths = 0;
+    public int carrots = 0;
 
     private void Start()
     {
@@ -628,5 +630,16 @@ public class PlayerController : MonoBehaviour
         float target = (isShooting || isAimingDown ? 1 : 0);
         aimBlend = Mathf.MoveTowards(aimBlend, target, Time.deltaTime * blendSpeed);
         playerAnimator.SetLayerWeight(1, aimBlend);
+    }
+
+    public void ApplyDamage(int damage)
+    {
+        health -= damage;
+
+        if (health <= 0)
+        {
+            Debug.Log("Kill player");
+            deaths++;
+        }
     }
 }
