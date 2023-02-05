@@ -7,6 +7,7 @@ public class PlantPot : MonoBehaviour
     public Transform startPos;
     public Transform endPos;
     public GameObject stem;
+    public float rateOfGrowth = 1f;
     public float totalWatered = 0f;
     [HideInInspector]
     public float watered = 0f;
@@ -22,7 +23,7 @@ public class PlantPot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        totalWatered += watered * Time.deltaTime;
+        totalWatered += watered * rateOfGrowth * Time.deltaTime;
         stem.transform.position = Vector3.Lerp(startPos.position, endPos.position, totalWatered);
         watered = 0.0f;
     }

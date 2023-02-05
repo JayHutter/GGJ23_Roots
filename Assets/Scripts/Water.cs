@@ -16,7 +16,6 @@ public class Water : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
-        Debug.Log(other.name);
         int numCollisionEvents = part.GetCollisionEvents(other, collisionEvents);
         int i = 0;
 
@@ -32,7 +31,11 @@ public class Water : MonoBehaviour
 
         if (other.layer == LayerMask.NameToLayer("Growable"))
         {
-            other.transform.root.GetComponent<PlantPot>().watered += power;
+            if(other.transform.GetComponent<Growable>() != null)
+            {
+                if(other.transform.GetComponent<Growable>().plant != null)
+                    other.transform.GetComponent<Growable>().plant.watered += power;
+            }
         }
     }
 }
