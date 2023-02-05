@@ -11,7 +11,7 @@ public class CollectableBobbing : MonoBehaviour
     private void Start()
     {
         f_startingY
-            = transform.position.y;
+            = transform.localPosition.y;
     }
 
     private void Update()
@@ -26,13 +26,13 @@ public class CollectableBobbing : MonoBehaviour
     /// </summary>
     private void Bob()
     {
-        transform.position
+        transform.localPosition
             = new Vector3
             (
-                transform.position.x,
+                transform.localPosition.x,
                 f_startingY +
                 ((float)Math.Sin(Time.time * f_floatBobSpeed) * f_floatStrength),
-                transform.position.z
+                transform.localPosition.z
             );
     }
 
