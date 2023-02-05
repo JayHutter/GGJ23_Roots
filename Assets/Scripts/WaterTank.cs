@@ -34,7 +34,6 @@ public class WaterTank : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        amount = 1f;
         GetMeshAndRend();
     }
 
