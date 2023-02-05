@@ -69,9 +69,7 @@ public class PlayerController : MonoBehaviour
     private bool canControl = true;
     private bool isDiving = false;
     public float crouchColScale = 0.5f;
-    private float colHeight;
-    private float colRadius;
-    CapsuleCollider collider;
+    public CapsuleCollider col;
 
     // inputs
     private Vector2 inputXZ;
@@ -124,10 +122,6 @@ public class PlayerController : MonoBehaviour
         _uprightJointTargetRot = transform.rotation;
         camFollow.position = originalCamPos.position;
         speedFactor = walkMult;
-
-        collider = GetComponent<CapsuleCollider>();
-        colHeight = collider.height;
-        colRadius = collider.radius;
 
         SubscribeInputs();
         health = maxHealth;
@@ -183,11 +177,11 @@ public class PlayerController : MonoBehaviour
         {
             TargetMovement();
             Jumping();
-            Shooting();
             Lighting();
             Attack();
         }
-        
+
+        Shooting();
         AnimateMouth();
         UpdateAnimator();
         SetAimBlend();
@@ -414,6 +408,7 @@ public class PlayerController : MonoBehaviour
             {
                 isCrouching = true;
                 speedFactor = crawlMult;
+                gameObject.layer = LayerMask.NameToLayer("PlayerCrouched");
             }
             else if (!isDiving)
             {
@@ -429,6 +424,7 @@ public class PlayerController : MonoBehaviour
         {
             isCrouching = false;
             speedFactor = walkMult;
+            gameObject.layer = LayerMask.NameToLayer("Player");
         }
 
         playerAnimator.SetBool("Crouched", isCrouching);

@@ -16,8 +16,8 @@ TagManager:
   - Light
   - Tether
   - Growable
-  - 
-  - 
+  - PlayerCrouched
+  - Crouchable
   - 
   - 
   - 

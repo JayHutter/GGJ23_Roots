@@ -70,7 +70,7 @@ MonoBehaviour:
   f_collectableSpeedMax: 5
   f_collectableAcceleration: 0.1
   f_timerLimit: 0
-  n_dropletIncrement: 3
+  n_dropletIncrement: 5
 --- !u!135 &7396204421524798348
 SphereCollider:
   m_ObjectHideFlags: 0
