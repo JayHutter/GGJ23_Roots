@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028328, g: 0.22571322, b: 0.30692163, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7272,6 +7272,12 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!2083052967 &536339335 stripped
+VisualEffect:
+  m_CorrespondingSourceObject: {fileID: 4600205282827756043, guid: cbcf451a4bee3b54d847dbeec5de92f9,
+    type: 3}
+  m_PrefabInstance: {fileID: 641405257}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &547704410
 Mesh:
   m_ObjectHideFlags: 0
@@ -8321,17 +8327,17 @@ PrefabInstance:
     - target: {fileID: 3227350302703278962, guid: cbcf451a4bee3b54d847dbeec5de92f9,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.0636664
+      value: 0.063666396
       objectReference: {fileID: 0}
     - target: {fileID: 3227350302703278962, guid: cbcf451a4bee3b54d847dbeec5de92f9,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.8715931
+      value: 0.87159306
       objectReference: {fileID: 0}
     - target: {fileID: 3227350302703278962, guid: cbcf451a4bee3b54d847dbeec5de92f9,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.117660075
+      value: -0.11766007
       objectReference: {fileID: 0}
     - target: {fileID: 3227350302907993581, guid: cbcf451a4bee3b54d847dbeec5de92f9,
         type: 3}
@@ -16617,6 +16623,12 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &849526314 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4352118658051781064, guid: cbcf451a4bee3b54d847dbeec5de92f9,
+    type: 3}
+  m_PrefabInstance: {fileID: 641405257}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &874475703
 Mesh:
   m_ObjectHideFlags: 0
@@ -18234,6 +18246,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 971487418}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &975371081 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5118618659034111089, guid: cbcf451a4bee3b54d847dbeec5de92f9,
+    type: 3}
+  m_PrefabInstance: {fileID: 641405257}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &977308086
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38272,6 +38290,12 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!2083052967 &1467127130 stripped
+VisualEffect:
+  m_CorrespondingSourceObject: {fileID: 8619417544354614190, guid: cbcf451a4bee3b54d847dbeec5de92f9,
+    type: 3}
+  m_PrefabInstance: {fileID: 641405257}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &1481205191
 Mesh:
   m_ObjectHideFlags: 0
@@ -79975,6 +79999,21 @@ PrefabInstance:
       propertyPath: m_VersionIndex
       value: 850
       objectReference: {fileID: 0}
+    - target: {fileID: 552354508281712066, guid: 1b5b70aa8742e824594a2dc608bb7219,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 849526314}
+    - target: {fileID: 552354508281712066, guid: 1b5b70aa8742e824594a2dc608bb7219,
+        type: 3}
+      propertyPath: g_player
+      value: 
+      objectReference: {fileID: 975371081}
+    - target: {fileID: 552354508281712066, guid: 1b5b70aa8742e824594a2dc608bb7219,
+        type: 3}
+      propertyPath: vfxSparks
+      value: 
+      objectReference: {fileID: 536339335}
     - target: {fileID: 552772830859037543, guid: 1b5b70aa8742e824594a2dc608bb7219,
         type: 3}
       propertyPath: m_Mesh
@@ -80555,6 +80594,16 @@ PrefabInstance:
       propertyPath: m_VersionIndex
       value: 714
       objectReference: {fileID: 0}
+    - target: {fileID: 4786969139694688423, guid: 1b5b70aa8742e824594a2dc608bb7219,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 849526314}
+    - target: {fileID: 4786969139694688423, guid: 1b5b70aa8742e824594a2dc608bb7219,
+        type: 3}
+      propertyPath: vfxSparks
+      value: 
+      objectReference: {fileID: 1467127130}
     - target: {fileID: 4919063889429471237, guid: 1b5b70aa8742e824594a2dc608bb7219,
         type: 3}
       propertyPath: m_Mesh
