@@ -973,7 +973,7 @@ PrefabInstance:
     - target: {fileID: 374317871267633633, guid: 135780a3a17a7944bae0dc573c7011b6,
         type: 3}
       propertyPath: collectionName
-      value: A loon into the past
+      value: A look into the past
       objectReference: {fileID: 0}
     - target: {fileID: 374317871267633645, guid: 135780a3a17a7944bae0dc573c7011b6,
         type: 3}
