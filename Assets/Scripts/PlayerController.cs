@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviour
     public int deaths = 0;
     public int carrots = 0;
 
-    Vector3 checkPoint;
+    public CheckPoint currentCheckPoint;
 
     private void Start()
     {
@@ -132,7 +132,6 @@ public class PlayerController : MonoBehaviour
         SubscribeInputs();
         health = maxHealth;
         heldRotation = gunTransform.localRotation;
-        checkPoint = transform.position;
     }
 
     private void Update()
@@ -648,7 +647,8 @@ public class PlayerController : MonoBehaviour
 
     private void Death()
     {
-        transform.position = checkPoint;
+        transform.position = currentCheckPoint.location.position;
+        transform.rotation = currentCheckPoint.location.rotation;
         health = 5;
     }
 }
