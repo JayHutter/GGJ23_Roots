@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Brown
+  m_Name: Soil
   m_Shader: {fileID: -6465566751694194690, guid: 8b6f16f251c22b748a9c8ae6991d32e9,
     type: 3}
   m_ValidKeywords:
