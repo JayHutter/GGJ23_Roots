@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using UnityEngine.VFX;
 
 public class CollectableDroplet : CollectableBase
 {
@@ -9,8 +11,6 @@ public class CollectableDroplet : CollectableBase
 
     protected override void DestroyCollectable()
     {
-        // g_player.n_vineLength += n_dropletIncrement;
-
         //StartCoroutine(PlayerController.instance.AddTetherSegments(n_dropletIncrement));
         PlayerController.instance.AddTetherSegments(n_dropletIncrement);
         Debug.Log("Collected " + collectionName); //will output to hud
@@ -23,6 +23,22 @@ public class CollectableDroplet : CollectableBase
         if (Hud.instance)
             Hud.instance.ShowCollectibleTextFor(collectionName, 2.5f);
 
-        base.DestroyCollectable();
+        b_magnetismEnable
+            = false;
+
+        GetComponent<Collider>().enabled
+            = false;
+
+        transform.GetChild(0).GetComponent<VisualEffect>().Stop();
+        transform.GetChild(1).gameObject.SetActive(false);
+
+        StartCoroutine(LetParticlesDie());
+    }
+
+    private IEnumerator LetParticlesDie()
+    {
+        yield return new WaitForSecondsRealtime(6.0f);
+
+        Destroy(gameObject);
     }
 }
