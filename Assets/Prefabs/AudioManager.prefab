@@ -166,3 +166,27 @@ MonoBehaviour:
         Data3: -988086654
         Data4: 1428179292
       Path: event:/SFX/AntFootsteps
+  - Name: Death
+    sfxPath:
+      Guid:
+        Data1: 641037331
+        Data2: 1093284131
+        Data3: 1566353537
+        Data4: -560694747
+      Path: event:/SFX/Death
+  - Name: EmptyGun
+    sfxPath:
+      Guid:
+        Data1: 1207762954
+        Data2: 1339468820
+        Data3: 576180875
+        Data4: 519189910
+      Path: event:/SFX/EmptyGun
+  - Name: Crouchsteps
+    sfxPath:
+      Guid:
+        Data1: -53391036
+        Data2: 1087755947
+        Data3: 338886062
+        Data4: 1051975082
+      Path: event:/SFX/Crouchsteps

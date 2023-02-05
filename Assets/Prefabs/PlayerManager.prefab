@@ -28102,7 +28102,7 @@ MonoBehaviour:
   _rayDidHit: 0
   ground:
     serializedVersion: 2
-    m_Bits: 7
+    m_Bits: 2567
   rideHeight: 0.35
   rideSpringStrength: 80
   rideSpringDamper: 7
@@ -29334,6 +29334,7 @@ GameObject:
   - component: {fileID: 5495284493165676235}
   - component: {fileID: 1919378918988029105}
   - component: {fileID: 5461060247769801063}
+  - component: {fileID: 1001221453}
   m_Layer: 0
   m_Name: Vinny
   m_TagString: Untagged
@@ -29494,6 +29495,18 @@ MonoBehaviour:
   m_ReferenceObject: {fileID: 0}
   m_DistanceToObject: 20
   m_Multithread: 1
+--- !u!114 &1001221453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5118618659034111089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b458b3d458701b04db7cf4dbc29385c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5259746085402413181
 GameObject:
   m_ObjectHideFlags: 0

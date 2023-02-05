@@ -92,6 +92,12 @@
 		<property name="length">
 			<value>1.05</value>
 		</property>
+		<property name="pitch">
+			<value>6.5</value>
+		</property>
+		<property name="playlistMode">
+			<value>1</value>
+		</property>
 		<relationship name="modulators">
 			<destination>{3e49767a-474f-462f-ae1d-99fac73ad120}</destination>
 		</relationship>

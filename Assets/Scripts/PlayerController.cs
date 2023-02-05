@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     public GameObject flashlight;
     private float waterDrainRate = 0.1f;
     public WaterTank waterTank;
+    private bool blankSFX = true;
     private float playerAimRotSpeed = 10f;
     private Vector3 shoulderCamVelocity;
     private float fovSpeed;
@@ -60,9 +61,10 @@ public class PlayerController : MonoBehaviour
 
     public bool isGrounded = false;
     private bool justLanded = false;
+    private bool justJumped = false;
     public float jumpForce = 10.0f;
 
-    public float coyoteTime = 0.2f;
+    public float coyoteTime = 0.5f;
     private float coyoteCounter;
     public float jumpBufferLength = 0.1f;
     private float jumpBufferCount;
@@ -140,7 +142,19 @@ public class PlayerController : MonoBehaviour
 
             if (hit.rigidbody != null)
                 groundVel = hit.rigidbody.velocity;
+        }
+        else
+        {
+            groundVel = Vector3.zero;
+            _rayDidHit = false;
+        }
 
+        isGrounded = Physics.CheckSphere(new Vector3(transform.position.x, transform.position.y - (rideHeight - 0.05f), transform.position.z), 0.1f, ground, QueryTriggerInteraction.Ignore);
+
+        if (isGrounded)
+        {
+            justJumped = false;
+            coyoteCounter = coyoteTime;
             if (!justLanded)
             {
                 justLanded = true;
@@ -150,18 +164,6 @@ public class PlayerController : MonoBehaviour
         else
         {
             justLanded = false;
-            groundVel = Vector3.zero;
-            _rayDidHit = false;
-        }
-
-        isGrounded = Physics.CheckSphere(new Vector3(transform.position.x, transform.position.y - (rideHeight - 0.05f), transform.position.z), 0.1f, ground, QueryTriggerInteraction.Ignore);
-
-        if (isGrounded)
-        {
-            coyoteCounter = coyoteTime;
-        }
-        else
-        {
             coyoteCounter -= Time.deltaTime;
         }
 
@@ -361,6 +363,11 @@ public class PlayerController : MonoBehaviour
         else
         {
             waterSpray.Stop();
+            if(!blankSFX)
+            {
+                AudioManager.instance.PlayOneShotWithParameters("EmptyGun", transform);
+                blankSFX = true;
+            }
         }
     }
 
@@ -371,11 +378,12 @@ public class PlayerController : MonoBehaviour
         else
             jumpBufferCount -= Time.deltaTime;
 
-        if (coyoteCounter > 0.0f && jumpBufferCount >= 0.0f)
+        if (coyoteCounter > 0.0f && jumpBufferCount >= 0.0f && !justJumped)
         {
             rb.velocity = new Vector3(rb.velocity.x, jumpForce * (isCrouching? 0.3f:1), rb.velocity.z);
             AudioManager.instance.PlayOneShotWithParameters("Jump", transform);
             jumpBufferCount = 0.0f;
+            justJumped = true;
         }
     }
 
@@ -444,9 +452,15 @@ public class PlayerController : MonoBehaviour
     private void ShootInput(InputAction.CallbackContext context)
     {
         if (context.performed)
+        {
             isShooting = true;
+            blankSFX = false;
+        }
         else if (context.canceled)
+        {
             isShooting = false;
+            blankSFX = true;
+        }
     }
 
     private void LightInput(InputAction.CallbackContext context)
