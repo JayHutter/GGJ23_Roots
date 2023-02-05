@@ -49,11 +49,11 @@ MonoBehaviour:
   sfxVolume: 0.5
   ambienceEvent:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 938221122
+      Data2: 1198243413
+      Data3: 7594374
+      Data4: -1211474207
+    Path: event:/Background/Ambience
   musicEvent:
     Guid:
       Data1: 0
@@ -158,3 +158,11 @@ MonoBehaviour:
         Data3: -564393551
         Data4: 395266706
       Path: event:/SFX/Hit
+  - Name: AntFootsteps
+    sfxPath:
+      Guid:
+        Data1: -1508635858
+        Data2: 1269982988
+        Data3: -988086654
+        Data4: 1428179292
+      Path: event:/SFX/AntFootsteps

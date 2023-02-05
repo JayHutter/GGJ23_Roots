@@ -54,7 +54,7 @@ public class AudioManager : MonoBehaviour
         masterBus = RuntimeManager.GetBus("Bus:/");
         //backgroundBus = RuntimeManager.GetBus("Bus:/Master/Background");
         //sfxBus = RuntimeManager.GetBus("Bus:/Master/SFX");
-        //StartAmbience();
+        StartAmbience();
         //StartMusic();
     }
 
