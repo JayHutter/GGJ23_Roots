@@ -26,7 +26,15 @@ public class CollectableTreasure : CollectableBase
         if (p_particle != null)
             p_particle.Play();
 
+        b_magnetismEnable
+            = false;
+
+        GetComponent<Collider>().enabled
+            = false;
+
+        transform.GetChild(0).GetComponent<VisualEffect>().Stop();
         transform.GetChild(1).gameObject.SetActive(false);
+
         PlayEffects();
         AudioManager.instance.PlayOneShotWithParameters("VineBoom", transform);
     }
@@ -81,6 +89,13 @@ public class CollectableTreasure : CollectableBase
         }
 
         mat.SetFloat("_Transparency", 0.0f);
+
+        StartCoroutine(LetParticlesDie());
+    }
+
+    private IEnumerator LetParticlesDie()
+    {
+        yield return new WaitForSecondsRealtime(6.0f);
 
         Destroy(gameObject);
     }

@@ -17,10 +17,10 @@ MonoBehaviour:
   categories: []
   uiBounds:
     serializedVersion: 2
-    x: 298
+    x: 715
     y: -190
-    width: 1069
-    height: 1881
+    width: 651
+    height: 1930
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1024,7 +1024,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614591}
   - {fileID: 8926484042661614660}
   - {fileID: 8926484042661614593}
-  m_UIPosition: {x: 942, y: 934}
+  m_UIPosition: {x: 942, y: 984}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
@@ -1939,7 +1939,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614666}
   m_ExposedName: ParticleColour
   m_Exposed: 1
-  m_Order: 2
+  m_Order: 1
   m_Category: 
   m_Min:
     m_Type:
