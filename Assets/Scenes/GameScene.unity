@@ -3950,7 +3950,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-57226
+  m_Name: pb_Mesh-12372
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6596,6 +6596,12 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!2083052967 &484583363 stripped
+VisualEffect:
+  m_CorrespondingSourceObject: {fileID: 8619417544354614190, guid: cbcf451a4bee3b54d847dbeec5de92f9,
+    type: 3}
+  m_PrefabInstance: {fileID: 641405257}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &489926881
 Mesh:
   m_ObjectHideFlags: 0
@@ -25756,6 +25762,12 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1244982321 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4352118658051781064, guid: cbcf451a4bee3b54d847dbeec5de92f9,
+    type: 3}
+  m_PrefabInstance: {fileID: 641405257}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &1247191697
 Mesh:
   m_ObjectHideFlags: 0
@@ -43280,6 +43292,12 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!2083052967 &1872980076 stripped
+VisualEffect:
+  m_CorrespondingSourceObject: {fileID: 4600205282827756043, guid: cbcf451a4bee3b54d847dbeec5de92f9,
+    type: 3}
+  m_PrefabInstance: {fileID: 641405257}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1876322090
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50669,6 +50687,12 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &2081109793 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5118618659034111089, guid: cbcf451a4bee3b54d847dbeec5de92f9,
+    type: 3}
+  m_PrefabInstance: {fileID: 641405257}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2102831533
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -77882,6 +77906,21 @@ PrefabInstance:
       propertyPath: m_VersionIndex
       value: 844
       objectReference: {fileID: 0}
+    - target: {fileID: 552354508281712066, guid: 1b5b70aa8742e824594a2dc608bb7219,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1244982321}
+    - target: {fileID: 552354508281712066, guid: 1b5b70aa8742e824594a2dc608bb7219,
+        type: 3}
+      propertyPath: g_player
+      value: 
+      objectReference: {fileID: 2081109793}
+    - target: {fileID: 552354508281712066, guid: 1b5b70aa8742e824594a2dc608bb7219,
+        type: 3}
+      propertyPath: vfxSparks
+      value: 
+      objectReference: {fileID: 1872980076}
     - target: {fileID: 552772830859037543, guid: 1b5b70aa8742e824594a2dc608bb7219,
         type: 3}
       propertyPath: m_Mesh
@@ -78462,6 +78501,16 @@ PrefabInstance:
       propertyPath: m_VersionIndex
       value: 708
       objectReference: {fileID: 0}
+    - target: {fileID: 4786969139694688423, guid: 1b5b70aa8742e824594a2dc608bb7219,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1244982321}
+    - target: {fileID: 4786969139694688423, guid: 1b5b70aa8742e824594a2dc608bb7219,
+        type: 3}
+      propertyPath: vfxSparks
+      value: 
+      objectReference: {fileID: 484583363}
     - target: {fileID: 4919063889429471237, guid: 1b5b70aa8742e824594a2dc608bb7219,
         type: 3}
       propertyPath: m_Mesh
