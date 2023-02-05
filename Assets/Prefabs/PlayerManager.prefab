@@ -27363,8 +27363,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3227350301900414962}
-  m_LocalRotation: {x: 0.10894748, y: 0.33510396, z: -0.039044846, w: 0.93504614}
-  m_LocalPosition: {x: -6.3518295, y: 2.75, z: -7.7236176}
+  m_LocalRotation: {x: 0.077478305, y: 0.33583158, z: -0.027730038, w: 0.93832046}
+  m_LocalPosition: {x: -6.4481964, y: 2.0721314, z: -7.854271}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -27856,7 +27856,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3227350302323342469}
-  m_LocalRotation: {x: 0.091966465, y: 0.3357571, z: -0.032959145, w: 0.9368687}
+  m_LocalRotation: {x: 0.060443047, y: 0.33627936, z: -0.021632995, w: 0.9395716}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -27934,7 +27934,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3227350302703278960}
-  m_LocalRotation: {x: 0.063666396, y: 0.87159306, z: -0.11766007, w: 0.47162297}
+  m_LocalRotation: {x: 0.0636664, y: 0.8715931, z: -0.117660075, w: 0.47162297}
   m_LocalPosition: {x: -2.0192566, y: 0, z: 13.193985}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -28012,7 +28012,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3227350302907993571}
-  m_LocalRotation: {x: 0.10894748, y: 0.33510396, z: -0.03904484, w: 0.9350462}
+  m_LocalRotation: {x: 0.077478305, y: 0.33583158, z: -0.027730031, w: 0.9383205}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -28269,6 +28269,7 @@ GameObject:
   - component: {fileID: 3227350303643282507}
   - component: {fileID: 3227350303643282504}
   - component: {fileID: 5461060249369431599}
+  - component: {fileID: 652123768}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -28348,6 +28349,7 @@ MonoBehaviour:
   waterSpray: {fileID: 1259333821753457848}
   muzzle: {fileID: 7822546325278020722}
   flashlight: {fileID: 2063129088}
+  landFX: {fileID: 9169060408857036460, guid: 094e337468072ab44a960b54b3243338, type: 3}
   waterTank: {fileID: 1215936836}
   rayDist: 0.5
   _rayDidHit: 0
@@ -28421,6 +28423,9 @@ MonoBehaviour:
   health: 0
   gunTransform: {fileID: 6868647040537439584}
   heldRotation: {x: 0, y: 0, z: 0, w: 0}
+  deaths: 0
+  carrots: 0
+  currentCheckPoint: {fileID: 0}
 --- !u!114 &5461060249369431599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28439,6 +28444,59 @@ MonoBehaviour:
   decal: {fileID: 1189621555}
   currentState: 0
   previousState: 0
+--- !u!114 &652123768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3227350303643282505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 1
+    m_ImpulseShape: 2
+    m_CustomImpulseShape:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_ImpulseDuration: 0.2
+    m_ImpulseType: 0
+    m_DissipationRate: 0.25
+    m_RawSignal: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0.2
+      m_DecayTime: 0.7
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 100
+    m_PropagationSpeed: 343
+  m_DefaultVelocity: {x: 0, y: -1, z: 0}
 --- !u!1 &3247398472760376986
 GameObject:
   m_ObjectHideFlags: 0
