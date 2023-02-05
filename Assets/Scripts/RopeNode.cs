@@ -20,16 +20,4 @@ public class RopeNode : MonoBehaviour
         disableDistanceSqr = disableDistance * disableDistance;
         col = GetComponent<Collider>();
     }
-
-    private void Update()
-    {
-        //CheckDistanceToPlayer();
-    }
-
-    private void CheckDistanceToPlayer()
-    {
-        float distSqr = (transform.position - playerTransform.position).sqrMagnitude;
-        col.enabled = distSqr < disableDistanceSqr;
-
-    }
 }

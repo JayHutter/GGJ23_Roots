@@ -40,6 +40,9 @@ public class CollectableBase : MonoBehaviour
     /// </summary>
     protected void CollectableMagnetism()
     {
+        if (!g_player)
+            return;
+
         float dist
             = Vector3.Distance
             (

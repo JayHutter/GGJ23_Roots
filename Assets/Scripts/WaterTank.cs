@@ -1,3 +1,4 @@
+using Mono.Cecil.Cil;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -144,5 +145,18 @@ public class WaterTank : MonoBehaviour
             }
         }
         return lowestVert.y;
+    }
+
+    public void AddWater(float increment)
+    {
+        amount += increment;
+
+        if (amount >= 1)
+            amount = 1;
+    }
+
+    public bool IsFull()
+    {
+        return amount >= 1;
     }
 }

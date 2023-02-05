@@ -15,7 +15,8 @@ public class CollectableTreasure : CollectableBase
 
     private void Start()
     {
-        vfxSparks.Stop();
+        if (vfxSparks)
+            vfxSparks.Stop();
     }
 
     protected override void DestroyCollectable()
@@ -33,8 +34,11 @@ public class CollectableTreasure : CollectableBase
 
     private void PlayEffects()
     {
-        vfxSparks.Play();
-        StartCoroutine(GlowUp());
+        if (vfxSparks)
+            vfxSparks.Play();
+
+        if (player)
+            StartCoroutine(GlowUp());
     }
 
     private IEnumerator GlowUp()

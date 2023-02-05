@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.VFX;
+using FMOD.Studio;
 
 [RequireComponent(typeof(SphereCollider))]
 public class CollectablePuddle : CollectableBase
@@ -17,15 +18,18 @@ public class CollectablePuddle : CollectableBase
     private SphereCollider                  sphereCollider;
 
     private float                           amount              = 3.0f;
-    private float                           maxAmount           = 3.0f;
+    [SerializeField] private float                           maxAmount           = 3.0f;
 
     [Header("Player VFX Variables")]
     [SerializeField] private VisualEffect   vfxSparks;
     [SerializeField] private GameObject     player;
 
+    public bool isInfinite = false;
+
     private void Start()
     {
-        vfxSparks.Stop();
+        if (vfxSparks)
+            vfxSparks.Stop();
 
         amount
             = maxAmount;
@@ -43,20 +47,20 @@ public class CollectablePuddle : CollectableBase
     {
         if (c.tag == "Player" && b_soakEnabled)
         {
+            g_tank = c.GetComponentInChildren<WaterTank>();
+
+            if (amount <= 0 || g_tank.IsFull())
+                return;
+
             f_timer += Time.deltaTime;
             amount  -= Time.deltaTime;
-
-            vfx.SetFloat("Scale", Mathf.InverseLerp(0, maxAmount, amount));
 
             if (f_timer > f_soakDelay)
             {
                 f_timer = 0;
                 f_timerLimit -= f_soakDelay;
 
-                g_tank.amount += f_dropletIncrement;
-
-                if (g_tank.amount >= 1.0f)
-                    g_tank.amount = 1.0f;
+                g_tank.AddWater(f_dropletIncrement);
 
                 PlayEffects();
 
@@ -66,15 +70,21 @@ public class CollectablePuddle : CollectableBase
                     p_particle.Play();
             }
 
-            if (f_timerLimit <= 0)
+            //if (f_timerLimit <= 0)
+            if (amount <= 0)
+            {
                 DestroyCollectable();
+            }
         }
     }
 
     private void PlayEffects()
     {
-        vfxSparks.Play();
-        StartCoroutine(GlowUp());
+        if (vfxSparks)
+            vfxSparks.Play();
+
+        if (player)
+            StartCoroutine(GlowUp());
     }
 
     private IEnumerator GlowUp()
@@ -99,7 +109,8 @@ public class CollectablePuddle : CollectableBase
 
     private IEnumerator GlowDown()
     {
-        vfxSparks.Stop();
+        if (vfxSparks)
+            vfxSparks.Stop();
 
         Material mat
             = player.GetComponent<SkinnedMeshRenderer>().materials[1];
@@ -116,5 +127,15 @@ public class CollectablePuddle : CollectableBase
         }
 
         mat.SetFloat("_Transparency", 0.0f);
+    }
+
+    private void Update()
+    {
+        vfx.SetFloat("Scale", Mathf.InverseLerp(0, maxAmount, amount));
+    }
+
+    public float GetAmount()
+    {
+        return amount;
     }
 }

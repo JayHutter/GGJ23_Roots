@@ -116,4 +116,9 @@ public class Rope : MonoBehaviour
     {
         return maxLength;
     }
+
+    public void MoveEndPointBy(Vector3 offset)
+    {
+        lastSegment.transform.position = lastSegment.transform.position + offset;
+    }
 }
