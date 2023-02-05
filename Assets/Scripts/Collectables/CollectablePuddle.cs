@@ -30,6 +30,15 @@ public class CollectablePuddle : CollectableBase
 
     private void Start()
     {
+        GameObject go
+            = GameObject.FindGameObjectWithTag("Player");
+
+        player
+            = go.transform.GetChild(2).GetChild(0).GetChild(6).gameObject;
+
+        vfxSparks
+            = go.transform.GetChild(7).GetComponent<VisualEffect>();
+
         if (vfxSparks)
             vfxSparks.Stop();
 
