@@ -60,6 +60,8 @@ public class CollectablePuddle : CollectableBase
 
                 PlayEffects();
 
+                AudioManager.instance.PlayOneShotWithParameters("Slurp", transform);
+
                 if (p_particle != null)
                     p_particle.Play();
             }
