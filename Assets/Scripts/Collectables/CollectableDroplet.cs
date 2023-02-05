@@ -16,6 +16,8 @@ public class CollectableDroplet : CollectableBase
         if (p_particle != null)
             p_particle.Play();
 
+        AudioManager.instance.PlayOneShotWithParameters("GrowRoot", transform);
+
         base.DestroyCollectable();
     }
 }
