@@ -28102,7 +28102,7 @@ MonoBehaviour:
   _rayDidHit: 0
   ground:
     serializedVersion: 2
-    m_Bits: 7
+    m_Bits: 2567
   rideHeight: 0.35
   rideSpringStrength: 80
   rideSpringDamper: 7

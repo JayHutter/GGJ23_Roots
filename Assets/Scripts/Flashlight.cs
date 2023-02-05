@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class Flashlight : MonoBehaviour
 {
-    public Rigidbody prevLeaf;
-    public Rigidbody currentLeaf;
+    public List<Rigidbody> leaves = new List<Rigidbody>();
     private float attraction = 80f;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Leaf"))
         {
-            if(prevLeaf != currentLeaf)
-                prevLeaf = other.GetComponent<Rigidbody>();
+            leaves.Add(other.transform.GetComponent<Rigidbody>());
+        }
 
-            currentLeaf = other.GetComponent<Rigidbody>();
-            currentLeaf.isKinematic = false;
+        foreach(var leaf in leaves)
+        {
+            leaf.isKinematic = false;
         }
     }
 
@@ -24,50 +24,48 @@ public class Flashlight : MonoBehaviour
     {
         if (!gameObject.activeInHierarchy)
         {
-            if (currentLeaf != null)
+            foreach (var leaf in leaves)
             {
-                currentLeaf.isKinematic = true;
-                currentLeaf = null;
+                leaf.isKinematic = true;
             }
-
-            if (prevLeaf != null)
-                prevLeaf.isKinematic = true;
-        }
-
-        if (prevLeaf == currentLeaf)
-        {
-            if (prevLeaf != null)
-                prevLeaf.isKinematic = true;
         }
     }
 
     private void FixedUpdate()
     {
-        if (currentLeaf != null)
-            currentLeaf.AddForce((transform.position - currentLeaf.transform.position).normalized * attraction);
+        if (leaves.Count > 0)
+        {
+            foreach (var leaf in leaves)
+            {
+                leaf.AddForce((transform.position - leaf.transform.position).normalized * attraction);
+            }
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Leaf"))
         {
-            if(currentLeaf != null)
+            if(leaves.Count > 0)
             {
-                currentLeaf.isKinematic = true;
-                currentLeaf = null;
+                foreach (var leaf in leaves)
+                {
+                    leaf.isKinematic = true;
+                    leaves.Remove(leaf);
+                }
             }
         }
     }
 
     private void OnDisable()
     {
-        if (currentLeaf != null)
+        if (leaves.Count > 0)
         {
-            currentLeaf.isKinematic = true;
-            currentLeaf = null;
+            foreach (var leaf in leaves)
+            {
+                leaf.isKinematic = true;
+                leaves.Remove(leaf);
+            }
         }
-
-        if (prevLeaf != null)
-            prevLeaf.isKinematic = true;
     }
 }
