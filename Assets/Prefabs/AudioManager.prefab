@@ -1,0 +1,168 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5747891643839329749
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5747891643839329739}
+  - component: {fileID: 5747891643839329738}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5747891643839329739
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5747891643839329749}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 123.27983, y: 37.04327, z: 115.74005}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5747891643839329738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5747891643839329749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea0d5ac5600b90c45b5a55d7923002ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterVolume: 0.5
+  bgVolume: 0.5
+  sfxVolume: 0.5
+  ambienceEvent:
+    Guid:
+      Data1: 938221122
+      Data2: 1198243413
+      Data3: 7594374
+      Data4: -1211474207
+    Path: event:/Background/Ambience
+  musicEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  sfxObjectsList:
+  - Name: Jump
+    sfxPath:
+      Guid:
+        Data1: 743722401
+        Data2: 1325744491
+        Data3: 2133515408
+        Data4: 23173546
+      Path: event:/SFX/Jump
+  - Name: Land
+    sfxPath:
+      Guid:
+        Data1: -961805440
+        Data2: 1103296166
+        Data3: -1550021955
+        Data4: -2052137271
+      Path: event:/SFX/Land
+  - Name: Shoot
+    sfxPath:
+      Guid:
+        Data1: -892692432
+        Data2: 1087164909
+        Data3: -446625884
+        Data4: 1412030657
+      Path: event:/SFX/Shoot
+  - Name: Splash
+    sfxPath:
+      Guid:
+        Data1: -1667106115
+        Data2: 1305071270
+        Data3: 366593701
+        Data4: -1960893516
+      Path: event:/SFX/Splash
+  - Name: Footsteps
+    sfxPath:
+      Guid:
+        Data1: 319222264
+        Data2: 1129324400
+        Data3: -559991916
+        Data4: 1266922029
+      Path: event:/SFX/Footsteps
+  - Name: Melee
+    sfxPath:
+      Guid:
+        Data1: -39900082
+        Data2: 1295198040
+        Data3: -1579778391
+        Data4: 388742361
+      Path: event:/SFX/Melee
+  - Name: RootGrow
+    sfxPath:
+      Guid:
+        Data1: -439564282
+        Data2: 1224191870
+        Data3: 1158335394
+        Data4: 719304115
+      Path: event:/SFX/RootGrow
+  - Name: Slurp
+    sfxPath:
+      Guid:
+        Data1: -439564282
+        Data2: 1224191870
+        Data3: 1158335394
+        Data4: 719304115
+      Path: event:/SFX/RootGrow
+  - Name: VineBoom
+    sfxPath:
+      Guid:
+        Data1: 743073028
+        Data2: 1115942169
+        Data3: 345915309
+        Data4: 857514554
+      Path: event:/SFX/VineBoom
+  - Name: AntScreech
+    sfxPath:
+      Guid:
+        Data1: 1768407176
+        Data2: 1113254448
+        Data3: 2012978091
+        Data4: -325624424
+      Path: event:/SFX/AntScreech
+  - Name: PlayerHit
+    sfxPath:
+      Guid:
+        Data1: 787498808
+        Data2: 1265819231
+        Data3: 523351964
+        Data4: 1228586929
+      Path: event:/SFX/PlayerHit
+  - Name: Hit
+    sfxPath:
+      Guid:
+        Data1: -1192710437
+        Data2: 1297263799
+        Data3: -564393551
+        Data4: 395266706
+      Path: event:/SFX/Hit
+  - Name: AntFootsteps
+    sfxPath:
+      Guid:
+        Data1: -1508635858
+        Data2: 1269982988
+        Data3: -988086654
+        Data4: 1428179292
+      Path: event:/SFX/AntFootsteps

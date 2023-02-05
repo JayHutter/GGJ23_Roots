@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.01.00">
 	<object class="AudioFile" id="{744f49fd-4dfa-4164-85d5-999bfbab8779}">
 		<property name="assetPath">
-			<value>Background/Y2Mate.is - guy beatboxes Five Nights at Freddy's song-_CQ_ehoRfsE-96k-1656414178530.mp3</value>
+			<value>SFX/Y2Mate.is - guy beatboxes Five Nights at Freddy's song-_CQ_ehoRfsE-96k-1656414178530.mp3</value>
 		</property>
 		<property name="isStreaming">
 			<value>true</value>
