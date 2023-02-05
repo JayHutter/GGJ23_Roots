@@ -63,7 +63,8 @@ public class CollectableTreasure : CollectableBase
 
     private IEnumerator GlowDown()
     {
-        vfxSparks.Stop();
+        if (vfxSparks)
+            vfxSparks.Stop();
 
         Material mat
             = player.GetComponent<SkinnedMeshRenderer>().materials[1];
