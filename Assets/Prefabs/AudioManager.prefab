@@ -182,3 +182,11 @@ MonoBehaviour:
         Data3: 576180875
         Data4: 519189910
       Path: event:/SFX/EmptyGun
+  - Name: Crouchsteps
+    sfxPath:
+      Guid:
+        Data1: -53391036
+        Data2: 1087755947
+        Data3: 338886062
+        Data4: 1051975082
+      Path: event:/SFX/Crouchsteps

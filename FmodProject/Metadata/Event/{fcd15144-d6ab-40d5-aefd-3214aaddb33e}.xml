@@ -92,6 +92,9 @@
 		<property name="length">
 			<value>1.05</value>
 		</property>
+		<property name="pitch">
+			<value>-2.60000014</value>
+		</property>
 		<property name="playlistMode">
 			<value>1</value>
 		</property>
@@ -173,19 +176,10 @@
 	<object class="MixerBusEffectChain" id="{16f37c5f-0aef-43de-8581-4630185a5bce}">
 		<relationship name="effects">
 			<destination>{f5d56a1b-9530-463a-af69-10f83359bc97}</destination>
-			<destination>{c633b48a-e501-45e1-8846-757835e54334}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{c92ea2c1-b164-4301-a092-aa8680bf392f}" />
 	<object class="MixerBusFader" id="{40ba80aa-349b-40fe-a2e8-b1283c6470d2}" />
 	<object class="SpatialiserEffect" id="{360873a2-318c-49aa-a93a-2753b0e67c54}" />
 	<object class="MixerBusFader" id="{f5d56a1b-9530-463a-af69-10f83359bc97}" />
-	<object class="LowpassEffect" id="{c633b48a-e501-45e1-8846-757835e54334}">
-		<property name="cutoff">
-			<value>2700</value>
-		</property>
-		<property name="resonance">
-			<value>2.4000001</value>
-		</property>
-	</object>
 </objects>
