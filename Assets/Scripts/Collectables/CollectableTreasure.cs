@@ -27,6 +27,7 @@ public class CollectableTreasure : CollectableBase
 
         transform.GetChild(1).gameObject.SetActive(false);
         PlayEffects();
+        AudioManager.instance.PlayOneShotWithParameters("VineBoom", transform);
     }
 
 

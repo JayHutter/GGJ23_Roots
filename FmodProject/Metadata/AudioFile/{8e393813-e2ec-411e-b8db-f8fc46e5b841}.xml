@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.01.00">
 	<object class="AudioFile" id="{8e393813-e2ec-411e-b8db-f8fc46e5b841}">
 		<property name="assetPath">
-			<value>319823-EMOTE_George-Man-Slurp_03.wav</value>
+			<value>SFX/319823-EMOTE_George-Man-Slurp_03.wav</value>
 		</property>
 		<property name="frequencyInKHz">
 			<value>96</value>

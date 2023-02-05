@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.01.00">
 	<object class="AudioFile" id="{de617e4d-9bb9-4e00-9b35-98f081670de1}">
 		<property name="assetPath">
-			<value>397424-EW-foliage-WillowOak-leaves-small-thin-rustle-bold-gather-drop-scatter-2.wav</value>
+			<value>SFX/397424-EW-foliage-WillowOak-leaves-small-thin-rustle-bold-gather-drop-scatter-2.wav</value>
 		</property>
 		<property name="isStreaming">
 			<value>true</value>

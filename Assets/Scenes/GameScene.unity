@@ -8479,7 +8479,7 @@ PrefabInstance:
     - target: {fileID: 3227350301900414975, guid: cbcf451a4bee3b54d847dbeec5de92f9,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.108947486
+      value: 0.10894748
       objectReference: {fileID: 0}
     - target: {fileID: 3227350301900414975, guid: cbcf451a4bee3b54d847dbeec5de92f9,
         type: 3}
@@ -8554,17 +8554,17 @@ PrefabInstance:
     - target: {fileID: 3227350302703278962, guid: cbcf451a4bee3b54d847dbeec5de92f9,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.0636664
+      value: 0.063666396
       objectReference: {fileID: 0}
     - target: {fileID: 3227350302703278962, guid: cbcf451a4bee3b54d847dbeec5de92f9,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.8715931
+      value: 0.87159306
       objectReference: {fileID: 0}
     - target: {fileID: 3227350302703278962, guid: cbcf451a4bee3b54d847dbeec5de92f9,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.117660075
+      value: -0.11766007
       objectReference: {fileID: 0}
     - target: {fileID: 3227350302907993581, guid: cbcf451a4bee3b54d847dbeec5de92f9,
         type: 3}
@@ -8579,7 +8579,7 @@ PrefabInstance:
     - target: {fileID: 3227350302907993581, guid: cbcf451a4bee3b54d847dbeec5de92f9,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.108947486
+      value: 0.10894748
       objectReference: {fileID: 0}
     - target: {fileID: 3227350302907993581, guid: cbcf451a4bee3b54d847dbeec5de92f9,
         type: 3}
@@ -8589,7 +8589,7 @@ PrefabInstance:
     - target: {fileID: 3227350302907993581, guid: cbcf451a4bee3b54d847dbeec5de92f9,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.039044842
+      value: -0.03904484
       objectReference: {fileID: 0}
     - target: {fileID: 3227350303643282505, guid: cbcf451a4bee3b54d847dbeec5de92f9,
         type: 3}
@@ -35629,42 +35629,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1339940888}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1343678413 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7658326757774984609, guid: a8d4d5a108a2fdd45bb0946e2f8237a8,
-    type: 3}
-  m_PrefabInstance: {fileID: 1336801863}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1343678415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1343678413}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CollisionTag: 
-  EventReference:
-    Guid:
-      Data1: 1731603328
-      Data2: 1304612916
-      Data3: 182059904
-      Data4: -1615188247
-    Path: event:/SFX/TV
-  Event: 
-  PlayEvent: 1
-  StopEvent: 2
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 20
 --- !u!1001 &1354704395
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49354,6 +49318,46 @@ MonoBehaviour:
         Data3: 366593701
         Data4: -1960893516
       Path: event:/SFX/Splash
+  - Name: Footsteps
+    sfxPath:
+      Guid:
+        Data1: 319222264
+        Data2: 1129324400
+        Data3: -559991916
+        Data4: 1266922029
+      Path: event:/SFX/Footsteps
+  - Name: Melee
+    sfxPath:
+      Guid:
+        Data1: -39900082
+        Data2: 1295198040
+        Data3: -1579778391
+        Data4: 388742361
+      Path: event:/SFX/Melee
+  - Name: RootGrow
+    sfxPath:
+      Guid:
+        Data1: -439564282
+        Data2: 1224191870
+        Data3: 1158335394
+        Data4: 719304115
+      Path: event:/SFX/RootGrow
+  - Name: Slurp
+    sfxPath:
+      Guid:
+        Data1: -439564282
+        Data2: 1224191870
+        Data3: 1158335394
+        Data4: 719304115
+      Path: event:/SFX/RootGrow
+  - Name: VineBoom
+    sfxPath:
+      Guid:
+        Data1: 743073028
+        Data2: 1115942169
+        Data3: 345915309
+        Data4: 857514554
+      Path: event:/SFX/VineBoom
 --- !u!4 &2073865009
 Transform:
   m_ObjectHideFlags: 0
