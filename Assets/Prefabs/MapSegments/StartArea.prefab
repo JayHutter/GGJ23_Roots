@@ -472,6 +472,7 @@ MonoBehaviour:
   startPos: {fileID: 1269802768}
   endPos: {fileID: 488636086}
   stem: {fileID: 1109628942}
+  rateOfGrowth: 1
   totalWatered: 0
   watered: 0
 --- !u!1 &1269802767
@@ -753,7 +754,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 884
+  m_VersionIndex: 896
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1467,7 +1468,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 140
+  m_VersionIndex: 152
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1980,7 +1981,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 195
+  m_VersionIndex: 207
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -3040,7 +3041,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1303
+  m_VersionIndex: 1315
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -7727,7 +7728,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 8166
+  m_VersionIndex: 8178
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -8135,7 +8136,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 3608
+  m_VersionIndex: 3620
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -8772,10 +8773,70 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4988675915806267204}
     m_Modifications:
+    - target: {fileID: 528589398715222504, guid: 0d1514ab2a2f68741b949d8b1790b2fb,
+        type: 3}
+      propertyPath: radius
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 528589398715222504, guid: 0d1514ab2a2f68741b949d8b1790b2fb,
+        type: 3}
+      propertyPath: maxAmount
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 528589398715222504, guid: 0d1514ab2a2f68741b949d8b1790b2fb,
+        type: 3}
+      propertyPath: isInfinite
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 528589398715222505, guid: 0d1514ab2a2f68741b949d8b1790b2fb,
+        type: 3}
+      propertyPath: m_Radius
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 528589398715222511, guid: 0d1514ab2a2f68741b949d8b1790b2fb,
         type: 3}
       propertyPath: m_Name
       value: Puddle
+      objectReference: {fileID: 0}
+    - target: {fileID: 528589398715222516, guid: 0d1514ab2a2f68741b949d8b1790b2fb,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Int.m_Array.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 528589398715222516, guid: 0d1514ab2a2f68741b949d8b1790b2fb,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Float.m_Array.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 528589398715222516, guid: 0d1514ab2a2f68741b949d8b1790b2fb,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Int.m_Array.Array.data[0].m_Name
+      value: Per Radius
+      objectReference: {fileID: 0}
+    - target: {fileID: 528589398715222516, guid: 0d1514ab2a2f68741b949d8b1790b2fb,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Int.m_Array.Array.data[0].m_Value
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 528589398715222516, guid: 0d1514ab2a2f68741b949d8b1790b2fb,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Name
+      value: Radius
+      objectReference: {fileID: 0}
+    - target: {fileID: 528589398715222516, guid: 0d1514ab2a2f68741b949d8b1790b2fb,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Value
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 528589398715222516, guid: 0d1514ab2a2f68741b949d8b1790b2fb,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Int.m_Array.Array.data[0].m_Overridden
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 528589398715222516, guid: 0d1514ab2a2f68741b949d8b1790b2fb,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Overridden
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 528589398715222517, guid: 0d1514ab2a2f68741b949d8b1790b2fb,
         type: 3}
@@ -8785,27 +8846,27 @@ PrefabInstance:
     - target: {fileID: 528589398715222517, guid: 0d1514ab2a2f68741b949d8b1790b2fb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.6
+      value: -1.1
       objectReference: {fileID: 0}
     - target: {fileID: 528589398715222517, guid: 0d1514ab2a2f68741b949d8b1790b2fb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.042
+      value: 0.47
       objectReference: {fileID: 0}
     - target: {fileID: 528589398715222517, guid: 0d1514ab2a2f68741b949d8b1790b2fb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.44
+      value: 7.06
       objectReference: {fileID: 0}
     - target: {fileID: 528589398715222517, guid: 0d1514ab2a2f68741b949d8b1790b2fb,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9995037
       objectReference: {fileID: 0}
     - target: {fileID: 528589398715222517, guid: 0d1514ab2a2f68741b949d8b1790b2fb,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: -0.031502433
       objectReference: {fileID: 0}
     - target: {fileID: 528589398715222517, guid: 0d1514ab2a2f68741b949d8b1790b2fb,
         type: 3}
@@ -8820,7 +8881,7 @@ PrefabInstance:
     - target: {fileID: 528589398715222517, guid: 0d1514ab2a2f68741b949d8b1790b2fb,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: -3.611
       objectReference: {fileID: 0}
     - target: {fileID: 528589398715222517, guid: 0d1514ab2a2f68741b949d8b1790b2fb,
         type: 3}
@@ -9176,7 +9237,7 @@ PrefabInstance:
     - target: {fileID: 374317871267633633, guid: 135780a3a17a7944bae0dc573c7011b6,
         type: 3}
       propertyPath: collectionName
-      value: That one was kinda free
+      value: They Grow Up So Fast!
       objectReference: {fileID: 0}
     - target: {fileID: 374317871267633645, guid: 135780a3a17a7944bae0dc573c7011b6,
         type: 3}
