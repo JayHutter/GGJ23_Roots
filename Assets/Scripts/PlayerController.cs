@@ -424,6 +424,7 @@ public class PlayerController : MonoBehaviour
                 Vector3 vel = diveAngle.forward * diveForce;
                 rb.velocity = vel;
                 playerAnimator.SetBool("Diving", true);
+                AudioManager.instance.PlayOneShotWithParameters("Dive", transform);
             }
         }
 
