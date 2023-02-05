@@ -13,6 +13,8 @@ public class Friendly : MonoBehaviour
     private void Start()
     {
         playerTransform = FindObjectOfType<PlayerController>().transform;
+        if (reward)
+            reward.SetActive(false);
     }
 
     private void Update()
@@ -34,7 +36,10 @@ public class Friendly : MonoBehaviour
         if (other.tag == "Player")
         {
             if (reward)
-                Instantiate(reward, body.position + body.up, Quaternion.identity);
+            {
+                reward.SetActive(true);
+            }
+                //Instantiate(reward, body.position + body.up, Quaternion.identity);
 
             Debug.Log("You saved NPC!");
 

@@ -6,7 +6,7 @@ public class CollectableBobbing : MonoBehaviour
     private float                   f_startingY         = 0.0f;
     [SerializeField] private float  f_floatStrength     = 0.0f;
     [SerializeField] private float  f_floatBobSpeed     = 0.0f;
-    [SerializeField] private float  f_floatRotateSpeed  = 0.0f;
+    [SerializeField] private float f_floatRotateSpeed = 0.0f;
 
     private void Start()
     {
