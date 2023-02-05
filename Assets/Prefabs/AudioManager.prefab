@@ -190,3 +190,11 @@ MonoBehaviour:
         Data3: 338886062
         Data4: 1051975082
       Path: event:/SFX/Crouchsteps
+  - Name: Dive
+    sfxPath:
+      Guid:
+        Data1: 855531467
+        Data2: 1204616335
+        Data3: -1103435889
+        Data4: 572549949
+      Path: event:/SFX/Dive
