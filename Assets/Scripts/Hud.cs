@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -27,8 +28,11 @@ public class Hud : MonoBehaviour
     public TMP_Text carrotText;
 
     PlayerController pc;
+    Rigidbody playerRigid;
+    Collider playerCollider;
 
     private bool isPlaying = false;
+    public CinemachineVirtualCamera vCam;
 
     private void Start()
     {
@@ -42,6 +46,12 @@ public class Hud : MonoBehaviour
 
         eventSystem.SetSelectedGameObject(mainMenuStartButton.gameObject);
         pc = PlayerController.instance;
+        pc.enabled = false;
+        playerRigid = pc.GetComponent<Rigidbody>();
+        playerCollider = pc.GetComponent<Collider>();
+
+        playerRigid.useGravity = false;
+        playerCollider.enabled = false;
     }
 
     private void OnDestroy()
@@ -56,6 +66,9 @@ public class Hud : MonoBehaviour
         eventSystem.SetSelectedGameObject(null);
         StartCoroutine(GameTimer());
         isPlaying = true;
+
+        //pc.transform.position = pc.transform.position += Vector3.up * 6;
+        StartCoroutine(UnrootPlayer());
     }
 
     public void CloseGame()
@@ -117,5 +130,25 @@ public class Hud : MonoBehaviour
     {
         deathsText.text = "Deaths - " + PlayerController.instance.deaths;
         carrotText.text = "Carrots - " + PlayerController.instance.carrots;   
+    }
+
+    IEnumerator UnrootPlayer()
+    {
+        Vector3 targetPos = pc.transform.position += Vector3.up * 2;
+
+        while(true)
+        {
+            pc.transform.position = Vector3.MoveTowards(pc.transform.position, targetPos, Time.deltaTime * 0.5f);
+            if (pc.transform.position == targetPos)
+                break;
+
+            yield return null;
+        }
+
+        pc.enabled = true;
+        playerRigid.useGravity = true;
+        playerCollider.enabled = true;
+        pc.tether.CreateRope();
+        vCam.enabled = false;
     }
 }

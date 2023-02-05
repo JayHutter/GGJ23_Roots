@@ -24,24 +24,35 @@ public class Rope : MonoBehaviour
     [SerializeField] private float extentionDistance = 0.5f;
     float maxLength;
 
+    public bool createAtStart = true;
+    private bool created = false;
+
     private void Start()
+    {
+        if (createAtStart) 
+        {
+            CreateRope();
+        }
+    }
+
+    public void CreateRope()
     {
         lineRender = GetComponent<LineRenderer>();
         segmentOffset.Normalize();
-        segmentOffset*= segmentLength;
+        segmentOffset *= segmentLength;
 
         var firstSegment = Instantiate(rootPrefab, rootRigid.transform.position, Quaternion.identity, transform);
         firstSegment.connectedBody = rootRigid;
         nodes.Add(firstSegment);
         lastSegment = firstSegment;
 
-        for (int i=0; i<segmentCount; i++)
+        for (int i = 0; i < segmentCount; i++)
         {
             Vector3 newPos = lastSegment.transform.position + segmentOffset;
             var newSegment = Instantiate(segmentPrefab, newPos, Quaternion.identity, transform);
             newSegment.connectedBody = lastSegment.GetComponent<Rigidbody>();
 
-            lastSegment = newSegment; 
+            lastSegment = newSegment;
             nodes.Add(newSegment);
         }
 
@@ -53,11 +64,13 @@ public class Rope : MonoBehaviour
 
 
         lastSegment.transform.position = staticPoint.transform.position;
+        created = true;
     }
 
     private void FixedUpdate()
     {
-        UpdateLine();
+        if(created)
+            UpdateLine();
     }
 
     private void UpdateLine()
