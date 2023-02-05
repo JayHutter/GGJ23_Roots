@@ -19,6 +19,9 @@ public class CollectableDroplet : CollectableBase
             p_particle.Play();
 
         AudioManager.instance.PlayOneShotWithParameters("RootGrow", transform);
+        
+        if (Hud.instance)
+            Hud.instance.ShowCollectibleTextFor(collectionName, 2.5f);
 
         base.DestroyCollectable();
     }

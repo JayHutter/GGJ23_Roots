@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class Hud : MonoBehaviour
 {
+    public static Hud instance;
+
     public Button mainMenuStartButton;
     public EventSystem eventSystem;
 
@@ -19,6 +21,7 @@ public class Hud : MonoBehaviour
     public RawImage healthUi;
     public TMP_Text healthText;
     public TMP_Text tetherText;
+    public TMP_Text collectibleText;
 
     PlayerController pc;
 
@@ -26,8 +29,22 @@ public class Hud : MonoBehaviour
 
     private void Start()
     {
+        if (instance)
+        {
+            Destroy(this);
+            return;
+        }
+
+        instance = this;
+
         eventSystem.SetSelectedGameObject(mainMenuStartButton.gameObject);
         pc = PlayerController.instance;
+    }
+
+    private void OnDestroy()
+    {
+        if (instance == this)
+            instance = null;
     }
 
     public void StartGame()
@@ -80,4 +97,15 @@ public class Hud : MonoBehaviour
         }
     }
 
+    public void ShowCollectibleTextFor(string text, float time)
+    {
+        StartCoroutine(ShowTextFor(text, time));
+    }
+
+    IEnumerator ShowTextFor(string text, float time)
+    {
+        collectibleText.text = text;
+        yield return new WaitForSeconds(time);
+        collectibleText.text = "";
+    }
 }

@@ -1,3 +1,4 @@
+using FMOD.Studio;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -49,6 +50,9 @@ public class Friendly : MonoBehaviour
 
     private void LookAtPlayer()
     {
+        if (!body)
+            return;
+
         Vector3 dir = playerTransform.position - body.position;
         dir.y = 0;
         Quaternion rot = Quaternion.LookRotation(dir);
