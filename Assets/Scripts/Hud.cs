@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -22,6 +23,8 @@ public class Hud : MonoBehaviour
     public TMP_Text healthText;
     public TMP_Text tetherText;
     public TMP_Text collectibleText;
+    public TMP_Text deathsText;
+    public TMP_Text carrotText;
 
     PlayerController pc;
 
@@ -94,6 +97,7 @@ public class Hud : MonoBehaviour
         {
             UpdateHealth();
             UpdateTether();
+            UpdatePlayerValues();
         }
     }
 
@@ -107,5 +111,11 @@ public class Hud : MonoBehaviour
         collectibleText.text = text;
         yield return new WaitForSeconds(time);
         collectibleText.text = "";
+    }
+
+    private void UpdatePlayerValues()
+    {
+        deathsText.text = "Deaths - " + PlayerController.instance.deaths;
+        carrotText.text = "Carrots - " + PlayerController.instance.carrots;   
     }
 }

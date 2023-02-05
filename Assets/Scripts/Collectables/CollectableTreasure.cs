@@ -21,7 +21,7 @@ public class CollectableTreasure : CollectableBase
 
     protected override void DestroyCollectable()
     {
-        // g_player.n_playerScore += n_scoreIncrement;
+        PlayerController.instance.carrots += n_scoreIncrement;
 
         if (p_particle != null)
             p_particle.Play();

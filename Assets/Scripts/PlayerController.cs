@@ -106,6 +106,10 @@ public class PlayerController : MonoBehaviour
 
     public Transform gunTransform;
     public Quaternion heldRotation;
+    public int deaths = 0;
+    public int carrots = 0;
+
+    Vector3 checkPoint;
 
     private void Start()
     {
@@ -128,6 +132,7 @@ public class PlayerController : MonoBehaviour
         SubscribeInputs();
         health = maxHealth;
         heldRotation = gunTransform.localRotation;
+        checkPoint = transform.position;
     }
 
     private void Update()
@@ -628,5 +633,22 @@ public class PlayerController : MonoBehaviour
         float target = (isShooting || isAimingDown ? 1 : 0);
         aimBlend = Mathf.MoveTowards(aimBlend, target, Time.deltaTime * blendSpeed);
         playerAnimator.SetLayerWeight(1, aimBlend);
+    }
+
+    public void ApplyDamage(int damage)
+    {
+        health -= damage;
+
+        if (health <= 0)
+        {
+            Death();
+            deaths++;
+        }
+    }
+
+    private void Death()
+    {
+        transform.position = checkPoint;
+        health = 5;
     }
 }
