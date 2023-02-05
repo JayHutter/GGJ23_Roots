@@ -109,6 +109,8 @@ public class PlayerController : MonoBehaviour
     public int deaths = 0;
     public int carrots = 0;
 
+    Vector3 checkPoint;
+
     private void Start()
     {
         if (instance)
@@ -130,6 +132,7 @@ public class PlayerController : MonoBehaviour
         SubscribeInputs();
         health = maxHealth;
         heldRotation = gunTransform.localRotation;
+        checkPoint = transform.position;
     }
 
     private void Update()
@@ -638,8 +641,14 @@ public class PlayerController : MonoBehaviour
 
         if (health <= 0)
         {
-            Debug.Log("Kill player");
+            Death();
             deaths++;
         }
+    }
+
+    private void Death()
+    {
+        transform.position = checkPoint;
+        health = 5;
     }
 }
