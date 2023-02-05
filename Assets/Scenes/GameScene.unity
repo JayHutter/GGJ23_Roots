@@ -49239,140 +49239,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2070987668}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2073865007
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2073865009}
-  - component: {fileID: 2073865008}
-  m_Layer: 0
-  m_Name: AudioManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2073865008
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2073865007}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea0d5ac5600b90c45b5a55d7923002ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  masterVolume: 0.5
-  bgVolume: 0.5
-  sfxVolume: 0.5
-  ambienceEvent:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  musicEvent:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  sfxObjectsList:
-  - Name: Jump
-    sfxPath:
-      Guid:
-        Data1: 743722401
-        Data2: 1325744491
-        Data3: 2133515408
-        Data4: 23173546
-      Path: event:/SFX/Jump
-  - Name: Land
-    sfxPath:
-      Guid:
-        Data1: -961805440
-        Data2: 1103296166
-        Data3: -1550021955
-        Data4: -2052137271
-      Path: event:/SFX/Land
-  - Name: Shoot
-    sfxPath:
-      Guid:
-        Data1: -892692432
-        Data2: 1087164909
-        Data3: -446625884
-        Data4: 1412030657
-      Path: event:/SFX/Shoot
-  - Name: Splash
-    sfxPath:
-      Guid:
-        Data1: -1667106115
-        Data2: 1305071270
-        Data3: 366593701
-        Data4: -1960893516
-      Path: event:/SFX/Splash
-  - Name: Footsteps
-    sfxPath:
-      Guid:
-        Data1: 319222264
-        Data2: 1129324400
-        Data3: -559991916
-        Data4: 1266922029
-      Path: event:/SFX/Footsteps
-  - Name: Melee
-    sfxPath:
-      Guid:
-        Data1: -39900082
-        Data2: 1295198040
-        Data3: -1579778391
-        Data4: 388742361
-      Path: event:/SFX/Melee
-  - Name: RootGrow
-    sfxPath:
-      Guid:
-        Data1: -439564282
-        Data2: 1224191870
-        Data3: 1158335394
-        Data4: 719304115
-      Path: event:/SFX/RootGrow
-  - Name: Slurp
-    sfxPath:
-      Guid:
-        Data1: -439564282
-        Data2: 1224191870
-        Data3: 1158335394
-        Data4: 719304115
-      Path: event:/SFX/RootGrow
-  - Name: VineBoom
-    sfxPath:
-      Guid:
-        Data1: 743073028
-        Data2: 1115942169
-        Data3: 345915309
-        Data4: 857514554
-      Path: event:/SFX/VineBoom
---- !u!4 &2073865009
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2073865007}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 123.27983, y: 37.04327, z: 115.74005}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 33
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2074890890
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50681,3 +50547,72 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 302ed4ead68391d4fb67f952d7238fcb, type: 3}
+--- !u!1001 &5747891645305986810
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5747891643839329739, guid: 3d47d63fcf0b74247b95caf103cd1433,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747891643839329739, guid: 3d47d63fcf0b74247b95caf103cd1433,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 123.27983
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747891643839329739, guid: 3d47d63fcf0b74247b95caf103cd1433,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 37.04327
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747891643839329739, guid: 3d47d63fcf0b74247b95caf103cd1433,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 115.74005
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747891643839329739, guid: 3d47d63fcf0b74247b95caf103cd1433,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747891643839329739, guid: 3d47d63fcf0b74247b95caf103cd1433,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747891643839329739, guid: 3d47d63fcf0b74247b95caf103cd1433,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747891643839329739, guid: 3d47d63fcf0b74247b95caf103cd1433,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747891643839329739, guid: 3d47d63fcf0b74247b95caf103cd1433,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747891643839329739, guid: 3d47d63fcf0b74247b95caf103cd1433,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747891643839329739, guid: 3d47d63fcf0b74247b95caf103cd1433,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747891643839329749, guid: 3d47d63fcf0b74247b95caf103cd1433,
+        type: 3}
+      propertyPath: m_Name
+      value: AudioManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3d47d63fcf0b74247b95caf103cd1433, type: 3}
