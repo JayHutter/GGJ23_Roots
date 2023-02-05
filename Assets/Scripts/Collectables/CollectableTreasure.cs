@@ -15,6 +15,18 @@ public class CollectableTreasure : CollectableBase
 
     private void Start()
     {
+        GameObject go
+            = GameObject.FindGameObjectWithTag("Player");
+
+        g_player
+            = go.transform.GetChild(2).GetChild(0).gameObject;
+
+        player
+            = go.transform.GetChild(2).GetChild(0).GetChild(6).gameObject;
+
+        vfxSparks
+            = go.transform.GetChild(6).GetComponent<VisualEffect>();
+
         if (vfxSparks)
             vfxSparks.Stop();
     }
