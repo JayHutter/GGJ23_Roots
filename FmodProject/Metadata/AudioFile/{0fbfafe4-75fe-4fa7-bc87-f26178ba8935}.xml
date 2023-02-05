@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="AudioFile" id="{0fbfafe4-75fe-4fa7-bc87-f26178ba8935}">
+		<property name="assetPath">
+			<value>SFX/98950-Monster_element_insect_scream_screech_09-SFXBible-ss00311.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.39319727891156464</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{d4702460-b65d-408b-bc37-62a736c156e6}</destination>
+		</relationship>
+	</object>
+</objects>

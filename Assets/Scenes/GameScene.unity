@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028328, g: 0.22571322, b: 0.30692163, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -29101,7 +29101,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-61348
+  m_Name: pb_Mesh37646
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -47110,7 +47110,7 @@ PrefabInstance:
     - target: {fileID: 169469124320865063, guid: 94733c1e45901af4384c904118f8666d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 169469124320865063, guid: 94733c1e45901af4384c904118f8666d,
         type: 3}
@@ -55376,6 +55376,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5747891643839329738, guid: 3d47d63fcf0b74247b95caf103cd1433,
+        type: 3}
+      propertyPath: sfxObjectsList.Array.size
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747891643839329738, guid: 3d47d63fcf0b74247b95caf103cd1433,
+        type: 3}
+      propertyPath: sfxObjectsList.Array.data[12].Name
+      value: AntFootsteps
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747891643839329738, guid: 3d47d63fcf0b74247b95caf103cd1433,
+        type: 3}
+      propertyPath: sfxObjectsList.Array.data[12].sfxPath.Path
+      value: event:/SFX/AntFootsteps
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747891643839329738, guid: 3d47d63fcf0b74247b95caf103cd1433,
+        type: 3}
+      propertyPath: sfxObjectsList.Array.data[12].sfxPath.Guid.Data1
+      value: -1508635858
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747891643839329738, guid: 3d47d63fcf0b74247b95caf103cd1433,
+        type: 3}
+      propertyPath: sfxObjectsList.Array.data[12].sfxPath.Guid.Data2
+      value: 1269982988
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747891643839329738, guid: 3d47d63fcf0b74247b95caf103cd1433,
+        type: 3}
+      propertyPath: sfxObjectsList.Array.data[12].sfxPath.Guid.Data3
+      value: -988086654
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747891643839329738, guid: 3d47d63fcf0b74247b95caf103cd1433,
+        type: 3}
+      propertyPath: sfxObjectsList.Array.data[12].sfxPath.Guid.Data4
+      value: 1428179292
+      objectReference: {fileID: 0}
     - target: {fileID: 5747891643839329739, guid: 3d47d63fcf0b74247b95caf103cd1433,
         type: 3}
       propertyPath: m_RootOrder
