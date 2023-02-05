@@ -5076,6 +5076,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93d84ee18cfc0ea43826b8fff97fd992, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  part: {fileID: 0}
 --- !u!1 &1075532874
 GameObject:
   m_ObjectHideFlags: 0
@@ -27113,8 +27114,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3227350301900414962}
-  m_LocalRotation: {x: 0.10106371, y: 0.33542144, z: -0.03621948, w: 0.93593097}
-  m_LocalPosition: {x: -3.5102234, y: 1.4200003, z: -4.2683105}
+  m_LocalRotation: {x: 0.108947486, y: 0.33510396, z: -0.039044846, w: 0.93504614}
+  m_LocalPosition: {x: -6.3518295, y: 2.75, z: -7.7236176}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -27606,7 +27607,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3227350302323342469}
-  m_LocalRotation: {x: 0.084067926, y: 0.33602327, z: -0.030128488, w: 0.9376104}
+  m_LocalRotation: {x: 0.091966465, y: 0.3357571, z: -0.032959145, w: 0.9368687}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -27684,7 +27685,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3227350302703278960}
-  m_LocalRotation: {x: 0.055223875, y: 0.8735568, z: -0.1020573, w: 0.4726873}
+  m_LocalRotation: {x: 0.0636664, y: 0.8715931, z: -0.117660075, w: 0.47162297}
   m_LocalPosition: {x: -2.0192566, y: 0, z: 13.193985}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -27762,7 +27763,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3227350302907993571}
-  m_LocalRotation: {x: 0.101063706, y: 0.3354214, z: -0.036219478, w: 0.93593097}
+  m_LocalRotation: {x: 0.108947486, y: 0.33510396, z: -0.039044842, w: 0.9350462}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -29691,7 +29692,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5535755930004755213}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -29740,7 +29741,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxWobble: 0.03
   WobbleSpeedMove: 1
-  amount: 1
+  amount: 0
   Recovery: 1
   Thickness: 1
 --- !u!1 &5579843100228058686
