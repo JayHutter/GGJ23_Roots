@@ -185,7 +185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   b_soakEnabled: 0
   p_particle: {fileID: 0}
-  b_magnetismEnable: 1
+  b_magnetismEnable: 0
   g_player: {fileID: 0}
   f_playerRange: 2
   f_collectableSpeedMax: 5
