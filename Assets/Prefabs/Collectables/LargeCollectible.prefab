@@ -65,13 +65,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   b_soakEnabled: 0
   p_particle: {fileID: 0}
-  b_magnetismEnable: 1
+  b_magnetismEnable: 0
   g_player: {fileID: 0}
   f_playerRange: 3
   f_collectableSpeedMax: 5
   f_collectableAcceleration: 0.1
   f_timerLimit: 0
   n_dropletIncrement: 5
+  collectionName: We Forgor
 --- !u!135 &7396204421524798348
 SphereCollider:
   m_ObjectHideFlags: 0

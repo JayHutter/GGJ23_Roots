@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 414294764287216279}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 23.64, z: 0}
+  m_LocalPosition: {x: 0, y: 23.86, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -180,7 +180,7 @@ MonoBehaviour:
   startPos: {fileID: 414294765147103636}
   endPos: {fileID: 414294764287216264}
   stem: {fileID: 414294764950283969}
-  rateOfGrowth: 1
+  rateOfGrowth: 10
   totalWatered: 0
   watered: 0
 --- !u!1 &414294764614699265
@@ -456,7 +456,7 @@ Transform:
   m_GameObject: {fileID: 414294765000735114}
   m_LocalRotation: {x: -0.01538972, y: 0.4665971, z: 0.009007478, w: 0.8842902}
   m_LocalPosition: {x: -0.27, y: 0.11, z: 0.17}
-  m_LocalScale: {x: 11.538605, y: 0.5, z: 13.603358}
+  m_LocalScale: {x: 15.592116, y: 0.5, z: 17.896578}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 414294764415268779}
