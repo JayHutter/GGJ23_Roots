@@ -134,3 +134,27 @@ MonoBehaviour:
         Data3: 345915309
         Data4: 857514554
       Path: event:/SFX/VineBoom
+  - Name: AntScreech
+    sfxPath:
+      Guid:
+        Data1: 1768407176
+        Data2: 1113254448
+        Data3: 2012978091
+        Data4: -325624424
+      Path: event:/SFX/AntScreech
+  - Name: PlayerHit
+    sfxPath:
+      Guid:
+        Data1: 787498808
+        Data2: 1265819231
+        Data3: 523351964
+        Data4: 1228586929
+      Path: event:/SFX/PlayerHit
+  - Name: Hit
+    sfxPath:
+      Guid:
+        Data1: -1192710437
+        Data2: 1297263799
+        Data3: -564393551
+        Data4: 395266706
+      Path: event:/SFX/Hit
