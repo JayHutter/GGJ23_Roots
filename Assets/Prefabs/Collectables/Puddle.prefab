@@ -150,5 +150,8 @@ MonoBehaviour:
   f_soakDelay: 1
   vfx: {fileID: 528589398715222516}
   radius: 0.75
+  maxAmount: 3
   vfxSparks: {fileID: 0}
   player: {fileID: 0}
+  lifetime: 20
+  isInfinite: 0

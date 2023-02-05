@@ -24,6 +24,8 @@ public class CollectablePuddle : CollectableBase
     [SerializeField] private VisualEffect   vfxSparks;
     [SerializeField] private GameObject     player;
 
+    public float lifetime = -1;
+
     public bool isInfinite = false;
 
     private void Start()
@@ -41,6 +43,9 @@ public class CollectablePuddle : CollectableBase
             = radius;
 
         vfx.SetFloat("Radius", radius);
+
+        if (lifetime > 0)
+            StartCoroutine(ReduceLife());
     }
 
     protected override void OnTriggerStay(Collider c)
@@ -137,5 +142,17 @@ public class CollectablePuddle : CollectableBase
     public float GetAmount()
     {
         return amount;
+    }
+
+    IEnumerator ReduceLife()
+    {
+        while(true)
+        {
+            if (lifetime <= 0)
+                Destroy(gameObject);
+
+            lifetime -= Time.deltaTime;
+            yield return null;
+        }
     }
 }
