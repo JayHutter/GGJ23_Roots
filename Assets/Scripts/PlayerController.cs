@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     public GameObject flashlight;
     private float waterDrainRate = 0.1f;
     public WaterTank waterTank;
+    private bool blankSFX = true;
     private float playerAimRotSpeed = 10f;
     private Vector3 shoulderCamVelocity;
     private float fovSpeed;
@@ -362,6 +363,11 @@ public class PlayerController : MonoBehaviour
         else
         {
             waterSpray.Stop();
+            if(!blankSFX)
+            {
+                AudioManager.instance.PlayOneShotWithParameters("EmptyGun", transform);
+                blankSFX = true;
+            }
         }
     }
 
@@ -446,9 +452,15 @@ public class PlayerController : MonoBehaviour
     private void ShootInput(InputAction.CallbackContext context)
     {
         if (context.performed)
+        {
             isShooting = true;
+            blankSFX = false;
+        }
         else if (context.canceled)
+        {
             isShooting = false;
+            blankSFX = true;
+        }
     }
 
     private void LightInput(InputAction.CallbackContext context)
