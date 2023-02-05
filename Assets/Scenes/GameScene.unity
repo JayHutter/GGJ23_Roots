@@ -55376,41 +55376,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5747891643839329738, guid: 3d47d63fcf0b74247b95caf103cd1433,
-        type: 3}
-      propertyPath: sfxObjectsList.Array.size
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747891643839329738, guid: 3d47d63fcf0b74247b95caf103cd1433,
-        type: 3}
-      propertyPath: sfxObjectsList.Array.data[12].Name
-      value: AntFootsteps
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747891643839329738, guid: 3d47d63fcf0b74247b95caf103cd1433,
-        type: 3}
-      propertyPath: sfxObjectsList.Array.data[12].sfxPath.Path
-      value: event:/SFX/AntFootsteps
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747891643839329738, guid: 3d47d63fcf0b74247b95caf103cd1433,
-        type: 3}
-      propertyPath: sfxObjectsList.Array.data[12].sfxPath.Guid.Data1
-      value: -1508635858
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747891643839329738, guid: 3d47d63fcf0b74247b95caf103cd1433,
-        type: 3}
-      propertyPath: sfxObjectsList.Array.data[12].sfxPath.Guid.Data2
-      value: 1269982988
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747891643839329738, guid: 3d47d63fcf0b74247b95caf103cd1433,
-        type: 3}
-      propertyPath: sfxObjectsList.Array.data[12].sfxPath.Guid.Data3
-      value: -988086654
-      objectReference: {fileID: 0}
-    - target: {fileID: 5747891643839329738, guid: 3d47d63fcf0b74247b95caf103cd1433,
-        type: 3}
-      propertyPath: sfxObjectsList.Array.data[12].sfxPath.Guid.Data4
-      value: 1428179292
-      objectReference: {fileID: 0}
     - target: {fileID: 5747891643839329739, guid: 3d47d63fcf0b74247b95caf103cd1433,
         type: 3}
       propertyPath: m_RootOrder
