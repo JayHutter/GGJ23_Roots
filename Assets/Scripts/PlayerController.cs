@@ -13,12 +13,14 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private Camera myCam;
     public CinemachineFreeLook virtualCam;
+    private CinemachineImpulseSource impulse;
     public Transform camFollow;
     public Transform originalCamPos;
     public Transform shoulderCamPos;
     public ParticleSystem waterSpray;
     public Transform muzzle;
     public GameObject flashlight;
+    public GameObject landFX;
     private float waterDrainRate = 0.1f;
     public WaterTank waterTank;
     private bool blankSFX = true;
@@ -128,6 +130,7 @@ public class PlayerController : MonoBehaviour
         _uprightJointTargetRot = transform.rotation;
         camFollow.position = originalCamPos.position;
         speedFactor = walkMult;
+        impulse = GetComponent<CinemachineImpulseSource>();
 
         SubscribeInputs();
         health = maxHealth;
@@ -163,6 +166,9 @@ public class PlayerController : MonoBehaviour
             {
                 justLanded = true;
                 AudioManager.instance.PlayOneShotWithParameters("Land", transform);
+                Instantiate(landFX, hit.point, Quaternion.FromToRotation(landFX.transform.up, hit.normal));
+                if (rb.velocity.y < -11.0f || isDiving)
+                    Shake();
             }
         }
         else
@@ -389,6 +395,13 @@ public class PlayerController : MonoBehaviour
             jumpBufferCount = 0.0f;
             justJumped = true;
         }
+    }
+
+    void Shake()
+    {
+        impulse.m_DefaultVelocity *= Mathf.Clamp(Mathf.Abs(rb.velocity.y) / 15f, 0f, 5f);
+        impulse.GenerateImpulse();
+        impulse.m_DefaultVelocity = new Vector3(-1f, -1f, -1f);
     }
 
     private void MoveInput(InputAction.CallbackContext context)
