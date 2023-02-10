@@ -566,10 +566,10 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateAnimator()
     {
-        var vel = rb.velocity;
+        var vel = new Vector3(rb.velocity.x, 0, rb.velocity.z);
         Vector2 vel2D = new Vector2(vel.x, vel.z);
         float speed = Mathf.InverseLerp(0, maxSpeed, vel2D.magnitude);
-        playerAnimator.SetFloat("Speed", speed);
+        playerAnimator.SetFloat("Speed", (Mathf.Round(speed * 10) / 10));
     }
 
     private void CheckTetherLength()
