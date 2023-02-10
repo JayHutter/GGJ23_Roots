@@ -24,9 +24,19 @@ public class Flashlight : MonoBehaviour
     {
         if (!gameObject.activeInHierarchy)
         {
-            foreach (var leaf in leaves)
+            if (leaves.Count > 0)
             {
-                leaf.isKinematic = true;
+                List<Rigidbody> leavesToRemove = new List<Rigidbody>();
+                foreach (var leaf in leaves)
+                {
+                    leavesToRemove.Add(leaf);
+                }
+
+                foreach (var leaf in leavesToRemove)
+                {
+                    leaf.isKinematic = true;
+                    leaves.Remove(leaf);
+                }
             }
         }
     }
@@ -46,9 +56,15 @@ public class Flashlight : MonoBehaviour
     {
         if (other.CompareTag("Leaf"))
         {
-            if(leaves.Count > 0)
+            if (leaves.Count > 0)
             {
+                List<Rigidbody> leavesToRemove = new List<Rigidbody>();
                 foreach (var leaf in leaves)
+                {
+                    leavesToRemove.Add(leaf);
+                }
+
+                foreach (var leaf in leavesToRemove)
                 {
                     leaf.isKinematic = true;
                     leaves.Remove(leaf);
@@ -61,7 +77,13 @@ public class Flashlight : MonoBehaviour
     {
         if (leaves.Count > 0)
         {
+            List<Rigidbody> leavesToRemove = new List<Rigidbody>();
             foreach (var leaf in leaves)
+            {
+                leavesToRemove.Add(leaf);
+            }
+
+            foreach (var leaf in leavesToRemove)
             {
                 leaf.isKinematic = true;
                 leaves.Remove(leaf);

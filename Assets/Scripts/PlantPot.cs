@@ -15,7 +15,6 @@ public class PlantPot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        totalWatered = 0f;
         watered = 0f;
         stem.transform.position = startPos.position;
     }

@@ -5,6 +5,7 @@ using Cinemachine;
 using UnityEngine.InputSystem;
 using System.Net.NetworkInformation;
 using Unity.VisualScripting;
+using UnityEngine.Animations.Rigging;
 
 public class PlayerController : MonoBehaviour
 {
@@ -104,10 +105,14 @@ public class PlayerController : MonoBehaviour
 
     private float aimBlend = 0;
     private float blendSpeed = 10;
-    private float aimSpeed = 100;
+    [SerializeField]
+    private Rig aimRig;
+    private float aimRigWeight;
+    [SerializeField]
+    private Transform aimIKTarget;
+    [SerializeField]
+    private LayerMask aimLayer;
 
-    public Transform gunTransform;
-    public Quaternion heldRotation;
     public int deaths = 0;
     public int carrots = 0;
 
@@ -134,7 +139,6 @@ public class PlayerController : MonoBehaviour
 
         SubscribeInputs();
         health = maxHealth;
-        heldRotation = gunTransform.localRotation;
     }
 
     private void Update()
@@ -295,6 +299,13 @@ public class PlayerController : MonoBehaviour
 
     void Aim()
     {
+        Ray ray = myCam.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, aimLayer))
+        {
+            aimIKTarget.position = hit.point;
+            Debug.Log(hit.transform.name);
+        }
+
         if (camFollow == null || myCam == null || shoulderCamPos == null || originalCamPos == null || virtualCam == null)
         {
             Debug.LogWarning("One of the camera transforms / virtual camera is not assigned");
@@ -308,15 +319,18 @@ public class PlayerController : MonoBehaviour
             camFollow.position = Vector3.SmoothDamp(camFollow.position, shoulderCamPos.position, ref shoulderCamVelocity, 0.1f);
             transform.rotation = Quaternion.Slerp(transform.rotation, camFollow.rotation, Time.deltaTime * playerAimRotSpeed);
             virtualCam.m_Lens.FieldOfView = Mathf.SmoothDamp(virtualCam.m_Lens.FieldOfView, aimFOV, ref fovSpeed, 0.1f);
-
-            gunTransform.rotation = Quaternion.RotateTowards(gunTransform.rotation, camFollow.rotation, Time.deltaTime * aimSpeed);
+            waterSpray.transform.forward = myCam.transform.forward;
+            aimRigWeight = 1f;
         }
         else
         {
             camFollow.position = Vector3.SmoothDamp(camFollow.position, originalCamPos.position, ref shoulderCamVelocity, 0.1f);
             virtualCam.m_Lens.FieldOfView = Mathf.SmoothDamp(virtualCam.m_Lens.FieldOfView, normalFOV, ref fovSpeed, 0.1f);
-            gunTransform.localRotation = heldRotation;
+            waterSpray.transform.forward = transform.forward;
+            aimRigWeight = 0f;
         }
+
+        aimRig.weight = Mathf.Lerp(aimRig.weight, aimRigWeight, Time.deltaTime * 20f);
     }
 
     void GroundMovement()
@@ -362,11 +376,6 @@ public class PlayerController : MonoBehaviour
                 AudioManager.instance.PlayOneShotWithParameters("Shoot", transform);
                 shootSFXTimer = 0.0f;
             }
-
-            if (isAimingDown)
-                waterSpray.transform.forward = myCam.transform.forward;
-            else
-                waterSpray.transform.forward = transform.forward;
 
             waterSpray.Play();
         }

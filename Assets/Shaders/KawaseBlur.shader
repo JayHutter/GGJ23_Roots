@@ -1,4 +1,4 @@
-Shader "Hidden/KawaseBlur"
+﻿Shader "Custom/RenderFeature/KawaseBlur"
 {
     Properties
     {
@@ -8,13 +8,15 @@ Shader "Hidden/KawaseBlur"
     SubShader
     {
         Tags { "RenderType"="Opaque" }
-        ZWrite Off
+        LOD 100
 
         Pass
         {
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            // make fog work
+            #pragma multi_compile_fog
 
             #include "UnityCG.cginc"
 
@@ -27,17 +29,15 @@ Shader "Hidden/KawaseBlur"
             struct v2f
             {
                 float2 uv : TEXCOORD0;
+                UNITY_FOG_COORDS(1)
                 float4 vertex : SV_POSITION;
             };
 
-            float _Offset;
-            
             sampler2D _MainTex;
-            float4 _MainTex_ST;
             float4 _MainTex_TexelSize;
-
-            sampler2D _MetaballDepthRT;
-            float _BlurDistance;
+            float4 _MainTex_ST;
+            
+            float _offset;
 
             v2f vert (appdata v)
             {
@@ -47,44 +47,20 @@ Shader "Hidden/KawaseBlur"
                 return o;
             }
 
-            fixed4 applyBlur(const fixed4 color, const half2 uv, const half2 texelResolution, const half offset)
+            fixed4 frag (v2f input) : SV_Target
             {
-                fixed4 result = color;
-                
-                result += tex2D(_MainTex, uv + half2( offset,  offset) * texelResolution);
-                result += tex2D(_MainTex, uv + half2(-offset,  offset) * texelResolution);
-                result += tex2D(_MainTex, uv + half2(-offset, -offset) * texelResolution);
-                result += tex2D(_MainTex, uv + half2( offset, -offset) * texelResolution);
-                result /= 5.0h;
-
-                return result;
-            }
-
-            fixed applyAlphaBlur(const fixed4 color, const half2 uv, const half2 texelResolution, const half offset)
-            {
-                 fixed result = color.a;
-                 
-                 result += tex2D(_MainTex, uv + half2( offset,  offset) * texelResolution).a;
-                 result += tex2D(_MainTex, uv + half2( offset, -offset) * texelResolution).a;
-                 result += tex2D(_MainTex, uv + half2(-offset,  offset) * texelResolution).a;
-                 result += tex2D(_MainTex, uv + half2(-offset, -offset) * texelResolution).a;
-                 result /= 5.0h;
- 
-                 return result;               
-            }
-
-            fixed4 frag (const v2f input) : SV_Target
-            {
-                const half2 texelResolution = _MainTex_TexelSize.xy;
-                const half2 uv = input.uv;
+                float2 res = _MainTex_TexelSize.xy;
+                float i = _offset;
     
-                fixed4 color = tex2D(_MainTex, uv);
-                fixed4 depth = tex2D(_MetaballDepthRT, uv);
-                if (depth.r < _BlurDistance)
-                {
-                    color = applyBlur(color, uv, texelResolution, _Offset);
-                }
-                return color;
+                fixed4 col;                
+                col = tex2D( _MainTex, input.uv );
+                col += tex2D( _MainTex, input.uv + float2( i, i ) * res );
+                col += tex2D( _MainTex, input.uv + float2( i, -i ) * res );
+                col += tex2D( _MainTex, input.uv + float2( -i, i ) * res );
+                col += tex2D( _MainTex, input.uv + float2( -i, -i ) * res );
+                col /= 5.0f;
+                
+                return col;
             }
             ENDCG
         }

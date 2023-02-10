@@ -53,7 +53,7 @@ public class CollectablePuddle : CollectableBase
 
         vfx.SetFloat("Radius", radius);
 
-        if (lifetime > 0)
+        if (lifetime > 0 && !isInfinite)
             StartCoroutine(ReduceLife());
     }
 
